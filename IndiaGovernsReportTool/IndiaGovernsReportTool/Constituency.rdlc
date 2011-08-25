@@ -1,0 +1,1672 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Query>
+        <DataSourceName />
+        <CommandText />
+      </Query>
+    </DataSet>
+    <DataSet Name="DataSet2">
+      <Query>
+        <DataSourceName />
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Image Name="Header">
+        <Source>Embedded</Source>
+        <Value>IndiaGovernsHeader</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>0.205in</Top>
+        <Left>0.31958in</Left>
+        <Height>2.11458in</Height>
+        <Width>7.625in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="txtIntroduction">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>How is XX MLA Constituency performing on important health indicators? How does it compare with some other constituencies within the YY MP constituency? Do these numbers collated by government reflect the actual situation of XX constituency?</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value> 
+What role can the MLA play in highlighting these issues with the 
+government?  Can the MLA make sure there is tangible improvement in health facilities and indicators in the constituency?</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+              <LineHeight>11pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>2.06958in</Top>
+        <Left>0.31958in</Left>
+        <Height>1.77083in</Height>
+        <Width>3.63542in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <BackgroundColor>White</BackgroundColor>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Tablix Name="tblPopulation">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox9">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox7">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox8">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Details" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Top>3.955in</Top>
+        <Left>0.46542in</Left>
+        <Height>0.5in</Height>
+        <Width>3.48957in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Tablix Name="tblReport1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox10">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox11">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox12">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox13">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox14">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox15">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Details2" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Top>5.10692in</Top>
+        <Left>0.46542in</Left>
+        <Height>0.5in</Height>
+        <Width>3.48957in</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Tablix Name="tblReport2">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.16319in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox16">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox17">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox18">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox7</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox19">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox20">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox21">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox8</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Details3" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DataSet1</DataSetName>
+        <Top>6.83608in</Top>
+        <Left>0.46542in</Left>
+        <Height>0.5in</Height>
+        <Width>3.48957in</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+      <Textbox Name="Textbox22">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>#</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontSize>2.66pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>Norms</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>7pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>: As per the guidelines  in Ministry of Healthy &amp; Family Welfare, there needs to be 24 Sub Centers, 4 Primary Health Centers, 1 Community Health Center, 46 beds for every 120000 population. Norms specified is only for XX constituency based on % rural population data available.</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontSize>7pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox22</rd:DefaultName>
+        <Top>8.33in</Top>
+        <Left>0.46542in</Left>
+        <Height>0.5625in</Height>
+        <Width>3.67708in</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="txtComment">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>The data above shows that the number of medical officers in XX constituency is lower than neighbouring constituencies such as        Nargund and Bilgi. Is this government data correct? Do we need more medical officers in XX? Can this be brought to the government’s notice?</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Are the above parameters on health the most important for XX constituency? Are there other parameters which are more important for example, infant mortality, maternal mortality etc.?</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>9.03833in</Top>
+        <Left>0.46542in</Left>
+        <Height>1.65625in</Height>
+        <Width>3.67708in</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Image Name="Statement">
+        <Source>Embedded</Source>
+        <Value>IndiaGovernsStatement</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>8.33in</Top>
+        <Left>4.28833in</Left>
+        <Height>2.36458in</Height>
+        <Width>3.65625in</Width>
+        <ZIndex>7</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Image Name="Rank">
+        <Source>Embedded</Source>
+        <Value>Rank</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>6.39944in</Top>
+        <Left>7.44458in</Left>
+        <Height>1.875in</Height>
+        <Width>0.5in</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="txtRank">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>XX MLA Constituency Rank</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Bold</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>among 6 rural MLA constituencies in the               YY  MP constituency</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <LeftIndent>0.12986in</LeftIndent>
+            <Style>
+              <TextAlign>Center</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <LeftIndent>0.12986in</LeftIndent>
+            <Style>
+              <TextAlign>Center</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Rank 4 in the number of Primary Health Centers (PHCs)</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <LeftIndent>0.12986in</LeftIndent>
+            <Style>
+              <TextAlign>Center</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Rank 4 in the number of Beds</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <LeftIndent>0.12986in</LeftIndent>
+            <Style>
+              <TextAlign>Center</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Rank 1 in the number of Nurses working</Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Cambria</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <LeftIndent>0.12986in</LeftIndent>
+            <Style>
+              <TextAlign>Center</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value xml:space="preserve"> </Value>
+                <Style>
+                  <FontStyle>Normal</FontStyle>
+                  <FontFamily>Calibri</FontFamily>
+                  <FontWeight>Normal</FontWeight>
+                  <TextDecoration>None</TextDecoration>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+              <LineHeight>12pt</LineHeight>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <Top>6.455in</Top>
+        <Left>4.28833in</Left>
+        <Height>1.81944in</Height>
+        <Width>3.08681in</Width>
+        <ZIndex>9</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Chart Name="chart1">
+        <ChartCategoryHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Label />
+            </ChartMember>
+          </ChartMembers>
+        </ChartCategoryHierarchy>
+        <ChartSeriesHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Label />
+            </ChartMember>
+          </ChartMembers>
+        </ChartSeriesHierarchy>
+        <ChartData>
+          <ChartSeriesCollection>
+            <ChartSeries Name="EmptySeriesName">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues />
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+          </ChartSeriesCollection>
+        </ChartData>
+        <ChartAreas>
+          <ChartArea Name="Default">
+            <ChartCategoryAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Location>Opposite</Location>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+            </ChartCategoryAxes>
+            <ChartValueAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Location>Opposite</Location>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+            </ChartValueAxes>
+            <Style>
+              <BackgroundGradientType>None</BackgroundGradientType>
+            </Style>
+          </ChartArea>
+        </ChartAreas>
+        <ChartLegends>
+          <ChartLegend Name="Default">
+            <Style>
+              <BackgroundGradientType>None</BackgroundGradientType>
+              <FontSize>8pt</FontSize>
+            </Style>
+            <ChartLegendTitle>
+              <Caption />
+              <Style>
+                <FontSize>8pt</FontSize>
+                <FontWeight>Bold</FontWeight>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </ChartLegendTitle>
+            <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+            <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+          </ChartLegend>
+        </ChartLegends>
+        <ChartTitles>
+          <ChartTitle Name="Default">
+            <Caption>Chart Title</Caption>
+            <Style>
+              <BackgroundGradientType>None</BackgroundGradientType>
+              <FontWeight>Bold</FontWeight>
+              <TextAlign>General</TextAlign>
+              <VerticalAlign>Top</VerticalAlign>
+            </Style>
+          </ChartTitle>
+        </ChartTitles>
+        <Palette>BrightPastel</Palette>
+        <ChartBorderSkin>
+          <Style>
+            <BackgroundColor>Gray</BackgroundColor>
+            <BackgroundGradientType>None</BackgroundGradientType>
+            <Color>White</Color>
+          </Style>
+        </ChartBorderSkin>
+        <ChartNoDataMessage Name="NoDataMessage">
+          <Caption>No Data Available</Caption>
+          <Style>
+            <BackgroundGradientType>None</BackgroundGradientType>
+            <TextAlign>General</TextAlign>
+            <VerticalAlign>Top</VerticalAlign>
+          </Style>
+        </ChartNoDataMessage>
+        <DataSetName>DataSet1</DataSetName>
+        <Top>2.08347in</Top>
+        <Left>4.23625in</Left>
+        <Height>2.01389in</Height>
+        <Width>3.70833in</Width>
+        <ZIndex>10</ZIndex>
+        <Style>
+          <Border>
+            <Color>LightGrey</Color>
+            <Style>Solid</Style>
+          </Border>
+          <BackgroundColor>White</BackgroundColor>
+          <BackgroundGradientType>None</BackgroundGradientType>
+        </Style>
+      </Chart>
+      <Chart Name="chart2">
+        <ChartCategoryHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Label />
+            </ChartMember>
+          </ChartMembers>
+        </ChartCategoryHierarchy>
+        <ChartSeriesHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Label />
+            </ChartMember>
+          </ChartMembers>
+        </ChartSeriesHierarchy>
+        <ChartData>
+          <ChartSeriesCollection>
+            <ChartSeries Name="EmptySeriesName">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues />
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+          </ChartSeriesCollection>
+        </ChartData>
+        <ChartAreas>
+          <ChartArea Name="Default">
+            <ChartCategoryAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Location>Opposite</Location>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+            </ChartCategoryAxes>
+            <ChartValueAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption>Axis Title</Caption>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Style>
+                    <Border>
+                      <Color>Gainsboro</Color>
+                      <Style>Dotted</Style>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Length>0.5</Length>
+                </ChartMinorTickMarks>
+                <CrossAt>NaN</CrossAt>
+                <Location>Opposite</Location>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+              </ChartAxis>
+            </ChartValueAxes>
+            <Style>
+              <BackgroundGradientType>None</BackgroundGradientType>
+            </Style>
+          </ChartArea>
+        </ChartAreas>
+        <ChartLegends>
+          <ChartLegend Name="Default">
+            <Style>
+              <BackgroundGradientType>None</BackgroundGradientType>
+              <FontSize>8pt</FontSize>
+            </Style>
+            <ChartLegendTitle>
+              <Caption />
+              <Style>
+                <FontSize>8pt</FontSize>
+                <FontWeight>Bold</FontWeight>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </ChartLegendTitle>
+            <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+            <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+          </ChartLegend>
+        </ChartLegends>
+        <ChartTitles>
+          <ChartTitle Name="Default">
+            <Caption>Chart Title</Caption>
+            <Style>
+              <BackgroundGradientType>None</BackgroundGradientType>
+              <FontWeight>Bold</FontWeight>
+              <TextAlign>General</TextAlign>
+              <VerticalAlign>Top</VerticalAlign>
+            </Style>
+          </ChartTitle>
+        </ChartTitles>
+        <Palette>BrightPastel</Palette>
+        <ChartBorderSkin>
+          <Style>
+            <BackgroundColor>Gray</BackgroundColor>
+            <BackgroundGradientType>None</BackgroundGradientType>
+            <Color>White</Color>
+          </Style>
+        </ChartBorderSkin>
+        <ChartNoDataMessage Name="NoDataMessage">
+          <Caption>No Data Available</Caption>
+          <Style>
+            <BackgroundGradientType>None</BackgroundGradientType>
+            <TextAlign>General</TextAlign>
+            <VerticalAlign>Top</VerticalAlign>
+          </Style>
+        </ChartNoDataMessage>
+        <DataSetName>DataSet2</DataSetName>
+        <Top>4.15292in</Top>
+        <Left>4.23625in</Left>
+        <Height>2.17708in</Height>
+        <Width>3.70833in</Width>
+        <ZIndex>11</ZIndex>
+        <Style>
+          <Border>
+            <Color>LightGrey</Color>
+            <Style>Solid</Style>
+          </Border>
+          <BackgroundColor>White</BackgroundColor>
+          <BackgroundGradientType>None</BackgroundGradientType>
+        </Style>
+      </Chart>
+    </ReportItems>
+    <Height>11.693in</Height>
+    <Style />
+  </Body>
+  <Width>8.268in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <EmbeddedImages>
+    <EmbeddedImage Name="IndiaGovernsHeader">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="IndiaGovernsStatement">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="Rank">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>iVBORw0KGgoAAAANSUhEUgAAADUAAADACAIAAAAr27yNAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAARwSURBVHhe7V3BahVBEMwf+k1+hT/gB3jw4kEPHjwIHsRLPBgQFUVFQzAEDRILW4ph9+28nd5utiUV9vAi+3bKnurq2eqdzclN7Z+T2vBu/uG7c/dxqYNREz7XzCh+rrAxBxQ/xW9PRRT/xD/xb5kDtyY/Xp59mx+PXnzYuFqLid/z11+Wlre/rn8DtxtlDD4gsAudfbywKJ6+O//+4yevjl99EIPxPXj2tsVx/8kbxM/GuPfw1AExFx8AMbTgQEV8iKjFwMfC9PghhW2MovF7//XS8IGLteYXCYF0Zl47wOErwfMLTfl8foXj8up6u7jE45ur9ERxRqMYHD8kAQDhgCDbpaF/PuWz/0kwvjZaSAi7OqZ7NGzB95cU4clsMj/cs5wYP8QAM2sDQGV8IczFB0zUPx8L0/GxfhStbwihLWGgiI4pTo8fMFFrnr76NAoxBh/XzweLLLME6bwPvtFR158fE7/1442eKXzyX+S/yH/J4oD0RfqSxa01tU78E//EP9W3LA5IX6Qvw9zCfbi5qFX6W5NKyp4MPqwpsp1z4vMDwWtd3o0hjMdnhhqsDIuiw9NowxmPz66IsJl5unGKg/GZUWSY6Pw5bKtg/5mXs54q59Sm2G3uhvn3ho8+GnOC/rjP3A3GZz5kSzi2GHzNwWB81tOaJKz9I+bdJ4Rh+cE+78RCpbm7Z/8SsTGqzU1wTrHvEYSw+DFVrf/WHvv795S6trLNPzu6XDHxs5qGONmyZX7YMI5aF4PPrtJhmGWxo9YF4OOCpZOhbJCM1roAfFbT+u0rdyNzKz4OfFQ++LjTkFBvxdfvbLVQeObQinUrvqFgOE4WPt3/Dt//Oni29BXxT/wT/+TvZnFA+iJ9yeLWmjIo/ol/
+4p/qWxYHpC8V9IU73zolwc4ZdXkD5rfd/NbxwW2k0ae0A/Bxc4Bda8lB2x+fmZBLRtv++GhUHpzE/fEhOTo+bgl8NPLnVngJfAghzHuDMukJVsHHRtdk21EVfOx1AVDbkCmEj6Z5K9eF8CGEFG3KdS18gDhpC5bDN+kZlcM3keuK+NrNZRXxUa75RNae66uDi1PKddH4tXK9z/qUedpZ3LN5OdriD1g/r7Gh3OcIX4X7S/f0Hf2i5lfzm+VNHSVf8PN/a8YbPUf5ofxQfsi/z+KA9EX6ksWtNbVO/BP/VvEPjSs8RY7j4FYU3CPD7t3t+fHWkJzfgbMv4tjoE5YfS6/A4v4K3xaVdHzmXLnfcpaLj7bLaFuV0piIj5u3RvcEtLqdhY85cfS5/H4VScHHnHAk7ARuPD54zpYTvoRNx0er2Z0TufzjhrctryXMzV9CHHXr57kSzz+rb27DOZ1/hg+rBFaONevQpXOy4ofxKIFbiJiIr+18uImYi68l4tC2qNz8bcnEV1T7ljDp8QNWNpgcFSUMX38jnPtFrWH4tohI57vCp/vfVfe/4t/fVEkKg/uyyl/lr/JX/ZksDkhfpC9Z3FpT9MS/28U/zne1D//J34etFjbi+QMqpp1MnItbbwAAAABJRU5ErkJggg==</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportID>cb04361c-8afb-43c6-b37a-af3fd202c433</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>
