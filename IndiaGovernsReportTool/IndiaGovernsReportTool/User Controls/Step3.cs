@@ -21,10 +21,11 @@ namespace IndiaGovernsReportTool
             get { return comboBox2.SelectedValue.ToString(); }
         }
 
-        public Step3(String[] columns)
+        public Step3(String[] columns1, String[] columns2)
         {
-            comboBox1.DataSource = columns;
-            comboBox2.DataSource = columns;
+            InitializeComponent();
+            comboBox1.DataSource = columns1;
+            comboBox2.DataSource = columns2;
         }
     }
 }

@@ -2,7 +2,6 @@ D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\bin
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\bin\Debug\IndiaGovernsReportTool.pdb
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\ResolveAssemblyReference.cache
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.Properties.Resources.resources
-D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.ReportGenerator.resources
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.Step4.resources
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.Step3.resources
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.Step2.resources
@@ -11,3 +10,5 @@ D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\GenerateResource.write.1.tlog
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.exe
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.pdb
+D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.MainForm.resources
+D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.ReportForm.resources

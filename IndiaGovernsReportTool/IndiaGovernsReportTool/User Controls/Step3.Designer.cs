@@ -61,7 +61,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 8;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // comboBox2
             // 
@@ -90,7 +89,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Step3";
-            this.Size = new System.Drawing.Size(870, 628);
+            this.Size = new System.Drawing.Size(640, 395);
             this.ResumeLayout(false);
             this.PerformLayout();
 

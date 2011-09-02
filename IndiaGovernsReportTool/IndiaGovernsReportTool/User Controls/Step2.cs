@@ -57,11 +57,11 @@ namespace IndiaGovernsReportTool
         private String[] getListSelectedValues(ListView list)
         {
             ArrayList selectedValues = new ArrayList();
-            foreach (var item in list.SelectedItems)
+            foreach (ListViewItem item in list.CheckedItems)
             {
-                selectedValues.Add(item.ToString());
+                selectedValues.Add(item.Text);
             }
-            return (String[])selectedValues.ToArray();
+            return (String[])selectedValues.ToArray(typeof(String));
         }
 
         /// <summary>
