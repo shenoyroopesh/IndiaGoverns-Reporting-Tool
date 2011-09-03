@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 
 namespace IndiaGovernsReportTool
 {
@@ -127,7 +128,8 @@ namespace IndiaGovernsReportTool
                 //generate a separate report for each mla constinuency
                 foreach(var mla in mlaConstituencies)
                 {
-                    var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla["MLAConstituency"]);
+                    //use only 3 other constituencies for the sake of saving space
+                    var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla["MLAConstituency"]).Take(3);
 
                     String intro = "How is "+mla["MLAConstituency"]+ " MLA Constituency performing on important health" +
                                     "indicators? How does it compare with some other constituencies " +
@@ -169,6 +171,22 @@ namespace IndiaGovernsReportTool
                         intro, Comment, chart1Column, chart2Column);
 
                     report.Show();
+
+                    //print to a bmp and save file
+                    Rectangle form = report.Bounds;
+                    using (Bitmap bitmap = new Bitmap(form.Width, form.Height))
+                    {
+                        using (Graphics graphic =
+                            Graphics.FromImage(bitmap))
+                        {
+                            graphic.CopyFromScreen(form.Location,
+                                Point.Empty, form.Size);
+
+                            bitmap.Save("D://IndiaGovernsReports/" + mla["MLAConstituency"] + ".jpg", ImageFormat.Jpeg);
+                        }                
+                    }
+
+                    report.Close();
 
                     //temporarily added to test only one report
                     return;
