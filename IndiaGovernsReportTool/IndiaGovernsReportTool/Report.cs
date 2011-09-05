@@ -10,34 +10,21 @@ namespace IndiaGovernsReportTool
     /// This class represents an individual constituency report, and holds the data that will be published 
     /// to a PDF
     /// 
-    /// Instead of directly publishing to PDF, we will be using an html report, which will then be copied and 
-    /// pasted into the publisher file before saving it. This will make it easy to define the report layout compared to 
-    /// directly creating it in a PDF file
+    /// Instead of directly publishing to PDF, we will be using a image, which will then be copied and 
+    /// pasted into a pdf
     /// </summary>
     public class Report
     {
-        public String Constituency { get; set; }
-
-        public DataTable PopulationData { get; set; }
-
-        public DataTable ReportData1 { get; set; }
-
-        public DataTable ReportData2 { get; set; }
-
+        public String ReportName { get; set; }
+        public String MLAConstituency { get; set; }
+        public DataTable GeneralData { get; set; }
+        public DataTable Group1Data { get; set; }
+        public DataTable Group2Data { get; set; }
+        public String Group1Name { get; set; }
+        public String Group2Name { get; set; }
+        public String Intro { get; set; }
         public String Comment { get; set; }
-
-        public String Rank { get; set; }
-
-        public DataTable chart1Data { get; set; }
-
-        public DataTable chart2Data { get; set; }
-
-        /// <summary>
-        /// This method publishes the report to an RDLC file
-        /// </summary>
-        public void publish()
-        {
-            
-        }
+        public String Chart1Column { get; set; }
+        public String Chart2Column { get; set; }
     }
 }

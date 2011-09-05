@@ -7,35 +7,47 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections;
+using System.Drawing.Imaging;
+using System.Threading;
+using System.IO;
+using System.Drawing.Printing;
 
 namespace IndiaGovernsReportTool
 {
     public partial class ReportForm : Form
     {
+        private String reportName;
+        private bool first = true;
+        private String fileName = String.Empty;
+        Bitmap bitmap;
+        Graphics graphic;
 
-        public ReportForm(DataTable generalData, DataTable group1Data, DataTable group2Data,
-            String group1Name, String group2Name, String Intro, String Comment, String chart1Column, String chart2Column)
+        public ReportForm(Report report)
         {
-            InitializeComponent();
-            dataGridView1.DataSource = generalData;
-            dataGridView2.DataSource = group1Data;
-            dataGridView3.DataSource = group2Data;
-            lblIntro.Text = Intro;
-            lblNorms.Text = Comment;
+            
 
-            lblGroup1.Text = group1Name;
-            lblGroup2.Text = group2Name;
+            InitializeComponent();
+            dataGridView1.DataSource = report.GeneralData;
+            dataGridView2.DataSource = report.Group1Data;
+            dataGridView3.DataSource = report.Group2Data;
+            lblIntro.Text = report.Intro;
+            lblNorms.Text = report.Comment;
+
+            lblGroup1.Text = report.Group1Name;
+            lblGroup2.Text = report.Group2Name;
+
+            this.reportName = report.ReportName;
 
             //chart data
-            var chart1Data = group1Data.Rows.Cast<DataRow>().Where(p => p["Data"].ToString() == chart1Column).First();
-            var chart2Data = group2Data.Rows.Cast<DataRow>().Where(p => p["Data"].ToString() == chart2Column).First();
+            var chart1Data = report.Group1Data.Rows.Cast<DataRow>().Where(p => p["Data"].ToString() == report.Chart1Column).First();
+            var chart2Data = report.Group2Data.Rows.Cast<DataRow>().Where(p => p["Data"].ToString() == report.Chart2Column).First();
 
 
-            var xvalues1 = group1Data.Columns.Cast<DataColumn>()
+            var xvalues1 = report.Group1Data.Columns.Cast<DataColumn>()
                                 .Select(p => p.ColumnName)
                                 .Where(name => name != "Data").ToArray();
 
-            var xvalues2 = group2Data.Columns.Cast<DataColumn>()
+            var xvalues2 = report.Group2Data.Columns.Cast<DataColumn>()
                                 .Select(p => p.ColumnName)
                                 .Where(name => name != "Data").ToArray();
 
@@ -61,9 +73,8 @@ namespace IndiaGovernsReportTool
             chart1.Series[0].Points.DataBindXY(xvalues1, yvalues1Array);
             chart2.Series[0].Points.DataBindXY(xvalues2, yvalues2Array);
 
-            chart1.Titles.Add(chart1Column);
-            chart2.Titles.Add(chart2Column);
-
+            chart1.Titles.Add(report.Chart1Column);
+            chart2.Titles.Add(report.Chart2Column);
         }
 
 
@@ -71,5 +82,48 @@ namespace IndiaGovernsReportTool
         {
 
         }
+
+        private void ReportForm_Shown(object sender, EventArgs e)
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork +=
+                new DoWorkEventHandler(bw_DoWork);
+            worker.RunWorkerCompleted +=
+                new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted); 
+            //for second scrshot
+            if (!first) this.ScrollControlIntoView(lblEndBlank);
+            worker.RunWorkerAsync(); 
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //to allow the report to load fully
+            Thread.Sleep(500);
+            if(first)
+            {
+                //print to a bmp and save file
+                Rectangle form = this.Bounds;
+                Rectangle panel = panel1.Bounds;
+                bitmap = new Bitmap(panel.Width, panel.Height);
+                graphic = Graphics.FromImage(bitmap);
+                graphic.CopyFromScreen(form.Location, Point.Empty, form.Size);        
+            }  else {
+                //print to a bmp and save file
+                Rectangle form = this.Bounds;
+                graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value), form.Size);
+                bitmap.Save("D:\\IndiaGovernsReports\\" + this.reportName + ".png", ImageFormat.Png);
+            }
+        }
+
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.ScrollControlIntoView(lblEndBlank);
+            if (first)
+            {
+                first = false;
+                ReportForm_Shown(null, null);
+            }
+            else { this.Close(); }
+        }   
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Threading;
+using System.Collections;
 
 namespace IndiaGovernsReportTool
 {
@@ -32,6 +34,8 @@ namespace IndiaGovernsReportTool
 
         String chart2Column;
 
+        ArrayList reports = new ArrayList();
+        int reportCounter = 0;
 
         /// <summary>
         /// Constructor for ReportGenerator
@@ -158,42 +162,57 @@ namespace IndiaGovernsReportTool
                     fillTable(mla, otherConstituencies, group2Data, group2Columns, false, true);
 
 
-                    String Comment = "";
+                    String comment = "";
 
                     try
                     {
-                        Comment = mla["Comment"].ToString();
+                        comment = mla["Comment"].ToString();
                     }
                     catch
                     { }
 
-                    ReportForm report = new ReportForm(generalData, group1Data, group2Data, group1Name, group2Name,
-                        intro, Comment, chart1Column, chart2Column);
 
-                    report.Show();
+                    Report report = new Report {
+                        ReportName = mla["MLAConstituency"].ToString(),
+                        GeneralData = generalData,
+                        Group1Data = group1Data,
+                        Group2Data = group2Data,
+                        Group1Name = group1Name,
+                        Group2Name = group2Name,
+                        Intro = intro,
+                        Comment = comment,
+                        Chart1Column = chart1Column,
+                        Chart2Column = chart2Column
+                    };
 
-                    //print to a bmp and save file
-                    Rectangle form = report.Bounds;
-                    using (Bitmap bitmap = new Bitmap(form.Width, form.Height))
-                    {
-                        using (Graphics graphic =
-                            Graphics.FromImage(bitmap))
-                        {
-                            graphic.CopyFromScreen(form.Location,
-                                Point.Empty, form.Size);
-
-                            bitmap.Save("D://IndiaGovernsReports/" + mla["MLAConstituency"] + ".jpg", ImageFormat.Jpeg);
-                        }                
-                    }
-
-                    report.Close();
-
-                    //temporarily added to test only one report
-                    return;
+                    reports.Add(report);
 
                 }
             }
 
+            publishNextReport();
+        }
+
+
+        private void publishNextReport()
+        {
+            if (reportCounter == reports.Count) return;
+
+
+            Report report = (Report)reports[reportCounter];
+
+            reportCounter += 1;
+
+            ReportForm reportform = new ReportForm(report);
+            //for next report
+            reportform.FormClosed += new FormClosedEventHandler(reportform_FormClosed);
+            reportform.Show();
+
+        }
+
+        void reportform_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            publishNextReport();
         }
 
         private String convertToPercentage(Decimal number)
