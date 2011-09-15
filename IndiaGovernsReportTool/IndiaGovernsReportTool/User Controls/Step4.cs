@@ -11,14 +11,27 @@ namespace IndiaGovernsReportTool
 {
     public partial class Step4 : UserControl
     {
-        public Step4()
+        public Step4(String[] chosenColumns)
         {
             InitializeComponent();
+            comboBox1.DataSource = (String[])chosenColumns.Clone();
+            comboBox2.DataSource = (String[])chosenColumns.Clone();
+            comboBox3.DataSource = (String[])chosenColumns.Clone();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        public String rank1Column
         {
+            get { return comboBox1.SelectedValue.ToString(); }
+        }
 
+        public String rank2Column
+        {
+            get { return comboBox2.SelectedValue.ToString(); }
+        }
+
+        public String rank3Column
+        {
+            get { return comboBox3.SelectedValue.ToString(); }
         }
     }
 }

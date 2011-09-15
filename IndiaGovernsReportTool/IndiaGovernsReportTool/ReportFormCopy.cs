@@ -17,7 +17,7 @@ using PdfSharp.Drawing;
 
 namespace IndiaGovernsReportTool
 {
-    public partial class ReportForm : Form
+    public partial class ReportFormCopy : Form
     {
         private String reportName;
         private bool first = true;
@@ -25,7 +25,7 @@ namespace IndiaGovernsReportTool
         Bitmap bitmap;
         Graphics graphic;
 
-        public ReportForm(Report report)
+        public ReportFormCopy(Report report)
         {
             InitializeComponent();
             dataGridView1.DataSource = report.GeneralData;
@@ -85,15 +85,9 @@ namespace IndiaGovernsReportTool
 
         }
 
-        private void onDataGridViewBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void unSelectCells(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            DataGridView dg = (DataGridView)sender;
-            dg.CurrentCell = null;
-            dg.Height = dg.ColumnHeadersHeight;
-            foreach (DataGridViewRow row in dg.Rows)
-            {
-                dg.Height += row.Height;
-            }
+            ((DataGridView)sender).CurrentCell = null;
         }
 
 
@@ -134,7 +128,7 @@ namespace IndiaGovernsReportTool
             {
                 //print to a bmp and save file
                 Rectangle form = this.Bounds;
-                Rectangle panel =  flowLayoutPanel1.Bounds;
+                Rectangle panel = panel1.Bounds;
                 bitmap = new Bitmap(panel.Width, panel.Height);
                 graphic = Graphics.FromImage(bitmap);
                 graphic.CopyFromScreen(form.Location, Point.Empty, form.Size);        

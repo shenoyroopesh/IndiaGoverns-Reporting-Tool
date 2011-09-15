@@ -34,6 +34,10 @@ namespace IndiaGovernsReportTool
 
         String chart2Column;
 
+        String rank1Column;
+        String rank2Column;
+        String rank3Column;
+
         ArrayList reports = new ArrayList();
         int reportCounter = 0;
 
@@ -67,6 +71,7 @@ namespace IndiaGovernsReportTool
             Step2 step2;
             Step3 step3;
             Step4 step4;
+            Step5 step5;
 
             UserControl control = (UserControl)panel1.Controls[0];
             //current state is determined by what control is present in the panel
@@ -99,12 +104,19 @@ namespace IndiaGovernsReportTool
                     step3 = (Step3)control;
                     chart1Column = step3.chart1Column;
                     chart2Column = step3.chart2Column;
-                    generateReports();
-                    step4 = new Step4();
+                    step4 = new Step4(group1Columns.Concat(group2Columns).ToArray());
                     loadControl(step4);
                     break;
 
                 case "IndiaGovernsReportTool.Step4":
+                    step4 = (Step4)control;
+                    rank1Column = step4.rank1Column;
+                    rank2Column = step4.rank2Column;
+                    rank3Column = step4.rank3Column;
+
+                    generateReports();
+                    step5 = new Step5();
+                    loadControl(step5);
                     break;
             }
         }
@@ -136,7 +148,7 @@ namespace IndiaGovernsReportTool
                     var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla["MLAConstituency"]).Take(3);
 
                     String intro = "How is "+mla["MLAConstituency"]+ " MLA Constituency performing on important health" +
-                                    "indicators? How does it compare with some other constituencies " +
+                                    " indicators? How does it compare with some other constituencies " +
                                     "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
                                     "government reflect the actual situation of Bilgi constituency? \n\n" +
                                     "What role can the MLA play in highlighting these issues with the " +
@@ -172,6 +184,26 @@ namespace IndiaGovernsReportTool
                     { }
 
 
+                    int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) > 
+                        Convert.ToDouble(mla[rank1Column])).Count() + 1;
+
+                    int rank2 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank2Column]) >
+                        Convert.ToDouble(mla[rank2Column])).Count() + 1;
+
+                    int rank3 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank3Column]) >
+                        Convert.ToDouble(mla[rank3Column])).Count() + 1;
+
+
+                    String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n\n" +
+                        "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
+                        mpc.ToString() + " MP Constituency. \n\n" + 
+                        "Rank "+rank1 + " in the " + rank1Column + 
+                        "\nRank "+rank2 + " in the " + rank2Column + 
+                        "\nRank "+rank3 + " in the " + rank3Column;
+                    
+
+
+
                     Report report = new Report {
                         ReportName = mla["MLAConstituency"].ToString(),
                         GeneralData = generalData,
@@ -182,12 +214,18 @@ namespace IndiaGovernsReportTool
                         Intro = intro,
                         Comment = comment,
                         Chart1Column = chart1Column,
-                        Chart2Column = chart2Column
+                        Chart2Column = chart2Column,
+                        Rank = rank
                     };
 
                     reports.Add(report);
 
+                    //todo: remove this
+                    break;
+
                 }
+
+                break;
             }
 
             publishNextReport();
