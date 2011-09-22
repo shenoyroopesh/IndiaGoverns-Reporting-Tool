@@ -32,11 +32,38 @@ namespace IndiaGovernsReportTool
             dataGridView2.DataSource = report.Group1Data;
             dataGridView3.DataSource = report.Group2Data;
 
+
             lblIntro.Text = report.Intro;
             lblComment.Text = report.Comment;
             lblNorms.Text = "";
-            lblGroup1.Text = report.Group1Name;
-            lblGroup2.Text = report.Group2Name;
+
+
+            DataTable dtFull = new DataTable();
+            DataTable dtSub1 = new DataTable();
+            DataTable dtSub2 = new DataTable();
+            DataTable dtSub3 = new DataTable();
+
+            foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
+            {
+                dtSub1.Columns.Add(col.ColumnName);
+                dtFull.Columns.Add(col.ColumnName);
+
+                if (dtFull.Rows.Count == 0) dtFull.Rows.Add();
+
+                dtFull.Rows[0][col.ColumnName] = col.ColumnName;
+            }
+            foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
+            foreach (var col in report.Group2Data.Columns.Cast<DataColumn>()) dtSub3.Columns.Add(col.ColumnName);
+
+            dtSub1.Rows.Add("General", "", "", "", "");
+            dtSub2.Rows.Add(report.Group1Name, "State Avg", "", "", "");
+            dtSub3.Rows.Add(report.Group2Name, "Norms", "", "", "");
+
+            fullHeader.DataSource = dtFull;
+            subHeader1.DataSource = dtSub1;
+            subHeader2.DataSource = dtSub2;
+            subHeader3.DataSource = dtSub3;
+
             this.reportName = report.ReportName;
 
             //chart data
@@ -72,24 +99,35 @@ namespace IndiaGovernsReportTool
             Double[] yvalues2Array = (Double[])yvalues1.ToArray(typeof(Double));
             chart1.Series[0].Points.DataBindXY(xvalues1, yvalues1Array);
             chart2.Series[0].Points.DataBindXY(xvalues2, yvalues2Array);
+
             chart1.Titles.Add(report.Chart1Column);
             chart1.Titles[0].Font = new Font("Cambria", (float)12, FontStyle.Bold);
 
             chart2.Titles.Add(report.Chart2Column);
             chart2.Titles[0].Font = new Font("Cambria", (float)12, FontStyle.Bold);
 
+            chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+            chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+
+            chart2.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+            chart2.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+
             lblRank.Text = report.Rank;
             lblRank.Find(report.ReportName + " MLA Constituency Rank");
             lblRank.SelectionFont = new Font("Verdana", 12, FontStyle.Bold);
             lblName.Text = report.ReportName + " MLA Constituency";
 
+            if (String.IsNullOrEmpty(lblNorms.Text)) lblNorms.Height = 0;
         }
 
         private void onDataGridViewBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             DataGridView dg = (DataGridView)sender;
             dg.CurrentCell = null;
-            dg.Height = dg.ColumnHeadersHeight;
+
+            //TODO: Write logic to handle width first, so that the data does not go out of the datagridview
+            dg.Height = 0;
+            //dg.Height = dg.ColumnHeadersHeight;
             foreach (DataGridViewRow row in dg.Rows)
             {
                 dg.Height += row.Height;
