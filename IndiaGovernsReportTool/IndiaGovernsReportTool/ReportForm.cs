@@ -24,6 +24,7 @@ namespace IndiaGovernsReportTool
         private String fileName = String.Empty;
         Bitmap bitmap;
         Graphics graphic;
+        int initScroll = 0;
 
         public ReportForm(Report report)
         {
@@ -101,10 +102,10 @@ namespace IndiaGovernsReportTool
             chart2.Series[0].Points.DataBindXY(xvalues2, yvalues2Array);
 
             chart1.Titles.Add(report.Chart1Column);
-            chart1.Titles[0].Font = new Font("Cambria", (float)12, FontStyle.Bold);
+            chart1.Titles[0].Font = new Font("Cambria", (float)13, FontStyle.Bold);
 
             chart2.Titles.Add(report.Chart2Column);
-            chart2.Titles[0].Font = new Font("Cambria", (float)12, FontStyle.Bold);
+            chart2.Titles[0].Font = new Font("Cambria", (float)13, FontStyle.Bold);
 
             chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
             chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
@@ -125,13 +126,14 @@ namespace IndiaGovernsReportTool
             DataGridView dg = (DataGridView)sender;
             dg.CurrentCell = null;
 
-            //TODO: Write logic to handle width first, so that the data does not go out of the datagridview
             dg.Height = 0;
-            //dg.Height = dg.ColumnHeadersHeight;
             foreach (DataGridViewRow row in dg.Rows)
             {
                 dg.Height += row.Height;
             }
+
+            //to account for wierd datagrid height issue - 
+            dg.Height = 4 * dg.Height / 5;
         }
 
 
@@ -143,15 +145,48 @@ namespace IndiaGovernsReportTool
 
         private void ReportForm_Shown(object sender, EventArgs e)
         {
-            //formatting the datagrids
-            dataGridView1.CurrentCell = null;
+            //formatting the datagrids width
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-            dataGridView1.Columns[0].Width = dataGridView3.Columns[0].Width + dataGridView3.Columns[1].Width;
-            dataGridView2.Columns[0].Width = dataGridView3.Columns[0].Width;
-            dataGridView2.Columns[1].Width = dataGridView3.Columns[1].Width;
+            int firstColumnWidth = Math.Max(dataGridView2.Columns[0].Width, dataGridView3.Columns[0].Width);
+            int secondColumnWidth = 55; //Math.Max(subHeader2.Columns[1].Width, subHeader2.Columns[1].Width);
+
+            dataGridView1.Columns[0].Width = firstColumnWidth + secondColumnWidth;
+            fullHeader.Columns[0].Width = firstColumnWidth + secondColumnWidth;
+
+            dataGridView2.Columns[0].Width = firstColumnWidth;
+            dataGridView2.Columns[1].Width = secondColumnWidth;
+            dataGridView3.Columns[0].Width = firstColumnWidth;
+            dataGridView3.Columns[1].Width = secondColumnWidth;            
+            subHeader2.Columns[0].Width = firstColumnWidth;
+            subHeader2.Columns[1].Width = secondColumnWidth;
+            subHeader3.Columns[0].Width = firstColumnWidth;
+            subHeader3.Columns[1].Width = secondColumnWidth;
+
+            // divide equally in 4 parts
+            int remainingColumnsWidth = (dataGridView1.Width - firstColumnWidth - secondColumnWidth) / 4;
+            for (int i = 2; i < 6; i++)
+            {
+                dataGridView1.Columns[i - 1].Width = remainingColumnsWidth;
+                fullHeader.Columns[i - 1].Width = remainingColumnsWidth;
+                dataGridView2.Columns[i].Width = remainingColumnsWidth;
+                subHeader2.Columns[i].Width = remainingColumnsWidth;
+                dataGridView3.Columns[i].Width = remainingColumnsWidth;
+                subHeader3.Columns[i].Width = remainingColumnsWidth;                
+            }
+
+            //remove borders for other constituencies
+            for (int i = 3; i < 6; i++)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Cells[i - 1].AdjustCellBorderStyle(new DataGridViewAdvancedBorderStyle(), 
+                                                            new DataGridViewAdvancedBorderStyle(), 
+                                                            false, false, false, false);
+                }
+            }
 
 
             BackgroundWorker worker = new BackgroundWorker();
@@ -160,8 +195,14 @@ namespace IndiaGovernsReportTool
             worker.RunWorkerCompleted +=
                 new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted); 
             //for second scrshot
-            if (!first) this.ScrollControlIntoView(lblEndBlank);
-            worker.RunWorkerAsync(); 
+            if (!first) 
+                this.ScrollControlIntoView(lblEndBlank);
+            else
+            {
+                this.ScrollControlIntoView(pictureBox1);
+                initScroll = this.VerticalScroll.Value;
+            }
+            worker.RunWorkerAsync();
         }
 
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -179,7 +220,7 @@ namespace IndiaGovernsReportTool
             }  else {
                 //print to a pdf and save file
                 Rectangle form = this.Bounds;
-                graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value), form.Size);
+                graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value - initScroll), form.Size);
                 string pathPdf = "D:\\IndiaGovernsReports\\" + this.reportName + ".pdf";
                 PdfDocument doc = new PdfDocument();
                 doc.Pages.Add(new PdfPage());
@@ -200,7 +241,12 @@ namespace IndiaGovernsReportTool
                 first = false;
                 ReportForm_Shown(null, null);
             }
-            else { this.Close(); }
+            //else { this.Close(); }
+        }
+
+        private void lbl_Paint(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, ((Label)sender).DisplayRectangle, Color.LightSkyBlue, ButtonBorderStyle.Solid);
         }
     }
 }
