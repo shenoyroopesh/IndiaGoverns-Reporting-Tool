@@ -124,9 +124,36 @@ namespace IndiaGovernsReportTool
 
         private void generateReports()
         {
-            //logic is - first break into mp constituencies, then break into mla constituencies
+            //calculate all the averages add avg columns
 
+            foreach (var col in inputData.Tables[0].Columns.Cast<DataColumn>())
+            {
+                //if avg column already exists, don't calculate again
+                int avgCount = inputData.Tables[0].Columns.Cast<DataColumn>()
+                                        .Where(p => p.ColumnName == "Avg of " + col.ColumnName)
+                                        .Count();
+
+                if (avgCount > 0) continue;
+
+                int colAvg = 0;
+                try
+                {
+                    colAvg = Convert.ToInt32(inputData.Tables[0].Rows.Cast<DataRow>()
+                                                .Average(p => Convert.ToInt32(p[col.ColumnName])));
+                }
+                catch
+                {
+                    continue;
+                }
+
+                inputData.Tables[0].Columns
+                    .Add("Avg of " + col.ColumnName, typeof(Int32), colAvg.ToString());
+                
+            }
+
+            //logic is - first break into mp constituencies, then break into mla constituencies
             //get distinct mpConstituencies
+        
             var mpConstituencies = inputData.Tables[0].Rows.Cast<DataRow>()
                                         .Select(p => p["MpConstituency"].ToString())
                                         .Distinct<String>();
@@ -158,7 +185,12 @@ namespace IndiaGovernsReportTool
                     //Table1: get the general data
                     DataTable generalData = new DataTable();
 
-                    String[] generalDataRows = { "Total constituency Population", "% Population Data available for" };
+                    String[] generalDataRows;
+                    
+                    //use % column only if required
+                    generalDataRows = (inputData.Tables[0].Columns.Contains("% Population Data available for"))?
+                            new String[] { "Total constituency Population", "% Population Data available for" } : 
+                            new String[] { "Total constituency Population" };
 
                     fillTable(mla, otherConstituencies, generalData, generalDataRows, false, false);
 
@@ -176,14 +208,8 @@ namespace IndiaGovernsReportTool
 
                     String comment = "";
 
-                    try
-                    {
-                        comment = mla["Comment"].ToString();
-                    }
-                    catch
-                    { }
-
-
+                    try{ comment = mla["Comment"].ToString(); } catch { }
+                    
                     int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) > 
                         Convert.ToDouble(mla[rank1Column])).Count() + 1;
 
@@ -200,8 +226,6 @@ namespace IndiaGovernsReportTool
                         "Rank "+rank1 + " in the " + rank1Column + 
                         "\nRank "+rank2 + " in the " + rank2Column + 
                         "\nRank "+rank3 + " in the " + rank3Column;
-                    
-
 
 
                     Report report = new Report {
@@ -234,13 +258,11 @@ namespace IndiaGovernsReportTool
 
         private void publishNextReport()
         {
+            //exit condition
             if (reportCounter == reports.Count) return;
-
-
+            
             Report report = (Report)reports[reportCounter];
-
             reportCounter += 1;
-
             ReportForm reportform = new ReportForm(report);
             //for next report
             reportform.FormClosed += new FormClosedEventHandler(reportform_FormClosed);
@@ -300,6 +322,7 @@ namespace IndiaGovernsReportTool
                     row[c["MLAConstituency"].ToString()] = r.Contains("%")?
                         convertToPercentage(Convert.ToDecimal(c[r])) : c[r].ToString();
                 }
+
                 generalData.Rows.Add(row);
             }
         }
