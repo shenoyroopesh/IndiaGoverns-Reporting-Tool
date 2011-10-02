@@ -34,6 +34,12 @@ namespace IndiaGovernsReportTool
                     DataTable outputTable = new DataTable(sheet);
                     ds.Tables.Add(outputTable);
                     new OleDbDataAdapter(cmd).Fill(outputTable);
+
+                    //this is done to revert the conversion of . to # by oldedb
+                    foreach (var column in outputTable.Columns.Cast<DataColumn>())
+                    {
+                        column.ColumnName = column.ColumnName.Replace("#", ".");
+                    }
                 }
             }
             return ds;

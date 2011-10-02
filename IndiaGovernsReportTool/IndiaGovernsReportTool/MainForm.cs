@@ -126,6 +126,8 @@ namespace IndiaGovernsReportTool
         {
             //calculate all the averages add avg columns
 
+            Dictionary<String, Int32> avgCols = new Dictionary<string, int>();
+        
             foreach (var col in inputData.Tables[0].Columns.Cast<DataColumn>())
             {
                 //if avg column already exists, don't calculate again
@@ -139,18 +141,21 @@ namespace IndiaGovernsReportTool
                 try
                 {
                     colAvg = Convert.ToInt32(inputData.Tables[0].Rows.Cast<DataRow>()
-                                                .Average(p => Convert.ToInt32(p[col.ColumnName])));
+                                                .Select(p => Convert.ToInt32(p[col.ColumnName]))
+                                                .Average());
                 }
-                catch
+                catch(Exception e)
                 {
                     continue;
                 }
 
-                inputData.Tables[0].Columns
-                    .Add("Avg of " + col.ColumnName, typeof(Int32), colAvg.ToString());
-                
+                avgCols.Add("Avg of " + col.ColumnName, colAvg);        
             }
 
+            foreach (var col in avgCols) 
+                inputData.Tables[0].Columns.Add(col.Key.ToString(), typeof(Int32), col.Value.ToString());
+        
+        
             //logic is - first break into mp constituencies, then break into mla constituencies
             //get distinct mpConstituencies
         
@@ -195,17 +200,14 @@ namespace IndiaGovernsReportTool
                     fillTable(mla, otherConstituencies, generalData, generalDataRows, false, false);
 
 
-                    //Table2: get the Health Facilities
+                    //Table2: First Group
                     DataTable group1Data = new DataTable();
+                    fillTable(mla, otherConstituencies, group1Data, group1Columns, false, true);
 
-                    fillTable(mla, otherConstituencies, group1Data, group1Columns, true, false);
-
-                    //Table3: get the Health Personnel
-                    DataTable group2Data = new DataTable();
-                    
+                    //Table3: Second Group
+                    DataTable group2Data = new DataTable();                    
                     fillTable(mla, otherConstituencies, group2Data, group2Columns, false, true);
-
-
+                    
                     String comment = "";
 
                     try{ comment = mla["Comment"].ToString(); } catch { }
@@ -220,7 +222,7 @@ namespace IndiaGovernsReportTool
                         Convert.ToDouble(mla[rank3Column])).Count() + 1;
 
 
-                    String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n\n" +
+                    String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" + 
                         "Rank "+rank1 + " in the " + rank1Column + 
@@ -245,11 +247,11 @@ namespace IndiaGovernsReportTool
                     reports.Add(report);
 
                     //todo: remove this
-                    break;
+                    //break;
 
                 }
 
-                break;
+                //break;
             }
 
             publishNextReport();
@@ -311,16 +313,20 @@ namespace IndiaGovernsReportTool
 
                 if (avg)
                 {
-                    row["State Avg"] = inputData.Tables[0].Rows[0][r].ToString();
+                    row["State Avg"] = inputData.Tables[0].Rows[0]["Avg of "+ r].ToString();
                 }
 
-                row[mla["MLAConstituency"].ToString()] = r.Contains("%")? 
-                    convertToPercentage(Convert.ToDecimal(mla[r])): mla[r].ToString();
+                //row[mla["MLAConstituency"].ToString()] = r.Contains("%")? 
+                  //  convertToPercentage(Convert.ToDecimal(mla[r])): mla[r].ToString();
+
+                row[mla["MLAConstituency"].ToString()] = mla[r].ToString();
 
                 foreach (var c in otherConstituencies)
                 {
-                    row[c["MLAConstituency"].ToString()] = r.Contains("%")?
-                        convertToPercentage(Convert.ToDecimal(c[r])) : c[r].ToString();
+                    //row[c["MLAConstituency"].ToString()] = r.Contains("%")?
+                     //   convertToPercentage(Convert.ToDecimal(c[r])) : c[r].ToString();
+
+                    row[c["MLAConstituency"].ToString()] = c[r].ToString();
                 }
 
                 generalData.Rows.Add(row);

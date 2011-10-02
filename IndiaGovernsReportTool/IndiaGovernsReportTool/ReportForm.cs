@@ -132,36 +132,61 @@ namespace IndiaGovernsReportTool
 
         private void ReportForm_Shown(object sender, EventArgs e)
         {
-            //formatting the datagrids width
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-
-            int firstColumnWidth = Math.Max(dataGridView2.Columns[0].Width, dataGridView3.Columns[0].Width);
-            int secondColumnWidth = 55; //Math.Max(subHeader2.Columns[1].Width, subHeader2.Columns[1].Width);
-
-            dataGridView1.Columns[0].Width = firstColumnWidth + secondColumnWidth;
-            fullHeader.Columns[0].Width = firstColumnWidth + secondColumnWidth;
-
-
-            DataGridView[] lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader2, subHeader3 };
-
-            foreach (var grid in lowerGrids)
+            if (first)
             {
-                grid.Columns[0].Width = firstColumnWidth;
-                grid.Columns[1].Width = secondColumnWidth;
+                //formatting the datagrids width
+                DataGridView[] allGrids = new DataGridView[] { fullHeader, dataGridView1, subHeader1, 
+                dataGridView2, dataGridView3, subHeader2, subHeader3 };
+
+                DataGridView[] lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader2, 
+                subHeader3 };
+
+
+                int firstColumnWidth = dataGridView1.Columns[0].Width;
+                int secondColumnWidth = 55;
+
+                foreach (var grid in allGrids.Except(lowerGrids))
+                    grid.Columns[0].Width = firstColumnWidth + secondColumnWidth;
+
+                foreach (var grid in lowerGrids)
+                {
+                    grid.Columns[0].Width = firstColumnWidth;
+                    grid.Columns[1].Width = secondColumnWidth;
+                }
+
+
+                // divide width remaining into equally in 4 parts
+                int remainingColumnsWidth = (dataGridView1.Width - firstColumnWidth - secondColumnWidth) / 4;
+
+                for (int i = 2; i < 6; i++)
+                {
+                    foreach (var grid in allGrids.Except(lowerGrids))                    
+                        grid.Columns[i - 1].Width = remainingColumnsWidth;                    
+
+                    foreach (var grid in lowerGrids)
+                        grid.Columns[i].Width = remainingColumnsWidth;
+                }
+
+
+                foreach (var grid in allGrids)
+                {
+                    //for numbers
+                    for (int i = 1; i < grid.Columns.Count; i++)
+                        grid.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+
+                    grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                    grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+                    grid.AutoSize = true;
+                }
+
+                //size up the comment 
+
+                lblComment.Height = flowLayoutPanel2.Height -
+                    flowLayoutPanel2.Controls.Cast<Control>()
+                        .Where(p => p.Visible)
+                        .Where(p => p != lblComment)
+                        .Select(p => p.Height).Sum() - 10; //for buffer
             }
-
-
-            // divide equally in 4 parts
-            int remainingColumnsWidth = (dataGridView1.Width - firstColumnWidth - secondColumnWidth) / 4;
-            for (int i = 2; i < 6; i++)
-            {
-                dataGridView1.Columns[i - 1].Width = remainingColumnsWidth;
-                fullHeader.Columns[i - 1].Width = remainingColumnsWidth;
-                foreach (var grid in lowerGrids)  grid.Columns[i].Width = remainingColumnsWidth;
-            }
-
 
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork +=
@@ -232,7 +257,7 @@ namespace IndiaGovernsReportTool
                 first = false;
                 ReportForm_Shown(null, null);
             }
-            //else { this.Close(); }
+            else { this.Close(); }
         }
 
         /// <summary>
@@ -242,7 +267,7 @@ namespace IndiaGovernsReportTool
         /// <param name="e"></param>
         private void lbl_Paint(object sender, PaintEventArgs e)
         {
-            ControlPaint.DrawBorder(e.Graphics, ((Label)sender).DisplayRectangle, Color.LightSkyBlue, ButtonBorderStyle.Solid);
+            ControlPaint.DrawBorder(e.Graphics, ((Label)sender).DisplayRectangle, Color.FromArgb(220, 230, 242), ButtonBorderStyle.Solid);
         }
     }
 }
