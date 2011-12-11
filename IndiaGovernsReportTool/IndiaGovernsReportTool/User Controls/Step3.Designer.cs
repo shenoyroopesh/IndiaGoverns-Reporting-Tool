@@ -30,9 +30,10 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.chart1Column1 = new System.Windows.Forms.ComboBox();
+            this.chart2Column = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.chart1Column2 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -54,21 +55,21 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Chart 1 Column";
             // 
-            // comboBox1
+            // chart1Column1
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(442, 93);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 8;
+            this.chart1Column1.FormattingEnabled = true;
+            this.chart1Column1.Location = new System.Drawing.Point(306, 88);
+            this.chart1Column1.Name = "chart1Column1";
+            this.chart1Column1.Size = new System.Drawing.Size(121, 21);
+            this.chart1Column1.TabIndex = 8;
             // 
-            // comboBox2
+            // chart2Column
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(442, 154);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 10;
+            this.chart2Column.FormattingEnabled = true;
+            this.chart2Column.Location = new System.Drawing.Point(306, 149);
+            this.chart2Column.Name = "chart2Column";
+            this.chart2Column.Size = new System.Drawing.Size(121, 21);
+            this.chart2Column.TabIndex = 10;
             // 
             // label3
             // 
@@ -79,13 +80,22 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Chart 2 Column";
             // 
+            // chart1Column2
+            // 
+            this.chart1Column2.FormattingEnabled = true;
+            this.chart1Column2.Location = new System.Drawing.Point(442, 88);
+            this.chart1Column2.Name = "chart1Column2";
+            this.chart1Column2.Size = new System.Drawing.Size(121, 21);
+            this.chart1Column2.TabIndex = 11;
+            // 
             // Step3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.chart1Column2);
+            this.Controls.Add(this.chart2Column);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.chart1Column1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Step3";
@@ -99,8 +109,9 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox chart1Column1;
+        private System.Windows.Forms.ComboBox chart2Column;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox chart1Column2;
     }
 }

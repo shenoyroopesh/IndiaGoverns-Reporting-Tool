@@ -30,13 +30,19 @@ namespace IndiaGovernsReportTool
 
         String[] group2Columns;
 
-        String chart1Column;
+        String chart1Column1;
+
+        String chart1Column2;
 
         String chart2Column;
 
         String rank1Column;
         String rank2Column;
         String rank3Column;
+
+        String[] commentColumns;
+
+        const string _DATAYEAR_ = "2010-11";
 
         ArrayList reports = new ArrayList();
         int reportCounter = 0;
@@ -72,6 +78,7 @@ namespace IndiaGovernsReportTool
             Step3 step3;
             Step4 step4;
             Step5 step5;
+            Step6 step6;
 
             UserControl control = (UserControl)panel1.Controls[0];
             //current state is determined by what control is present in the panel
@@ -96,14 +103,15 @@ namespace IndiaGovernsReportTool
                     group1Columns = step2.group1Columns;
                     group2Columns = step2.group2Columns;
                     //only the group columns can be used in charts
-                    step3 = new Step3(group1Columns, group2Columns);
+                    step3 = new Step3(group1Columns, group1Columns.Concat(group2Columns).ToArray());
                     loadControl(step3);
                     break;
 
                 case "IndiaGovernsReportTool.Step3":
                     step3 = (Step3)control;
-                    chart1Column = step3.chart1Column;
-                    chart2Column = step3.chart2Column;
+                    chart1Column1 = step3.Chart1Column1;
+                    chart1Column2 = step3.Chart1Column2;
+                    chart2Column = step3.Chart2Column;
                     step4 = new Step4(group1Columns.Concat(group2Columns).ToArray());
                     loadControl(step4);
                     break;
@@ -113,10 +121,18 @@ namespace IndiaGovernsReportTool
                     rank1Column = step4.rank1Column;
                     rank2Column = step4.rank2Column;
                     rank3Column = step4.rank3Column;
+                    
+                    step5 = new Step5(group1Columns.Concat(group2Columns).ToArray());
+                    loadControl(step5);
+                    break;
+
+                case "IndiaGovernsReportTool.Step5":
+                    step5 = (Step5)control;
+                    commentColumns = step5.CommentColumns;
 
                     generateReports();
-                    step5 = new Step5();
-                    loadControl(step5);
+                    step6 = new Step6();
+                    loadControl(step6);
                     break;
             }
         }
@@ -208,14 +224,48 @@ namespace IndiaGovernsReportTool
                     DataTable group2Data = new DataTable();                    
                     fillTable(mla, otherConstituencies, group2Data, group2Columns, false, true);
                     
-                    String comment = "";
 
-                    try{ comment = mla["Comment"].ToString(); } catch { }
-                    
-                    int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) > 
+                    //comment logic - figure out which attribute to comment on.
+
+                    String mlaToBecompared = "";
+                    float maxDifference = 0;
+                    String columnToBeCompared = "";
+
+
+                    foreach (var column in commentColumns)
+                    {
+                        try
+                        {
+                            var maxValue = otherConstituencies.ToList().Select(p => float.Parse(p[column].ToString())).Max();
+                            var difference = (maxValue - float.Parse(mla[column].ToString())) * 100 / maxValue; //percentage deviation of current mla from max mla
+
+                            if (difference > maxDifference)
+                            {
+                                maxDifference = difference;
+                                mlaToBecompared = otherConstituencies.ToList()
+                                                        .Where(p => float.Parse(p[column].ToString()) == maxValue)
+                                                        .First()["MLAConstituency"].ToString();
+                                columnToBeCompared = column;
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            continue;
+                        }
+                    }
+
+                    //Generate the comment
+
+                    String comment = "The above data shows that " + columnToBeCompared + " in " + mla["MLAConstituency"].ToString() + " constituency "+
+                        "is lower than neighbouring constituency such as "+ mlaToBecompared  +". \n\nIs this government data correct? "+
+                        "Can this be brought to the government's notice?";
+
+                    //TODO: note - depending on desc or ascending - need to make this generic
+                    int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) < 
                         Convert.ToDouble(mla[rank1Column])).Count() + 1;
 
-                    int rank2 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank2Column]) >
+                    int rank2 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank2Column]) <
                         Convert.ToDouble(mla[rank2Column])).Count() + 1;
 
                     int rank3 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank3Column]) >
@@ -225,9 +275,9 @@ namespace IndiaGovernsReportTool
                     String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" + 
-                        "Rank "+rank1 + " in the " + rank1Column + 
-                        "\nRank "+rank2 + " in the " + rank2Column + 
-                        "\nRank "+rank3 + " in the " + rank3Column;
+                        "Rank "+rank1 + " in the " + rank1Column.Replace("2010-11", "") +
+                        "\nRank " + rank2 + " in the " + rank2Column.Replace("2010-11", "") +
+                        "\nRank " + rank3 + " in the " + rank3Column.Replace("2010-11", "");
 
 
                     Report report = new Report {
@@ -239,7 +289,8 @@ namespace IndiaGovernsReportTool
                         Group2Name = group2Name,
                         Intro = intro,
                         Comment = comment,
-                        Chart1Column = chart1Column,
+                        Chart1Column1 = chart1Column1,
+                        Chart1Column2 = chart1Column2,
                         Chart2Column = chart2Column,
                         Rank = rank
                     };
@@ -247,13 +298,10 @@ namespace IndiaGovernsReportTool
                     reports.Add(report);
 
                     //todo: remove this
-                    //break;
-
+                    break;
                 }
-
-                //break;
+                break;
             }
-
             publishNextReport();
         }
 
@@ -269,7 +317,6 @@ namespace IndiaGovernsReportTool
             //for next report
             reportform.FormClosed += new FormClosedEventHandler(reportform_FormClosed);
             reportform.Show();
-
         }
 
         void reportform_FormClosed(object sender, FormClosedEventArgs e)
@@ -285,7 +332,7 @@ namespace IndiaGovernsReportTool
         private void fillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies, 
             DataTable generalData, String[] generalDataRows, bool norms, bool avg)
         {
-            generalData.Columns.Add("Data");
+            generalData.Columns.Add(String.Concat(_DATAYEAR_, " Data"));
             if (norms) generalData.Columns.Add("Norms");
             if (avg) generalData.Columns.Add("State Avg");
             generalData.Columns.Add(mla["MLAConstituency"].ToString());
@@ -298,7 +345,7 @@ namespace IndiaGovernsReportTool
             foreach (var r in generalDataRows)
             {
                 DataRow row = generalData.NewRow();
-                row["Data"] = r;
+                row[_DATAYEAR_ + " Data"] = r;
                 if (norms)
                 {
                     try
@@ -313,19 +360,14 @@ namespace IndiaGovernsReportTool
 
                 if (avg)
                 {
-                    row["State Avg"] = inputData.Tables[0].Rows[0]["Avg of "+ r].ToString();
+                    //row["State Avg"] = inputData.Tables[0].Rows[0]["Avg of "+ r].ToString();
+                    row["State Avg"] = (inputData.Tables[0].Rows.Cast<DataRow>().Last())[r].ToString(); //assuming last row is avg
                 }
-
-                //row[mla["MLAConstituency"].ToString()] = r.Contains("%")? 
-                  //  convertToPercentage(Convert.ToDecimal(mla[r])): mla[r].ToString();
 
                 row[mla["MLAConstituency"].ToString()] = mla[r].ToString();
 
                 foreach (var c in otherConstituencies)
                 {
-                    //row[c["MLAConstituency"].ToString()] = r.Contains("%")?
-                     //   convertToPercentage(Convert.ToDecimal(c[r])) : c[r].ToString();
-
                     row[c["MLAConstituency"].ToString()] = c[r].ToString();
                 }
 

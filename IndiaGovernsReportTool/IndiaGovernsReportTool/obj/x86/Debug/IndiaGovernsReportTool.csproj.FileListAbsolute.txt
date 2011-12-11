@@ -14,4 +14,4 @@ D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.ReportForm.resources
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.Step5.resources
 D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\bin\Debug\PdfSharp.dll
-D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.ReportFormCopy.resources
+D:\IndiaGoverns\Reporting Tool\IndiaGovernsReportTool\IndiaGovernsReportTool\obj\x86\Debug\IndiaGovernsReportTool.Step6.resources

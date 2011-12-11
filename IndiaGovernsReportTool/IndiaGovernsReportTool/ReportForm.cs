@@ -26,6 +26,7 @@ namespace IndiaGovernsReportTool
         Bitmap bitmap;
         Graphics graphic;
         int initScroll = 0;
+        int _COLUMNWIDTH_ = 80;
 
         public ReportForm(Report report)
         {
@@ -50,53 +51,115 @@ namespace IndiaGovernsReportTool
 
             dtFull.Rows.Add();
 
-            foreach (var col in report.GeneralData.Columns.Cast<DataColumn>()) dtFull.Rows[0][col.ColumnName] = col.ColumnName;
+            foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
+            {
+                var columnNameWords = col.ColumnName.Split(' ');
+                //insert spaces so that headers wrap, if necessary
+                for (int i = 0; i < columnNameWords.Length; i++ )
+                {
+                    String word = columnNameWords[i];
+                    if (word.Length > 9)
+                    {
+                        columnNameWords[i] = word.Insert(word.Length/2, " ");
+                    }
+                }
+                dtFull.Rows[0][col.ColumnName] = String.Join(" ", columnNameWords);
+            }
             foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
             foreach (var col in report.Group2Data.Columns.Cast<DataColumn>()) dtSub3.Columns.Add(col.ColumnName);
-
             dtSub1.Rows.Add("General", "", "", "", "");
-            dtSub2.Rows.Add(report.Group1Name, "State Avg", "", "", "");
-            dtSub3.Rows.Add(report.Group2Name, "State Avg", "", "", "");
+            dtSub2.Rows.Add(report.Group1Name, "State Avg Per Constituency", "", "", "");
+            dtSub3.Rows.Add(report.Group2Name, "State Avg Per Constituency", "", "", "");
+
+            subHeader3.Visible = false; //temp
+            dataGridView3.Visible = false; //temp
+            this.reportName = report.ReportName;
+            bindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2);
+            //bindToChart(chart2, report.Group2Data, report.Chart2Column);  temporarily using group1data for chart2 as well
+            bindToChart(chart2, report.Group1Data, report.Chart2Column);
+
+            //start temp code                    
+            var dataColumn = "";
+            for (int i = 0; i < report.Group1Data.Rows.Count; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    dataColumn = report.Group1Data.Rows[i][0].ToString();
+                }
+                else
+                {
+                    report.Group1Data.Rows[i][0] = report.Group1Data.Rows[i][0].ToString().Replace(dataColumn, "   ");
+                }
+            }
+            //end temp code for curating data
 
             fullHeader.DataSource = dtFull;
             subHeader1.DataSource = dtSub1;
             subHeader2.DataSource = dtSub2;
             subHeader3.DataSource = dtSub3;
 
-            this.reportName = report.ReportName;
-
-            bindToChart(chart1, report.Group1Data, report.Chart1Column);
-            bindToChart(chart2, report.Group2Data, report.Chart2Column);
-
             lblRank.Text = report.Rank;
             lblRank.Find(report.ReportName + " MLA Constituency Rank");
-            lblRank.SelectionFont = new Font("Verdana", 12, FontStyle.Bold);
+            lblRank.SelectionFont = new Font("Cambria", 16, FontStyle.Bold);
+            lblRank.SelectAll();
+            lblRank.SelectionAlignment = HorizontalAlignment.Center;
             lblName.Text = report.ReportName + " MLA Constituency";
+            lblName.Select();
 
             if (String.IsNullOrEmpty(lblNorms.Text)) lblNorms.Height = 0;
         }
 
 
-        private void bindToChart(Chart chart, DataTable data, String chartColumn)
+        private void bindToChart(Chart chart, DataTable data, String chartColumn1, String chartColumn2 = null)
         {
+            string dataColumnName = data.Columns.Cast<DataColumn>().Where(p => p.ColumnName.Contains("Data")).First().ColumnName;
             var chartData = data.Rows.Cast<DataRow>()
-                                   .Where(p => p["Data"].ToString() == chartColumn)
+                                   .Where(p => p[dataColumnName].ToString() == chartColumn1)
                                    .First();
 
             var xvalues = data.Columns.Cast<DataColumn>()
                                 .Select(p => p.ColumnName)
-                                .Where(name => name != "Data").ToArray();
+                                .Where(name => name != dataColumnName).ToArray();
 
             Double[] yValuesArray = getYValues(chartData);
 
             chart.Series[0].Points.DataBindXY(xvalues, yValuesArray);
+            //to show the value on top of the chart
+            chart.Series[0].Label = "#VALY"; 
+           
+            //temp
+            chart.Series[0].Name = "2010-11";
 
-            chart.Titles.Add(chartColumn);
-            chart.Titles[0].Font = new Font("Cambria", (float)13, FontStyle.Bold);
+            chart.Titles.Add(chartColumn1.Replace("2010-11", "")); //temp only for removing the year
+            chart.Titles[0].Font = new Font("Cambria", 14, FontStyle.Bold);
 
             chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
             chart.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
 
+            chart.ChartAreas[0].AxisX.LabelStyle.IsEndLabelVisible = false;
+            chart.ChartAreas[0].AxisY.Enabled = AxisEnabled.False;
+
+            chart.Series[0]["PointWidth"] = "0.5";
+            chart.Series[0].Points[0].Color = Color.FromArgb(37, 64, 97);
+            chart.Series[0].Points[1].Color = Color.FromArgb(185, 205, 229);
+
+            if (chartColumn2 != null)
+            {
+                var chartData2 = data.Rows.Cast<DataRow>()
+                                   .Where(p => p[dataColumnName].ToString() == chartColumn2)
+                                   .First();
+                Double[] yValuesArray2 = getYValues(chartData2);
+                chart.Series.Add("Series2");
+                chart.Series[1].Points.DataBindXY(xvalues, yValuesArray2);
+                chart.Series[1].Label = "#VALY";
+                chart.Series[1].Color = Color.FromArgb(146, 208, 80);
+                chart.Series[1]["PointWidth"] = "0.5";
+                chart.Series[1].Points[0].Color = Color.FromArgb(79, 98, 40);
+                chart.Series[1].Points[1].Color = Color.FromArgb(215, 228, 189);
+                chart.Series[1].Name = "2009-10";
+                chart.Legends.Add("Legend");
+                chart.Legends[0].Docking = Docking.Top;
+            }
         }
 
         private Double[] getYValues(DataRow chartData)
@@ -141,9 +204,8 @@ namespace IndiaGovernsReportTool
                 DataGridView[] lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader2, 
                 subHeader3 };
 
-
                 int firstColumnWidth = dataGridView1.Columns[0].Width;
-                int secondColumnWidth = 55;
+                int secondColumnWidth = _COLUMNWIDTH_;
 
                 foreach (var grid in allGrids.Except(lowerGrids))
                     grid.Columns[0].Width = firstColumnWidth + secondColumnWidth;
@@ -197,7 +259,6 @@ namespace IndiaGovernsReportTool
             if (first) 
             {
                 this.ScrollControlIntoView(pictureBox1);
-
                 //this is used later to determine where the initial scroll started - use to position the second screen capture exactly.
                 initScroll = this.VerticalScroll.Value;
             }
@@ -257,17 +318,61 @@ namespace IndiaGovernsReportTool
                 first = false;
                 ReportForm_Shown(null, null);
             }
-            else { this.Close(); }
+            else { //this.Close(); 
+            }
         }
 
         /// <summary>
-        /// This is mainly to paint a colored border around a label - no property present in the control.
+        /// This is mainly to paint a colored border around a windows forms control - no property present in the control.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void lbl_Paint(object sender, PaintEventArgs e)
+        private void BorderPaintBlue(object sender, PaintEventArgs e)
         {
-            ControlPaint.DrawBorder(e.Graphics, ((Label)sender).DisplayRectangle, Color.FromArgb(220, 230, 242), ButtonBorderStyle.Solid);
+            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle, 
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid);
         }
+
+        /// <summary>
+        /// This is mainly to paint a colored border around a windows forms control - no property present in the control.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BorderPaintBlack(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle, Color.Black, ButtonBorderStyle.Solid);
+        }
+
+        private void BorderPaintFullHeader(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle,
+                        Color.White, 1, ButtonBorderStyle.Solid,
+                        Color.FromArgb(31, 73, 125), 3, ButtonBorderStyle.Solid,
+                        Color.White, 1, ButtonBorderStyle.Solid,
+                        Color.FromArgb(31, 73, 125), 0, ButtonBorderStyle.Solid);
+        }
+
+
+        private void BorderPaintDataGrid(object sender, PaintEventArgs e)
+        {
+            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle,
+                        Color.White, 1, ButtonBorderStyle.Solid,
+                        Color.FromArgb(220, 230, 242), 0, ButtonBorderStyle.Solid,
+                        Color.White, 1, ButtonBorderStyle.Solid,
+                        Color.FromArgb(31, 73, 125), 0, ButtonBorderStyle.Solid);
+        }
+
+
+        private void subHeaderAvg_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.Value.ToString().Contains("Avg"))
+            {
+                e.CellStyle.Font = new Font("Cambria", 8, FontStyle.Italic);
+                e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            }
+        }        
     }
 }

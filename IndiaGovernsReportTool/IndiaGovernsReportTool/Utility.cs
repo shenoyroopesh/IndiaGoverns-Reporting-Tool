@@ -4,11 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.OleDb;
+using System.Collections;
+using System.Windows.Forms;
 
 namespace IndiaGovernsReportTool
 {
     public class Utility
     {
+        /// <summary>
+        /// Utility method for getting a list of values selected given a listview
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static String[] getListSelectedValues(ListView list)
+        {
+            ArrayList selectedValues = new ArrayList();
+            foreach (ListViewItem item in list.CheckedItems)
+            {
+                selectedValues.Add(item.Text);
+            }
+            return (String[])selectedValues.ToArray(typeof(String));
+        }
+
         /// <summary>
         /// This method converts data in a xlsx Excel file into a DataSet, with each sheet data in a separate datatable
         /// </summary>

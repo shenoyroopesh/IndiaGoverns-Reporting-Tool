@@ -11,21 +11,29 @@ namespace IndiaGovernsReportTool
 {
     public partial class Step3 : UserControl
     {
-        public String chart1Column
+        public String Chart1Column1
         {
-            get { return comboBox1.SelectedValue.ToString(); }
+            get { return chart1Column1.SelectedValue.ToString(); }
         }
 
-        public String chart2Column
+        public String Chart1Column2
         {
-            get { return comboBox2.SelectedValue.ToString(); }
+            get { return chart1Column2.SelectedValue.ToString(); }
+        }
+
+        public String Chart2Column
+        {
+            get { return chart2Column.SelectedValue.ToString(); }
         }
 
         public Step3(String[] columns1, String[] columns2)
         {
             InitializeComponent();
-            comboBox1.DataSource = columns1;
-            comboBox2.DataSource = columns2;
+            String[] columns1Copy = new String[columns1.Length];
+            columns1.CopyTo(columns1Copy, 0);
+            chart1Column1.DataSource = columns1;
+            chart1Column2.DataSource = columns1Copy;
+            chart2Column.DataSource = columns2;
         }
     }
 }

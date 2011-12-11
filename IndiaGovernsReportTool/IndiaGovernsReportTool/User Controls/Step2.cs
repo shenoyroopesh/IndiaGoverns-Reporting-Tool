@@ -18,7 +18,7 @@ namespace IndiaGovernsReportTool
         public String[] group1Columns
         {
             get {
-                return getListSelectedValues(listView1);
+                return Utility.getListSelectedValues(listView1);
             }
         }
 
@@ -29,7 +29,7 @@ namespace IndiaGovernsReportTool
         {
             get
             {
-                return getListSelectedValues(listView2);
+                return Utility.getListSelectedValues(listView2);
             }
         }
 
@@ -49,20 +49,7 @@ namespace IndiaGovernsReportTool
             get { return txtGroup2Name.Text; }
         }
 
-        /// <summary>
-        /// Private method for getting a list of values selected given a listview
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        private String[] getListSelectedValues(ListView list)
-        {
-            ArrayList selectedValues = new ArrayList();
-            foreach (ListViewItem item in list.CheckedItems)
-            {
-                selectedValues.Add(item.Text);
-            }
-            return (String[])selectedValues.ToArray(typeof(String));
-        }
+        
 
         /// <summary>
         /// Constructor for the class
