@@ -68,8 +68,8 @@ namespace IndiaGovernsReportTool
             foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
             foreach (var col in report.Group2Data.Columns.Cast<DataColumn>()) dtSub3.Columns.Add(col.ColumnName);
             dtSub1.Rows.Add("General", "", "", "", "");
-            dtSub2.Rows.Add(report.Group1Name, "State Avg Per Constituency", "", "", "");
-            dtSub3.Rows.Add(report.Group2Name, "State Avg Per Constituency", "", "", "");
+            dtSub2.Rows.Add(report.Group1Name, "State Avg. Per Rural Constituency", "", "", "");
+            dtSub3.Rows.Add(report.Group2Name, "State Avg. Per Rural Constituency", "", "", "");
 
             subHeader3.Visible = false; //temp
             dataGridView3.Visible = false; //temp
@@ -105,7 +105,7 @@ namespace IndiaGovernsReportTool
             lblRank.SelectionAlignment = HorizontalAlignment.Center;
             lblName.Text = report.ReportName + " MLA Constituency";
             lblName.Select();
-
+            
             if (String.IsNullOrEmpty(lblNorms.Text)) lblNorms.Height = 0;
         }
 
@@ -152,10 +152,10 @@ namespace IndiaGovernsReportTool
                 chart.Series.Add("Series2");
                 chart.Series[1].Points.DataBindXY(xvalues, yValuesArray2);
                 chart.Series[1].Label = "#VALY";
-                chart.Series[1].Color = Color.FromArgb(146, 208, 80);
+                chart.Series[1].Color = Color.FromArgb(200, 90, 100);
                 chart.Series[1]["PointWidth"] = "0.5";
-                chart.Series[1].Points[0].Color = Color.FromArgb(79, 98, 40);
-                chart.Series[1].Points[1].Color = Color.FromArgb(215, 228, 189);
+                chart.Series[1].Points[0].Color = Color.FromArgb(230, 175, 180);
+                chart.Series[1].Points[1].Color = Color.FromArgb(135, 45, 50);
                 chart.Series[1].Name = "2009-10";
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
@@ -241,6 +241,13 @@ namespace IndiaGovernsReportTool
                     grid.AutoSize = true;
                 }
 
+                //subheader 1 taking too much space. 
+                subHeader1.AutoSize = false;
+                subHeader1.Height = 25;
+
+                fullHeader.AutoSize = false;
+                fullHeader.Height = fullHeader.Rows[0].Height;
+
                 //size up the comment 
 
                 lblComment.Height = flowLayoutPanel2.Height -
@@ -318,7 +325,8 @@ namespace IndiaGovernsReportTool
                 first = false;
                 ReportForm_Shown(null, null);
             }
-            else { //this.Close(); 
+            else { 
+                this.Close(); 
             }
         }
 

@@ -276,8 +276,8 @@ namespace IndiaGovernsReportTool
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" + 
                         "Rank "+rank1 + " in the " + rank1Column.Replace("2010-11", "") +
-                        "\nRank " + rank2 + " in the " + rank2Column.Replace("2010-11", "") +
-                        "\nRank " + rank3 + " in the " + rank3Column.Replace("2010-11", "");
+                        "\nRank " + rank2 + " in the " + rank2Column.Replace("2010-11", "").Replace("(in Rs.)", "") +
+                        "\nRank " + rank3 + " in the " + rank3Column.Replace("2010-11", "").Replace("(in Rs. Lakh)", "");
 
 
                     Report report = new Report {
@@ -298,9 +298,9 @@ namespace IndiaGovernsReportTool
                     reports.Add(report);
 
                     //todo: remove this
-                    break;
+                    //break;
                 }
-                break;
+                //break;
             }
             publishNextReport();
         }
@@ -321,6 +321,7 @@ namespace IndiaGovernsReportTool
 
         void reportform_FormClosed(object sender, FormClosedEventArgs e)
         {
+            ((ReportForm)sender).FormClosed -= new FormClosedEventHandler(reportform_FormClosed);
             publishNextReport();
         }
 

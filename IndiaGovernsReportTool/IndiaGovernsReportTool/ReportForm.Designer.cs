@@ -231,7 +231,7 @@
             this.subHeader1.RowHeadersVisible = false;
             this.subHeader1.RowTemplate.Height = 35;
             this.subHeader1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.subHeader1.Size = new System.Drawing.Size(498, 13);
+            this.subHeader1.Size = new System.Drawing.Size(498, 10);
             this.subHeader1.TabIndex = 28;
             this.subHeader1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.onDataGridViewBindingComplete);
             this.subHeader1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderPaintDataGrid);
@@ -270,7 +270,7 @@
             this.dataGridView1.Enabled = false;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 192);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 189);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
@@ -324,7 +324,7 @@
             this.subHeader2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader2.Enabled = false;
             this.subHeader2.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader2.Location = new System.Drawing.Point(3, 222);
+            this.subHeader2.Location = new System.Drawing.Point(3, 219);
             this.subHeader2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader2.Name = "subHeader2";
             this.subHeader2.ReadOnly = true;
@@ -358,7 +358,7 @@
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView2.Enabled = false;
             this.dataGridView2.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 247);
+            this.dataGridView2.Location = new System.Drawing.Point(3, 244);
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -403,7 +403,7 @@
             this.subHeader3.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader3.Enabled = false;
             this.subHeader3.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader3.Location = new System.Drawing.Point(3, 289);
+            this.subHeader3.Location = new System.Drawing.Point(3, 286);
             this.subHeader3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader3.Name = "subHeader3";
             this.subHeader3.ReadOnly = true;
@@ -450,7 +450,7 @@
             this.dataGridView3.Enabled = false;
             this.dataGridView3.EnableHeadersVisualStyles = false;
             this.dataGridView3.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView3.Location = new System.Drawing.Point(3, 319);
+            this.dataGridView3.Location = new System.Drawing.Point(3, 316);
             this.dataGridView3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView3.MultiSelect = false;
             this.dataGridView3.Name = "dataGridView3";
@@ -477,7 +477,7 @@
             // 
             this.lblNorms.AutoSize = true;
             this.lblNorms.Font = new System.Drawing.Font("Cambria", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNorms.Location = new System.Drawing.Point(3, 356);
+            this.lblNorms.Location = new System.Drawing.Point(3, 353);
             this.lblNorms.Name = "lblNorms";
             this.lblNorms.Size = new System.Drawing.Size(62, 17);
             this.lblNorms.TabIndex = 23;
@@ -486,7 +486,7 @@
             // lblComment
             // 
             this.lblComment.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComment.Location = new System.Drawing.Point(3, 373);
+            this.lblComment.Location = new System.Drawing.Point(3, 370);
             this.lblComment.Name = "lblComment";
             this.lblComment.Padding = new System.Windows.Forms.Padding(5);
             this.lblComment.Size = new System.Drawing.Size(498, 37);
