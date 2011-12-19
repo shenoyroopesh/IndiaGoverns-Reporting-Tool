@@ -120,7 +120,7 @@
             this.lblName.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.lblName.Font = new System.Drawing.Font("Verdana", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblName.ForeColor = System.Drawing.Color.Navy;
-            this.lblName.Location = new System.Drawing.Point(80, 128);
+            this.lblName.Location = new System.Drawing.Point(80, 118);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(107, 32);
             this.lblName.TabIndex = 21;
@@ -132,7 +132,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(4, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(906, 248);
+            this.pictureBox1.Size = new System.Drawing.Size(924, 248);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -163,7 +163,7 @@
             this.lblIntro.Location = new System.Drawing.Point(3, 0);
             this.lblIntro.Name = "lblIntro";
             this.lblIntro.Padding = new System.Windows.Forms.Padding(5);
-            this.lblIntro.Size = new System.Drawing.Size(498, 162);
+            this.lblIntro.Size = new System.Drawing.Size(498, 153);
             this.lblIntro.TabIndex = 2;
             this.lblIntro.Text = "(Intro)";
             this.lblIntro.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderPaintBlue);
@@ -190,7 +190,7 @@
             this.fullHeader.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.fullHeader.Enabled = false;
             this.fullHeader.GridColor = System.Drawing.Color.Navy;
-            this.fullHeader.Location = new System.Drawing.Point(3, 165);
+            this.fullHeader.Location = new System.Drawing.Point(3, 156);
             this.fullHeader.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
             this.fullHeader.Name = "fullHeader";
             this.fullHeader.ReadOnly = true;
@@ -224,7 +224,7 @@
             this.subHeader1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader1.Enabled = false;
             this.subHeader1.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader1.Location = new System.Drawing.Point(3, 179);
+            this.subHeader1.Location = new System.Drawing.Point(3, 170);
             this.subHeader1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader1.Name = "subHeader1";
             this.subHeader1.ReadOnly = true;
@@ -270,7 +270,7 @@
             this.dataGridView1.Enabled = false;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 189);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 180);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
@@ -324,7 +324,7 @@
             this.subHeader2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader2.Enabled = false;
             this.subHeader2.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader2.Location = new System.Drawing.Point(3, 219);
+            this.subHeader2.Location = new System.Drawing.Point(3, 210);
             this.subHeader2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader2.Name = "subHeader2";
             this.subHeader2.ReadOnly = true;
@@ -358,12 +358,12 @@
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView2.Enabled = false;
             this.dataGridView2.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 244);
+            this.dataGridView2.Location = new System.Drawing.Point(3, 235);
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.RowTemplate.Height = 35;
+            this.dataGridView2.RowTemplate.Height = 25;
             this.dataGridView2.RowTemplate.ReadOnly = true;
             this.dataGridView2.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.None;
@@ -403,7 +403,7 @@
             this.subHeader3.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader3.Enabled = false;
             this.subHeader3.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader3.Location = new System.Drawing.Point(3, 286);
+            this.subHeader3.Location = new System.Drawing.Point(3, 277);
             this.subHeader3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader3.Name = "subHeader3";
             this.subHeader3.ReadOnly = true;
@@ -450,7 +450,7 @@
             this.dataGridView3.Enabled = false;
             this.dataGridView3.EnableHeadersVisualStyles = false;
             this.dataGridView3.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView3.Location = new System.Drawing.Point(3, 316);
+            this.dataGridView3.Location = new System.Drawing.Point(3, 307);
             this.dataGridView3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView3.MultiSelect = false;
             this.dataGridView3.Name = "dataGridView3";
@@ -477,7 +477,7 @@
             // 
             this.lblNorms.AutoSize = true;
             this.lblNorms.Font = new System.Drawing.Font("Cambria", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNorms.Location = new System.Drawing.Point(3, 353);
+            this.lblNorms.Location = new System.Drawing.Point(3, 344);
             this.lblNorms.Name = "lblNorms";
             this.lblNorms.Size = new System.Drawing.Size(62, 17);
             this.lblNorms.TabIndex = 23;
@@ -486,7 +486,7 @@
             // lblComment
             // 
             this.lblComment.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComment.Location = new System.Drawing.Point(3, 370);
+            this.lblComment.Location = new System.Drawing.Point(3, 361);
             this.lblComment.Name = "lblComment";
             this.lblComment.Padding = new System.Windows.Forms.Padding(5);
             this.lblComment.Size = new System.Drawing.Size(498, 37);
@@ -620,7 +620,7 @@
             this.AutoScroll = true;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1019, 812);
+            this.ClientSize = new System.Drawing.Size(1036, 812);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ReportForm";

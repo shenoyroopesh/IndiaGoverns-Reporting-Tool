@@ -27,6 +27,8 @@ namespace IndiaGovernsReportTool
         Graphics graphic;
         int initScroll = 0;
         int _COLUMNWIDTH_ = 80;
+        const string SuperscriptDigits = 
+                "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
         public ReportForm(Report report)
         {
@@ -36,7 +38,8 @@ namespace IndiaGovernsReportTool
             dataGridView3.DataSource = report.Group2Data;
             lblIntro.Text = report.Intro;
             lblComment.Text = report.Comment;
-            lblNorms.Text = "";
+            lblNorms.Text = "1 - w.r.t house holds with job cards issued";
+            Font normsFont = new Font(lblNorms.Font, FontStyle.Regular);
 
             DataTable dtFull = new DataTable();
             DataTable dtSub1 = new DataTable();
@@ -75,8 +78,7 @@ namespace IndiaGovernsReportTool
             dataGridView3.Visible = false; //temp
             this.reportName = report.ReportName;
             bindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2);
-            //bindToChart(chart2, report.Group2Data, report.Chart2Column);  temporarily using group1data for chart2 as well
-            bindToChart(chart2, report.Group1Data, report.Chart2Column);
+            bindToChart(chart2, report.Group2Data, report.Chart2Column);  
 
             //start temp code                    
             var dataColumn = "";
@@ -84,7 +86,8 @@ namespace IndiaGovernsReportTool
             {
                 if (i % 3 == 0)
                 {
-                    dataColumn = report.Group1Data.Rows[i][0].ToString();
+                    dataColumn = report.Group1Data.Rows[i][0].ToString().Replace("(s1)", "");
+                    report.Group1Data.Rows[i][0] = report.Group1Data.Rows[i][0].ToString().Replace("(s1)", SuperscriptDigits[1].ToString());
                 }
                 else
                 {
@@ -154,8 +157,8 @@ namespace IndiaGovernsReportTool
                 chart.Series[1].Label = "#VALY";
                 chart.Series[1].Color = Color.FromArgb(200, 90, 100);
                 chart.Series[1]["PointWidth"] = "0.5";
-                chart.Series[1].Points[0].Color = Color.FromArgb(230, 175, 180);
-                chart.Series[1].Points[1].Color = Color.FromArgb(135, 45, 50);
+                chart.Series[1].Points[0].Color = Color.FromArgb(135, 45, 50);
+                chart.Series[1].Points[1].Color = Color.FromArgb(230, 175, 180);
                 chart.Series[1].Name = "2009-10";
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
@@ -282,7 +285,7 @@ namespace IndiaGovernsReportTool
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             //to allow the report to load fully
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
             Rectangle form = this.Bounds;
 
             if(first)
@@ -381,6 +384,6 @@ namespace IndiaGovernsReportTool
                 e.CellStyle.Font = new Font("Cambria", 8, FontStyle.Italic);
                 e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-        }        
+        }
     }
 }

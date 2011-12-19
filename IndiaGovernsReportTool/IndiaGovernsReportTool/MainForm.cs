@@ -47,6 +47,9 @@ namespace IndiaGovernsReportTool
         ArrayList reports = new ArrayList();
         int reportCounter = 0;
 
+        const string SuperscriptDigits =
+            "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
+
         /// <summary>
         /// Constructor for ReportGenerator
         /// </summary>
@@ -195,13 +198,13 @@ namespace IndiaGovernsReportTool
                     //use only 3 other constituencies for the sake of saving space
                     var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla["MLAConstituency"]).Take(3);
 
-                    String intro = "How is "+mla["MLAConstituency"]+ " MLA Constituency performing on important health" +
+                    String intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
                                     " indicators? How does it compare with some other constituencies " +
                                     "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
-                                    "government reflect the actual situation of Bilgi constituency? \n\n" +
+                                    "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
                                     "What role can the MLA play in highlighting these issues with the " +
                                     "government? Can the MLA make sure there is tangible improvement " +
-                                    "in health facilities and indicators in the constituency?";
+                                    "in MNREGA implementation in the constituency?";
                    
                     //Table1: get the general data
                     DataTable generalData = new DataTable();
@@ -223,49 +226,56 @@ namespace IndiaGovernsReportTool
                     //Table3: Second Group
                     DataTable group2Data = new DataTable();                    
                     fillTable(mla, otherConstituencies, group2Data, group2Columns, false, true);
-                    
 
+                    String comment = String.Empty;
                     //comment logic - figure out which attribute to comment on.
 
                     String mlaToBecompared = "";
                     float maxDifference = 0;
                     String columnToBeCompared = "";
 
-
-                    foreach (var column in commentColumns)
+                    if (mla["Comment"] != null)
                     {
-                        try
+                        comment = mla["Comment"].ToString();
+                    }
+                    
+                    if(comment.Equals(String.Empty))
+                    {
+                        foreach (var column in commentColumns)
                         {
-                            var maxValue = otherConstituencies.ToList().Select(p => float.Parse(p[column].ToString())).Max();
-                            var difference = (maxValue - float.Parse(mla[column].ToString())) * 100 / maxValue; //percentage deviation of current mla from max mla
-
-                            if (difference > maxDifference)
+                            try
                             {
-                                maxDifference = difference;
-                                mlaToBecompared = otherConstituencies.ToList()
-                                                        .Where(p => float.Parse(p[column].ToString()) == maxValue)
-                                                        .First()["MLAConstituency"].ToString();
-                                columnToBeCompared = column;
-                            }
+                                var maxValue = otherConstituencies.ToList().Select(p => float.Parse(p[column].ToString())).Max();
+                                var difference = (maxValue - float.Parse(mla[column].ToString())) * 100 / maxValue; //percentage deviation of current mla from max mla
 
+                                if (difference > maxDifference)
+                                {
+                                    maxDifference = difference;
+                                    mlaToBecompared = otherConstituencies.ToList()
+                                                            .Where(p => float.Parse(p[column].ToString()) == maxValue)
+                                                            .First()["MLAConstituency"].ToString();
+                                    columnToBeCompared = column;
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                continue;
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            continue;
-                        }
+
+                        //Generate the comment
+
+                        comment = "The above data shows that " + columnToBeCompared + " in " + mla["MLAConstituency"].ToString() + " constituency " +
+                            "is lower than neighbouring constituency such as " + mlaToBecompared + ". \n\nIs this government data correct? " +
+                            "Can this be brought to the government's notice?";
                     }
 
-                    //Generate the comment
-
-                    String comment = "The above data shows that " + columnToBeCompared + " in " + mla["MLAConstituency"].ToString() + " constituency "+
-                        "is lower than neighbouring constituency such as "+ mlaToBecompared  +". \n\nIs this government data correct? "+
-                        "Can this be brought to the government's notice?";
-
                     //TODO: note - depending on desc or ascending - need to make this generic
-                    int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) < 
+                    int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) > 
                         Convert.ToDouble(mla[rank1Column])).Count() + 1;
 
-                    int rank2 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank2Column]) <
+                    int rank2 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank2Column]) >
                         Convert.ToDouble(mla[rank2Column])).Count() + 1;
 
                     int rank3 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank3Column]) >
@@ -275,7 +285,7 @@ namespace IndiaGovernsReportTool
                     String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" + 
-                        "Rank "+rank1 + " in the " + rank1Column.Replace("2010-11", "") +
+                        "Rank "+rank1 + " in the " + String.Join("", rank1Column.Replace("2010-11", ""), SuperscriptDigits[1]) + //for superscript 1
                         "\nRank " + rank2 + " in the " + rank2Column.Replace("2010-11", "").Replace("(in Rs.)", "") +
                         "\nRank " + rank3 + " in the " + rank3Column.Replace("2010-11", "").Replace("(in Rs. Lakh)", "");
 
