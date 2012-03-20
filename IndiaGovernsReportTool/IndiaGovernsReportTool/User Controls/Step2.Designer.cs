@@ -51,7 +51,7 @@
             // 
             this.txtGroup1Name.Location = new System.Drawing.Point(170, 100);
             this.txtGroup1Name.Name = "txtGroup1Name";
-            this.txtGroup1Name.Size = new System.Drawing.Size(137, 20);
+            this.txtGroup1Name.Size = new System.Drawing.Size(173, 20);
             this.txtGroup1Name.TabIndex = 3;
             // 
             // label2
@@ -76,7 +76,7 @@
             // 
             this.txtGroup2Name.Location = new System.Drawing.Point(170, 339);
             this.txtGroup2Name.Name = "txtGroup2Name";
-            this.txtGroup2Name.Size = new System.Drawing.Size(137, 20);
+            this.txtGroup2Name.Size = new System.Drawing.Size(173, 20);
             this.txtGroup2Name.TabIndex = 8;
             // 
             // listView1

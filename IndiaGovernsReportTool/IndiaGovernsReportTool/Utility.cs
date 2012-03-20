@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Collections;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace IndiaGovernsReportTool
 {
@@ -37,18 +38,18 @@ namespace IndiaGovernsReportTool
             DataSet ds = new DataSet();
             string HDR = hasHeaders ? "Yes" : "No";
             String strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileName + ";Extended Properties=\"Excel 12.0;HDR=" + HDR + ";IMEX=1\"";
-
+            
             using (OleDbConnection conn = new OleDbConnection(strConn))
             {
                 conn.Open();
-                DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+                System.Data.DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
 
                 foreach (DataRow row in dt.Rows)
                 {
                     string sheet = row["TABLE_NAME"].ToString();
                     OleDbCommand cmd = new OleDbCommand("SELECT * FROM [" + sheet + "]", conn);
                     cmd.CommandType = CommandType.Text;
-                    DataTable outputTable = new DataTable(sheet);
+                    var outputTable = new System.Data.DataTable(sheet);
                     ds.Tables.Add(outputTable);
                     new OleDbDataAdapter(cmd).Fill(outputTable);
 

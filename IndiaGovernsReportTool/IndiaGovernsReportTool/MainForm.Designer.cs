@@ -30,6 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnNext = new System.Windows.Forms.Button();
+            this.btnBack = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
@@ -41,7 +42,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(562, 563);
+            this.btnNext.Location = new System.Drawing.Point(679, 563);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 23);
             this.btnNext.TabIndex = 7;
@@ -49,14 +50,25 @@
             this.btnNext.UseVisualStyleBackColor = true;
             this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
-            // ReportGenerator
+            // btnBack
+            // 
+            this.btnBack.Location = new System.Drawing.Point(552, 563);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(75, 23);
+            this.btnBack.TabIndex = 8;
+            this.btnBack.Text = "Back";
+            this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(850, 624);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.panel1);
-            this.Name = "ReportGenerator";
+            this.Name = "MainForm";
             this.Text = "Report Generator";
             this.ResumeLayout(false);
 
@@ -66,6 +78,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnBack;
 
 
     }

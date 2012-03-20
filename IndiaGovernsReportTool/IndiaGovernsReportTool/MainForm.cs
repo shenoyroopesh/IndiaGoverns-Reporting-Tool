@@ -34,7 +34,8 @@ namespace IndiaGovernsReportTool
 
         String chart1Column2;
 
-        String chart2Column;
+        String chart2Column1;
+        String chart2Column2;
 
         String rank1Column;
         String rank2Column;
@@ -42,7 +43,7 @@ namespace IndiaGovernsReportTool
 
         String[] commentColumns;
 
-        const string _DATAYEAR_ = "2010-11";
+        const string _DATAYEAR_ = "2008-09";
 
         ArrayList reports = new ArrayList();
         int reportCounter = 0;
@@ -69,6 +70,13 @@ namespace IndiaGovernsReportTool
             panel1.Controls.Add(uc);
         }
 
+        Step1 step1;
+        Step2 step2;
+        Step3 step3;
+        Step4 step4;
+        Step5 step5;
+        Step6 step6;
+
         /// <summary>
         /// Controls the flow of the application, depending on the current step
         /// </summary>
@@ -76,12 +84,6 @@ namespace IndiaGovernsReportTool
         /// <param name="e"></param>
         private void btnNext_Click(object sender, EventArgs e)
         {
-            Step1 step1;
-            Step2 step2;
-            Step3 step3;
-            Step4 step4;
-            Step5 step5;
-            Step6 step6;
 
             UserControl control = (UserControl)panel1.Controls[0];
             //current state is determined by what control is present in the panel
@@ -114,7 +116,8 @@ namespace IndiaGovernsReportTool
                     step3 = (Step3)control;
                     chart1Column1 = step3.Chart1Column1;
                     chart1Column2 = step3.Chart1Column2;
-                    chart2Column = step3.Chart2Column;
+                    chart2Column1 = step3.Chart2Column1;
+                    chart2Column2 = step3.Chart2Column2;
                     step4 = new Step4(group1Columns.Concat(group2Columns).ToArray());
                     loadControl(step4);
                     break;
@@ -140,6 +143,36 @@ namespace IndiaGovernsReportTool
             }
         }
 
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            UserControl control = (UserControl)panel1.Controls[0];
+            //current state is determined by what control is present in the panel
+            switch (control.GetType().ToString())
+            {
+                case "IndiaGovernsReportTool.Step1":
+                    break;
+
+                case "IndiaGovernsReportTool.Step2":
+                    loadControl(step1);
+                    break;
+
+                case "IndiaGovernsReportTool.Step3":
+                    loadControl(step2);
+                    break;
+
+                case "IndiaGovernsReportTool.Step4":
+                    loadControl(step3);
+                    break;
+
+                case "IndiaGovernsReportTool.Step5":
+                    loadControl(step4);
+                    break;
+
+                case "IndiaGovernsReportTool.Step6":
+                    loadControl(step5);
+                    break;
+            }
+        }
 
         private void generateReports()
         {
@@ -198,34 +231,40 @@ namespace IndiaGovernsReportTool
                     //use only 3 other constituencies for the sake of saving space
                     var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla["MLAConstituency"]).Take(3);
 
-                    String intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
-                                    " indicators? How does it compare with some other constituencies " +
-                                    "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
-                                    "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
-                                    "What role can the MLA play in highlighting these issues with the " +
-                                    "government? Can the MLA make sure there is tangible improvement " +
-                                    "in MNREGA implementation in the constituency?";
-                   
-                    //Table1: get the general data
-                    DataTable generalData = new DataTable();
+                    string intro = "Education is a fundamental right for all children from the ages of " +
+                                    "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
+                                    "and citizens track the status of education indicators in their MLA " +
+                                    "constituency. The report helps compare the constituency status with " +
+                                    "respect to state average and neighbouring constituencies.\n\n" +
+                                    "Can the MLA use this government data to demand more resources " +
+                                    "for the constituency? Can citizens ask the MLA what specifically can " +
+                                    "be done to improve education status in the constituency?";
 
-                    String[] generalDataRows;
-                    
+
+                    #region commented out for education report
+                    //String intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
+                    //                " indicators? How does it compare with some other constituencies " +
+                    //                "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
+                    //                "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
+                    //                "What role can the MLA play in highlighting these issues with the " +
+                    //                "government? Can the MLA make sure there is tangible improvement " +
+                    //                "in MNREGA implementation in the constituency?";
+                    #endregion
+
+
                     //use % column only if required
-                    generalDataRows = (inputData.Tables[0].Columns.Contains("% Population Data available for"))?
+                    String[] generalDataRows = (inputData.Tables[0].Columns.Contains("% Population Data available for")) ?
                             new String[] { "Total constituency Population", "% Population Data available for" } : 
                             new String[] { "Total constituency Population" };
 
-                    fillTable(mla, otherConstituencies, generalData, generalDataRows, false, false);
+                    DataTable generalData = fillTable(mla, otherConstituencies, generalDataRows, false, false);
 
 
                     //Table2: First Group
-                    DataTable group1Data = new DataTable();
-                    fillTable(mla, otherConstituencies, group1Data, group1Columns, false, true);
+                    DataTable group1Data = fillTable(mla, otherConstituencies, group1Columns, false, true);
 
                     //Table3: Second Group
-                    DataTable group2Data = new DataTable();                    
-                    fillTable(mla, otherConstituencies, group2Data, group2Columns, false, true);
+                    DataTable group2Data = fillTable(mla, otherConstituencies, group2Columns, false, true);
 
                     String comment = String.Empty;
                     //comment logic - figure out which attribute to comment on.
@@ -234,9 +273,14 @@ namespace IndiaGovernsReportTool
                     float maxDifference = 0;
                     String columnToBeCompared = "";
 
-                    if (mla["Comment"] != null)
+
+                    try
                     {
                         comment = mla["Comment"].ToString();
+                    }
+                    catch (Exception e)
+                    {
+                        //do nothing just continue
                     }
                     
                     if(comment.Equals(String.Empty))
@@ -267,7 +311,7 @@ namespace IndiaGovernsReportTool
                         //Generate the comment
 
                         comment = "The above data shows that " + columnToBeCompared + " in " + mla["MLAConstituency"].ToString() + " constituency " +
-                            "is lower than neighbouring constituency such as " + mlaToBecompared + ". \n\nIs this government data correct? " +
+                            "is lower than in " + mlaToBecompared + ". \n\nIs this government data correct? " +
                             "Can this be brought to the government's notice?";
                     }
 
@@ -281,16 +325,15 @@ namespace IndiaGovernsReportTool
                     int rank3 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank3Column]) >
                         Convert.ToDouble(mla[rank3Column])).Count() + 1;
 
-
                     String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
-                        mpc.ToString() + " MP Constituency. \n\n" + 
-                        "Rank "+rank1 + " in the " + String.Join("", rank1Column.Replace("2010-11", ""), SuperscriptDigits[1]) + //for superscript 1
-                        "\nRank " + rank2 + " in the " + rank2Column.Replace("2010-11", "").Replace("(in Rs.)", "") +
-                        "\nRank " + rank3 + " in the " + rank3Column.Replace("2010-11", "").Replace("(in Rs. Lakh)", "");
+                        mpc.ToString() + " MP Constituency. \n\n" +
+                        "Rank " + rank1 + " in the " + rank1Column.Replace(_DATAYEAR_, "") + 
+                        "\nRank " + rank2 + " in the " + rank2Column.Replace(_DATAYEAR_, "") +
+                        "\nRank " + rank3 + " in the " + rank3Column.Replace("Govt.", "");
 
-
-                    Report report = new Report {
+                    reports.Add(new Report
+                    {
                         ReportName = mla["MLAConstituency"].ToString(),
                         GeneralData = generalData,
                         Group1Data = group1Data,
@@ -301,16 +344,15 @@ namespace IndiaGovernsReportTool
                         Comment = comment,
                         Chart1Column1 = chart1Column1,
                         Chart1Column2 = chart1Column2,
-                        Chart2Column = chart2Column,
+                        Chart2Column1 = chart2Column1,
+                        Chart2Column2 = chart2Column2,
                         Rank = rank
-                    };
-
-                    reports.Add(report);
+                    });
 
                     //todo: remove this
-                    //break;
+                    break;
                 }
-                //break;
+                break;
             }
             publishNextReport();
         }
@@ -340,9 +382,10 @@ namespace IndiaGovernsReportTool
             return Convert.ToInt32(number * 100).ToString() + "%";
         }
 
-        private void fillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies, 
-            DataTable generalData, String[] generalDataRows, bool norms, bool avg)
+        private DataTable fillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies, 
+            String[] generalDataRows, bool norms, bool avg)
         {
+            DataTable generalData = new DataTable();
             generalData.Columns.Add(String.Concat(_DATAYEAR_, " Data"));
             if (norms) generalData.Columns.Add("Norms");
             if (avg) generalData.Columns.Add("State Avg");
@@ -384,6 +427,9 @@ namespace IndiaGovernsReportTool
 
                 generalData.Rows.Add(row);
             }
+            return generalData;
         }
+
+
     }
 }

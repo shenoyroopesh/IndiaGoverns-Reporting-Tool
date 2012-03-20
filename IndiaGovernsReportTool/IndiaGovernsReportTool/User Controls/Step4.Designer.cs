@@ -40,9 +40,9 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(448, 166);
+            this.comboBox2.Location = new System.Drawing.Point(393, 166);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.comboBox2.Size = new System.Drawing.Size(176, 21);
             this.comboBox2.TabIndex = 15;
             // 
             // label3
@@ -57,9 +57,9 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(448, 105);
+            this.comboBox1.Location = new System.Drawing.Point(393, 105);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(176, 21);
             this.comboBox1.TabIndex = 13;
             // 
             // label2
@@ -79,14 +79,14 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(173, 13);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Step 3: Select Chart Columns";
+            this.label1.Text = "Step 4: Select Rank Columns";
             // 
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(448, 221);
+            this.comboBox3.Location = new System.Drawing.Point(393, 221);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
+            this.comboBox3.Size = new System.Drawing.Size(176, 21);
             this.comboBox3.TabIndex = 17;
             // 
             // label4

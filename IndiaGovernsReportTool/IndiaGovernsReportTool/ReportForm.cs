@@ -22,6 +22,7 @@ namespace IndiaGovernsReportTool
     {
         private String reportName;
         private bool first = true;
+        private bool second = false;
         private String fileName = String.Empty;
         Bitmap bitmap;
         Graphics graphic;
@@ -29,6 +30,8 @@ namespace IndiaGovernsReportTool
         int _COLUMNWIDTH_ = 80;
         const string SuperscriptDigits = 
                 "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
+
+        public string year;
 
         public ReportForm(Report report)
         {
@@ -38,8 +41,6 @@ namespace IndiaGovernsReportTool
             dataGridView3.DataSource = report.Group2Data;
             lblIntro.Text = report.Intro;
             lblComment.Text = report.Comment;
-            lblNorms.Text = "1 - w.r.t house holds with job cards issued";
-            Font normsFont = new Font(lblNorms.Font, FontStyle.Regular);
 
             DataTable dtFull = new DataTable();
             DataTable dtSub1 = new DataTable();
@@ -78,7 +79,8 @@ namespace IndiaGovernsReportTool
             dataGridView3.Visible = false; //temp
             this.reportName = report.ReportName;
             bindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2);
-            bindToChart(chart2, report.Group2Data, report.Chart2Column);  
+            //using Group1Data for now since no data selected for group2
+            bindToChart(chart2, report.Group1Data, report.Chart2Column1, report.Chart2Column2);
 
             //start temp code                    
             var dataColumn = "";
@@ -97,8 +99,6 @@ namespace IndiaGovernsReportTool
             //end temp code for curating data
 
             fullHeader.DataSource = dtFull;
-            subHeader1.DataSource = dtSub1;
-            subHeader2.DataSource = dtSub2;
             subHeader3.DataSource = dtSub3;
 
             lblRank.Text = report.Rank;
@@ -108,8 +108,6 @@ namespace IndiaGovernsReportTool
             lblRank.SelectionAlignment = HorizontalAlignment.Center;
             lblName.Text = report.ReportName + " MLA Constituency";
             lblName.Select();
-            
-            if (String.IsNullOrEmpty(lblNorms.Text)) lblNorms.Height = 0;
         }
 
 
@@ -131,9 +129,9 @@ namespace IndiaGovernsReportTool
             chart.Series[0].Label = "#VALY"; 
            
             //temp
-            chart.Series[0].Name = "2010-11";
+            chart.Series[0].Name = "Govt.";
 
-            chart.Titles.Add(chartColumn1.Replace("2010-11", "")); //temp only for removing the year
+            chart.Titles.Add(chartColumn1.Replace("Govt.", "")); //temp only for removing the suffix
             chart.Titles[0].Font = new Font("Cambria", 14, FontStyle.Bold);
 
             chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -159,7 +157,7 @@ namespace IndiaGovernsReportTool
                 chart.Series[1]["PointWidth"] = "0.5";
                 chart.Series[1].Points[0].Color = Color.FromArgb(135, 45, 50);
                 chart.Series[1].Points[1].Color = Color.FromArgb(230, 175, 180);
-                chart.Series[1].Name = "2009-10";
+                chart.Series[1].Name = "Private";
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
             }
@@ -201,11 +199,10 @@ namespace IndiaGovernsReportTool
             if (first)
             {
                 //formatting the datagrids width
-                DataGridView[] allGrids = new DataGridView[] { fullHeader, dataGridView1, subHeader1, 
-                dataGridView2, dataGridView3, subHeader2, subHeader3 };
+                DataGridView[] allGrids = new DataGridView[] { fullHeader, dataGridView1, 
+                dataGridView2, dataGridView3, subHeader3 };
 
-                DataGridView[] lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader2, 
-                subHeader3 };
+                DataGridView[] lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader3 };
 
                 int firstColumnWidth = dataGridView1.Columns[0].Width;
                 int secondColumnWidth = _COLUMNWIDTH_;
@@ -244,10 +241,6 @@ namespace IndiaGovernsReportTool
                     grid.AutoSize = true;
                 }
 
-                //subheader 1 taking too much space. 
-                subHeader1.AutoSize = false;
-                subHeader1.Height = 25;
-
                 fullHeader.AutoSize = false;
                 fullHeader.Height = fullHeader.Rows[0].Height;
 
@@ -272,9 +265,13 @@ namespace IndiaGovernsReportTool
                 //this is used later to determine where the initial scroll started - use to position the second screen capture exactly.
                 initScroll = this.VerticalScroll.Value;
             }
+            else if (second)
+            {
+                this.ScrollControlIntoView(dataGridView2);
+            }
             else
             {
-                this.ScrollControlIntoView(lblEndBlank);                
+                this.ScrollControlIntoView(lblEndBlank);
             }
 
             //this has to work asynchronously, so that the UI does not freeze up and all the controls complete 
@@ -288,18 +285,24 @@ namespace IndiaGovernsReportTool
             Thread.Sleep(1500);
             Rectangle form = this.Bounds;
 
-            if(first)
+            if (first)
             {
                 //print to a bmp and save file
-                Rectangle panel =  flowLayoutPanel1.Bounds;
+                Rectangle panel = flowLayoutPanel1.Bounds;
                 bitmap = new Bitmap(panel.Width, panel.Height);
                 graphic = Graphics.FromImage(bitmap);
-                graphic.CopyFromScreen(form.Location, Point.Empty, form.Size);        
-            }  else {
-                //print to a pdf and save file
+                graphic.CopyFromScreen(form.Location, Point.Empty, form.Size);
+            }
+            else
+            {
                 graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value - initScroll), form.Size);
-                string pathPdf = "D:\\IndiaGovernsReports\\" + this.reportName + ".pdf";
-                saveAsPdf(bitmap, pathPdf);
+                
+                //last only
+                if (!second)
+                {
+                    string pathPdf = "D:\\IndiaGovernsReports\\" + this.reportName + ".pdf";
+                    saveAsPdf(bitmap, pathPdf);
+                }
             }
         }
 
@@ -326,10 +329,17 @@ namespace IndiaGovernsReportTool
             if (first)
             {
                 first = false;
+                second = true;
                 ReportForm_Shown(null, null);
             }
-            else { 
-                this.Close(); 
+            else if (second)
+            {
+                second = false;
+                ReportForm_Shown(null, null);
+            }
+            else
+            {
+                this.Close();
             }
         }
 
@@ -363,7 +373,7 @@ namespace IndiaGovernsReportTool
                         Color.White, 1, ButtonBorderStyle.Solid,
                         Color.FromArgb(31, 73, 125), 3, ButtonBorderStyle.Solid,
                         Color.White, 1, ButtonBorderStyle.Solid,
-                        Color.FromArgb(31, 73, 125), 0, ButtonBorderStyle.Solid);
+                        Color.FromArgb(31, 73, 125), 3, ButtonBorderStyle.Solid);
         }
 
 
