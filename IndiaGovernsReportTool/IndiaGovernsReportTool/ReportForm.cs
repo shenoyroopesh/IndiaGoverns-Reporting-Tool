@@ -27,7 +27,7 @@ namespace IndiaGovernsReportTool
         Bitmap bitmap;
         Graphics graphic;
         int initScroll = 0;
-        int _COLUMNWIDTH_ = 80;
+        int _COLUMNWIDTH_ = 100;
         const string SuperscriptDigits = 
                 "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
@@ -47,13 +47,18 @@ namespace IndiaGovernsReportTool
             DataTable dtSub2 = new DataTable();
             DataTable dtSub3 = new DataTable();
 
+            
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
                 dtSub1.Columns.Add(col.ColumnName);
                 dtFull.Columns.Add(col.ColumnName);
+
+                //second column needs to be state avg
+                if(!dtFull.Columns.Contains("StateAvg")) dtFull.Columns.Add("StateAvg");
             }
 
             dtFull.Rows.Add();
+            dtFull.Rows[0]["StateAvg"] = "State Avg. per Constituency";
 
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
@@ -202,7 +207,7 @@ namespace IndiaGovernsReportTool
                 DataGridView[] allGrids = new DataGridView[] { fullHeader, dataGridView1, 
                 dataGridView2, dataGridView3, subHeader3 };
 
-                DataGridView[] lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader3 };
+                DataGridView[] lowerGrids = new DataGridView[] { fullHeader, dataGridView2, dataGridView3, subHeader3 };
 
                 int firstColumnWidth = dataGridView1.Columns[0].Width;
                 int secondColumnWidth = _COLUMNWIDTH_;

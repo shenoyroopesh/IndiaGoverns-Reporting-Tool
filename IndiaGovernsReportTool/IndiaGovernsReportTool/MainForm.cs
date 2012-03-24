@@ -309,9 +309,8 @@ namespace IndiaGovernsReportTool
                         }
 
                         //Generate the comment
-
                         comment = "The above data shows that " + columnToBeCompared + " in " + mla["MLAConstituency"].ToString() + " constituency " +
-                            "is lower than in " + mlaToBecompared + ". \n\nIs this government data correct? " +
+                            "is lower than in " + mlaToBecompared + ". \n\nIs this data correct? " +
                             "Can this be brought to the government's notice?";
                     }
 
@@ -328,8 +327,9 @@ namespace IndiaGovernsReportTool
                     String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
-                        "Rank " + rank1 + " in the " + rank1Column.Replace(_DATAYEAR_, "") + 
-                        "\nRank " + rank2 + " in the " + rank2Column.Replace(_DATAYEAR_, "") +
+                        "Rank " + rank1 + " in the " + rank1Column.Replace(_DATAYEAR_, "") +
+                        //hardcoding this replace below, no other way to do this 
+                        "\nRank " + rank2 + " in the " + rank2Column.Replace(_DATAYEAR_, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
                         "\nRank " + rank3 + " in the " + rank3Column.Replace("Govt.", "");
 
                     reports.Add(new Report
