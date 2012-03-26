@@ -18,6 +18,14 @@ namespace IndiaGovernsReportTool
             }
         }
 
+        public bool SingleReport
+        {
+            get
+            {
+                return chkSingleReport.Checked;
+            }
+        }
+
         public Step5(String[] possibleColumns)
         {
             InitializeComponent();

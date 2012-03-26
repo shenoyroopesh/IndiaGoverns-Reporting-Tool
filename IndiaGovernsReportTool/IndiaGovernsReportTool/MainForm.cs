@@ -43,7 +43,9 @@ namespace IndiaGovernsReportTool
 
         String[] commentColumns;
 
-        const string _DATAYEAR_ = "2008-09";
+        bool singleReport;
+
+        public string DATAYEAR = "2010-11";
 
         ArrayList reports = new ArrayList();
         int reportCounter = 0;
@@ -94,6 +96,8 @@ namespace IndiaGovernsReportTool
                     if (step1.data != null)
                     {
                         inputData = step1.data;
+                        DATAYEAR = step1.DataYear;
+
                         step2 = new Step2(inputData.Tables[0].Columns.Cast<DataColumn>()
                                                         .Select(p=>p.ColumnName)
                                                         .ToArray<String>());
@@ -135,6 +139,7 @@ namespace IndiaGovernsReportTool
                 case "IndiaGovernsReportTool.Step5":
                     step5 = (Step5)control;
                     commentColumns = step5.CommentColumns;
+                    singleReport = step5.SingleReport;
 
                     generateReports();
                     step6 = new Step6();
@@ -327,14 +332,15 @@ namespace IndiaGovernsReportTool
                     String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
-                        "Rank " + rank1 + " in the " + rank1Column.Replace(_DATAYEAR_, "") +
+                        "Rank " + rank1 + " in the " + rank1Column.Replace(DATAYEAR, "") +
                         //hardcoding this replace below, no other way to do this 
-                        "\nRank " + rank2 + " in the " + rank2Column.Replace(_DATAYEAR_, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
+                        "\nRank " + rank2 + " in the " + rank2Column.Replace(DATAYEAR, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
                         "\nRank " + rank3 + " in the " + rank3Column.Replace("Govt.", "");
 
                     reports.Add(new Report
                     {
                         ReportName = mla["MLAConstituency"].ToString(),
+                        DataYear = this.DATAYEAR,
                         GeneralData = generalData,
                         Group1Data = group1Data,
                         Group2Data = group2Data,
@@ -349,14 +355,15 @@ namespace IndiaGovernsReportTool
                         Rank = rank
                     });
 
-                    //todo: remove this
-                    break;
+                    if(singleReport)
+                        break;
                 }
-                break;
+
+                if(singleReport)
+                    break;
             }
             publishNextReport();
         }
-
 
         private void publishNextReport()
         {
@@ -386,7 +393,7 @@ namespace IndiaGovernsReportTool
             String[] generalDataRows, bool norms, bool avg)
         {
             DataTable generalData = new DataTable();
-            generalData.Columns.Add(String.Concat(_DATAYEAR_, " Data"));
+            generalData.Columns.Add(String.Concat(DATAYEAR, " Data"));
             if (norms) generalData.Columns.Add("Norms");
             if (avg) generalData.Columns.Add("State Avg");
             generalData.Columns.Add(mla["MLAConstituency"].ToString());
@@ -399,7 +406,7 @@ namespace IndiaGovernsReportTool
             foreach (var r in generalDataRows)
             {
                 DataRow row = generalData.NewRow();
-                row[_DATAYEAR_ + " Data"] = r;
+                row[DATAYEAR + " Data"] = r;
                 if (norms)
                 {
                     try
@@ -415,7 +422,7 @@ namespace IndiaGovernsReportTool
                 if (avg)
                 {
                     //row["State Avg"] = inputData.Tables[0].Rows[0]["Avg of "+ r].ToString();
-                    row["State Avg"] = (inputData.Tables[0].Rows.Cast<DataRow>().Last())[r].ToString(); //assuming last row is avg
+                    row["State Avg"] = (inputData.Tables[0].Rows.Cast<DataRow>().First())[r].ToString(); //assuming last row is avg
                 }
 
                 row[mla["MLAConstituency"].ToString()] = mla[r].ToString();
@@ -429,7 +436,5 @@ namespace IndiaGovernsReportTool
             }
             return generalData;
         }
-
-
     }
 }

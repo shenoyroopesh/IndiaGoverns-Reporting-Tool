@@ -56,7 +56,9 @@ namespace IndiaGovernsReportTool
                     //this is done to revert the conversion of . to # by oldedb
                     foreach (var column in outputTable.Columns.Cast<DataColumn>())
                     {
-                        column.ColumnName = column.ColumnName.Replace("#", ".");
+                        //fixing some wierd problem where " " is replaced by _
+                        column.ColumnName = column.ColumnName.Replace("#", ".").Replace("_", " ");
+                        
                     }
                 }
             }

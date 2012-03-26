@@ -32,6 +32,8 @@
             this.btnBrowse = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.lblFileName = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDataYear = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -67,10 +69,29 @@
             this.lblFileName.TabIndex = 7;
             this.lblFileName.Text = "Upload Excel File";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(94, 184);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Data Year";
+            // 
+            // txtDataYear
+            // 
+            this.txtDataYear.Location = new System.Drawing.Point(379, 184);
+            this.txtDataYear.Name = "txtDataYear";
+            this.txtDataYear.Size = new System.Drawing.Size(164, 20);
+            this.txtDataYear.TabIndex = 9;
+            this.txtDataYear.Text = "2010-11";
+            // 
             // Step1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtDataYear);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lblFileName);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBrowse);
@@ -87,5 +108,7 @@
         private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label lblFileName;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtDataYear;
     }
 }

@@ -30,6 +30,7 @@
         {
             this.listView1 = new System.Windows.Forms.ListView();
             this.lblHeading = new System.Windows.Forms.Label();
+            this.chkSingleReport = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // listView1
@@ -51,14 +52,27 @@
             this.lblHeading.TabIndex = 12;
             this.lblHeading.Text = "Choose Columns for Comments";
             // 
+            // chkSingleReport
+            // 
+            this.chkSingleReport.AutoSize = true;
+            this.chkSingleReport.Checked = true;
+            this.chkSingleReport.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkSingleReport.Location = new System.Drawing.Point(64, 368);
+            this.chkSingleReport.Name = "chkSingleReport";
+            this.chkSingleReport.Size = new System.Drawing.Size(129, 17);
+            this.chkSingleReport.TabIndex = 14;
+            this.chkSingleReport.Text = "Print Only One Report";
+            this.chkSingleReport.UseVisualStyleBackColor = true;
+            // 
             // Step5
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkSingleReport);
             this.Controls.Add(this.lblHeading);
             this.Controls.Add(this.listView1);
             this.Name = "Step5";
-            this.Size = new System.Drawing.Size(488, 386);
+            this.Size = new System.Drawing.Size(488, 403);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,5 +82,6 @@
 
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label lblHeading;
+        private System.Windows.Forms.CheckBox chkSingleReport;
     }
 }

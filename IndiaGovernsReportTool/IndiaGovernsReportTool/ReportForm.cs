@@ -28,6 +28,9 @@ namespace IndiaGovernsReportTool
         Graphics graphic;
         int initScroll = 0;
         int _COLUMNWIDTH_ = 100;
+        public string dataYear;
+
+
         const string SuperscriptDigits = 
                 "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
@@ -47,7 +50,10 @@ namespace IndiaGovernsReportTool
             DataTable dtSub2 = new DataTable();
             DataTable dtSub3 = new DataTable();
 
-            
+            this.dataYear = report.DataYear;
+            this.lblIndicator.Text = "Education Indicators: " + this.dataYear;
+
+
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
                 dtSub1.Columns.Add(col.ColumnName);
@@ -83,9 +89,9 @@ namespace IndiaGovernsReportTool
             subHeader3.Visible = false; //temp
             dataGridView3.Visible = false; //temp
             this.reportName = report.ReportName;
-            bindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2);
+            bindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2, true);
             //using Group1Data for now since no data selected for group2
-            bindToChart(chart2, report.Group1Data, report.Chart2Column1, report.Chart2Column2);
+            bindToChart(chart2, report.Group1Data, report.Chart2Column1, report.Chart2Column2, true);
 
             //start temp code                    
             var dataColumn = "";
@@ -116,7 +122,7 @@ namespace IndiaGovernsReportTool
         }
 
 
-        private void bindToChart(Chart chart, DataTable data, String chartColumn1, String chartColumn2 = null)
+        private void bindToChart(Chart chart, DataTable data, String chartColumn1, String chartColumn2 = null, bool govt = false)
         {
             string dataColumnName = data.Columns.Cast<DataColumn>().Where(p => p.ColumnName.Contains("Data")).First().ColumnName;
             var chartData = data.Rows.Cast<DataRow>()
@@ -134,9 +140,9 @@ namespace IndiaGovernsReportTool
             chart.Series[0].Label = "#VALY"; 
            
             //temp
-            chart.Series[0].Name = "Govt.";
+            chart.Series[0].Name = govt ? "Govt." : this.dataYear;
 
-            chart.Titles.Add(chartColumn1.Replace("Govt.", "")); //temp only for removing the suffix
+            chart.Titles.Add(chartColumn1.Replace("Govt.", "").Replace(this.dataYear, "")); //temp only for removing the suffix
             chart.Titles[0].Font = new Font("Cambria", 14, FontStyle.Bold);
 
             chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -162,7 +168,7 @@ namespace IndiaGovernsReportTool
                 chart.Series[1]["PointWidth"] = "0.5";
                 chart.Series[1].Points[0].Color = Color.FromArgb(135, 45, 50);
                 chart.Series[1].Points[1].Color = Color.FromArgb(230, 175, 180);
-                chart.Series[1].Name = "Private";
+                chart.Series[1].Name = govt ? "Private" : "2008-09";
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
             }

@@ -24,6 +24,17 @@ namespace IndiaGovernsReportTool
         public DataSet data;
 
         /// <summary>
+        /// Year for which this report is to be run
+        /// </summary>
+        public string DataYear
+        {
+            get
+            {
+                return this.txtDataYear.Text;
+            }
+        }
+
+        /// <summary>
         /// Constructor for Step1 User control
         /// </summary>
         public Step1()

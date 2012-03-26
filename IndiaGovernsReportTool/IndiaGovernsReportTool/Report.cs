@@ -29,5 +29,6 @@ namespace IndiaGovernsReportTool
         public String Chart2Column1 { get; set; }
         public String Chart2Column2 { get; set; }
         public String Rank { get; set; }
+        public String DataYear { get; set; }
     }
 }
