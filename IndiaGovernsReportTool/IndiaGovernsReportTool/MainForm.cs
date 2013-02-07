@@ -220,34 +220,35 @@ namespace IndiaGovernsReportTool
                 if (mpc == "State Avg")
                     continue;
 
+                string mpc1 = mpc;
                 var mlaConstituencies = _inputData.Tables[0].Rows.Cast<DataRow>()
-                                            .Where(p => p["MPConstituency"].ToString() == mpc.ToString());
+                                            .Where(p => p["MPConstituency"].ToString() == mpc1.ToString());
 
                 //generate a separate report for each mla constinuency
-                foreach(var mla in mlaConstituencies)
+                var constituencies = mlaConstituencies as List<DataRow> ?? mlaConstituencies.ToList();
+                foreach(var mla in constituencies)
                 {
                     //use only 3 other constituencies for the sake of saving space
                     var mla1 = mla;
-                    var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla1["MLAConstituency"]).Take(3);
+                    var otherConstituencies = constituencies.Where(p => p["MLAConstituency"] != mla1["MLAConstituency"]).Take(3);
 
-                    const string intro = "Education is a fundamental right for all children from the ages of " +
-                                         "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
-                                         "and citizens track the status of education indicators in their MLA " +
-                                         "constituency. The report helps compare the constituency status with " +
-                                         "respect to state average and neighbouring constituencies.\n\n" +
-                                         "Can the MLA use this government data to demand more resources " +
-                                         "for the constituency? Can citizens ask the MLA what specifically can " +
-                                         "be done to improve education status in the constituency?";
-
+                    //const string intro = "Education is a fundamental right for all children from the ages of " +
+                    //                     "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
+                    //                     "and citizens track the status of education indicators in their MLA " +
+                    //                     "constituency. The report helps compare the constituency status with " +
+                    //                     "respect to state average and neighbouring constituencies.\n\n" +
+                    //                     "Can the MLA use this government data to demand more resources " +
+                    //                     "for the constituency? Can citizens ask the MLA what specifically can " +
+                    //                     "be done to improve education status in the constituency?";
 
                     #region commented out for education report
-                    //String intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
-                    //                " indicators? How does it compare with some other constituencies " +
-                    //                "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
-                    //                "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
-                    //                "What role can the MLA play in highlighting these issues with the " +
-                    //                "government? Can the MLA make sure there is tangible improvement " +
-                    //                "in MNREGA implementation in the constituency?";
+                    var intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
+                                    " indicators? How does it compare with some other constituencies " +
+                                    "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
+                                    "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
+                                    "What role can the MLA play in highlighting these issues with the " +
+                                    "government? Can the MLA make sure there is tangible improvement " +
+                                    "in MNREGA implementation in the constituency?";
                     #endregion
 
 
@@ -283,7 +284,7 @@ namespace IndiaGovernsReportTool
                         //do nothing just continue
                     }
                     
-                    if(comment.Equals(String.Empty))
+                    if(String.IsNullOrEmpty(comment))
                     {
                         foreach (var column in _commentColumns)
                         {
@@ -310,17 +311,17 @@ namespace IndiaGovernsReportTool
                     }
 
                     //TODO: note - depending on desc or ascending - need to make this generic
-                    var rank1 = mlaConstituencies.Count(p => Convert.ToDouble(p[_rank1Column]) > 
+                    var rank1 = constituencies.Count(p => Convert.ToDouble(p[_rank1Column]) > 
                                                              Convert.ToDouble(mla[_rank1Column])) + 1;
 
-                    var rank2 = mlaConstituencies.Count(p => Convert.ToDouble(p[_rank2Column]) >
+                    var rank2 = constituencies.Count(p => Convert.ToDouble(p[_rank2Column]) >
                                                              Convert.ToDouble(mla[_rank2Column])) + 1;
 
-                    var rank3 = mlaConstituencies.Count(p => Convert.ToDouble(p[_rank3Column]) >
+                    var rank3 = constituencies.Count(p => Convert.ToDouble(p[_rank3Column]) >
                                                              Convert.ToDouble(mla[_rank3Column])) + 1;
 
                     var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
-                        "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
+                        "among " + constituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
                         "Rank " + rank1 + " in the " + _rank1Column.Replace(Datayear, "") +
                         //hardcoding this replace below, no other way to do this 
@@ -364,13 +365,13 @@ namespace IndiaGovernsReportTool
             _reportCounter += 1;
             var reportform = new ReportForm(report);
             //for next report
-            reportform.FormClosed += new FormClosedEventHandler(ReportformFormClosed);
+            reportform.FormClosed += ReportformFormClosed;
             reportform.Show();
         }
 
         void ReportformFormClosed(object sender, FormClosedEventArgs e)
         {
-            ((ReportForm)sender).FormClosed -= new FormClosedEventHandler(ReportformFormClosed);
+            ((ReportForm)sender).FormClosed -= ReportformFormClosed;
             PublishNextReport();
         }
 
