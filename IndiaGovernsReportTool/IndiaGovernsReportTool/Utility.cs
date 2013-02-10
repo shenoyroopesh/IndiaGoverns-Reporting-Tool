@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data;
 using System.Data.OleDb;
 using System.Collections;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace IndiaGovernsReportTool
 {
@@ -17,9 +14,9 @@ namespace IndiaGovernsReportTool
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static String[] getListSelectedValues(ListView list)
+        public static String[] GetListSelectedValues(ListView list)
         {
-            ArrayList selectedValues = new ArrayList();
+            var selectedValues = new ArrayList();
             foreach (ListViewItem item in list.CheckedItems)
             {
                 selectedValues.Add(item.Text);
@@ -35,20 +32,19 @@ namespace IndiaGovernsReportTool
         /// <returns>Dataset with the data inside it</returns>
         public static DataSet ExcelToDataSet(string fileName, bool hasHeaders)
         {
-            DataSet ds = new DataSet();
-            string HDR = hasHeaders ? "Yes" : "No";
-            String strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileName + ";Extended Properties=\"Excel 12.0;HDR=" + HDR + ";IMEX=1\"";
+            var ds = new DataSet();
+            var hdr = hasHeaders ? "Yes" : "No";
+            var strConn = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileName + ";Extended Properties=\"Excel 12.0;HDR=" + hdr + ";IMEX=1\"";
             
-            using (OleDbConnection conn = new OleDbConnection(strConn))
+            using (var conn = new OleDbConnection(strConn))
             {
                 conn.Open();
-                System.Data.DataTable dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+                var dt = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    string sheet = row["TABLE_NAME"].ToString();
-                    OleDbCommand cmd = new OleDbCommand("SELECT * FROM [" + sheet + "]", conn);
-                    cmd.CommandType = CommandType.Text;
+                    var sheet = row["TABLE_NAME"].ToString();
+                    var cmd = new OleDbCommand("SELECT * FROM [" + sheet + "]", conn) {CommandType = CommandType.Text};
                     var outputTable = new System.Data.DataTable(sheet);
                     ds.Tables.Add(outputTable);
                     new OleDbDataAdapter(cmd).Fill(outputTable);

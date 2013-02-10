@@ -4,14 +4,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Collections;
-using System.Drawing.Imaging;
 using System.Threading;
-using System.IO;
-using System.Drawing.Printing;
-using PdfSharp;
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -20,15 +15,14 @@ namespace IndiaGovernsReportTool
 {
     public partial class ReportForm : Form
     {
-        private String reportName;
-        private bool first = true;
-        private bool second = false;
-        private String fileName = String.Empty;
-        Bitmap bitmap;
-        Graphics graphic;
-        int initScroll = 0;
-        int _COLUMNWIDTH_ = 100;
-        public string dataYear;
+        private readonly String _reportName;
+        private bool _first = true;
+        private bool _second = false;
+        Bitmap _bitmap;
+        Graphics _graphic;
+        int _initScroll = 0;
+        private const int Columnwidth = 100;
+        public string DataYear;
 
 
         const string SuperscriptDigits = 
@@ -45,14 +39,13 @@ namespace IndiaGovernsReportTool
             lblIntro.Text = report.Intro;
             lblComment.Text = report.Comment;
 
-            DataTable dtFull = new DataTable();
-            DataTable dtSub1 = new DataTable();
-            DataTable dtSub2 = new DataTable();
-            DataTable dtSub3 = new DataTable();
+            var dtFull = new DataTable();
+            var dtSub1 = new DataTable();
+            var dtSub2 = new DataTable();
+            var dtSub3 = new DataTable();
 
-            this.dataYear = report.DataYear;
-            this.lblIndicator.Text = "Education Indicators: " + this.dataYear;
-
+            DataYear = report.DataYear;
+            lblIndicator.Text = "MNREGA Indicators: " + this.DataYear;
 
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
@@ -64,7 +57,7 @@ namespace IndiaGovernsReportTool
             }
 
             dtFull.Rows.Add();
-            dtFull.Rows[0]["StateAvg"] = "State Avg. per Constituency";
+            dtFull.Rows[0]["StateAvg"] = ""; // "State Avg. per Constituency";
 
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
@@ -86,16 +79,20 @@ namespace IndiaGovernsReportTool
             dtSub2.Rows.Add(report.Group1Name, "State Avg. Per Rural Constituency", "", "", "");
             dtSub3.Rows.Add(report.Group2Name, "State Avg. Per Rural Constituency", "", "", "");
 
+            //subheaders - only for MNREGA
+            subHeader1.DataSource = dtSub1;
+            subHeader2.DataSource = dtSub2;
+
             subHeader3.Visible = false; //temp
             dataGridView3.Visible = false; //temp
-            this.reportName = report.ReportName;
-            bindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2, true);
+            _reportName = report.ReportName;
+            BindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2); //, true);
             //using Group1Data for now since no data selected for group2
-            bindToChart(chart2, report.Group1Data, report.Chart2Column1, report.Chart2Column2, true);
+            BindToChart(chart2, report.Group2Data, report.Chart2Column1, report.Chart2Column2); //, true);
 
             //start temp code                    
             var dataColumn = "";
-            for (int i = 0; i < report.Group1Data.Rows.Count; i++)
+            for (var i = 0; i < report.Group1Data.Rows.Count; i++)
             {
                 if (i % 3 == 0)
                 {
@@ -122,27 +119,25 @@ namespace IndiaGovernsReportTool
         }
 
 
-        private void bindToChart(Chart chart, DataTable data, String chartColumn1, String chartColumn2 = null, bool govt = false)
+        private void BindToChart(Chart chart, DataTable data, String chartColumn1, String chartColumn2 = null, bool govt = false)
         {
-            string dataColumnName = data.Columns.Cast<DataColumn>().Where(p => p.ColumnName.Contains("Data")).First().ColumnName;
-            var chartData = data.Rows.Cast<DataRow>()
-                                   .Where(p => p[dataColumnName].ToString() == chartColumn1)
-                                   .First();
+            var dataColumnName = data.Columns.Cast<DataColumn>().First(p => p.ColumnName.Contains("Data")).ColumnName;
+            var chartData = data.Rows.Cast<DataRow>().First(p => p[dataColumnName].ToString() == chartColumn1);
 
             var xvalues = data.Columns.Cast<DataColumn>()
                                 .Select(p => p.ColumnName)
                                 .Where(name => name != dataColumnName).ToArray();
 
-            Double[] yValuesArray = getYValues(chartData);
+            var yValuesArray = GetYValues(chartData);
 
             chart.Series[0].Points.DataBindXY(xvalues, yValuesArray);
             //to show the value on top of the chart
             chart.Series[0].Label = "#VALY"; 
            
             //temp
-            chart.Series[0].Name = govt ? "Govt." : this.dataYear;
+            chart.Series[0].Name = govt ? "Govt." : this.DataYear;
 
-            chart.Titles.Add(chartColumn1.Replace("Govt.", "").Replace(this.dataYear, "")); //temp only for removing the suffix
+            chart.Titles.Add(chartColumn1.Replace("Govt.", "").Replace(this.DataYear, "")); //temp only for removing the suffix
             chart.Titles[0].Font = new Font("Cambria", 14, FontStyle.Bold);
 
             chart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
@@ -157,10 +152,8 @@ namespace IndiaGovernsReportTool
 
             if (chartColumn2 != null)
             {
-                var chartData2 = data.Rows.Cast<DataRow>()
-                                   .Where(p => p[dataColumnName].ToString() == chartColumn2)
-                                   .First();
-                Double[] yValuesArray2 = getYValues(chartData2);
+                var chartData2 = data.Rows.Cast<DataRow>().First(p => p[dataColumnName].ToString() == chartColumn2);
+                var yValuesArray2 = GetYValues(chartData2);
                 chart.Series.Add("Series2");
                 chart.Series[1].Points.DataBindXY(xvalues, yValuesArray2);
                 chart.Series[1].Label = "#VALY";
@@ -168,24 +161,24 @@ namespace IndiaGovernsReportTool
                 chart.Series[1]["PointWidth"] = "0.5";
                 chart.Series[1].Points[0].Color = Color.FromArgb(135, 45, 50);
                 chart.Series[1].Points[1].Color = Color.FromArgb(230, 175, 180);
-                chart.Series[1].Name = govt ? "Private" : "2008-09";
+                chart.Series[1].Name = govt ? "Private" : "2010-11";
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
             }
         }
 
-        private Double[] getYValues(DataRow chartData)
+        private static IEnumerable<double> GetYValues(DataRow chartData)
         {
-            ArrayList yvalues = new ArrayList();
-            for (int i = 1; i < chartData.ItemArray.Count(); i++)
+            var yvalues = new ArrayList();
+            for (var i = 1; i < chartData.ItemArray.Count(); i++)
                 yvalues.Add(Convert.ToDouble(chartData.ItemArray[i].ToString()));
 
             return (Double[])yvalues.ToArray(typeof(Double));
         }
 
-        private void onDataGridViewBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private void OnDataGridViewBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            DataGridView dg = (DataGridView)sender;
+            var dg = (DataGridView)sender;
             dg.CurrentCell = null;
 
             dg.Height = 0;
@@ -199,24 +192,24 @@ namespace IndiaGovernsReportTool
         }
 
 
-        private void ReportForm_Load(object sender, EventArgs e)
+        private void ReportFormLoad(object sender, EventArgs e)
         {
             //scaling just to get better clarity
             this.Scale(new SizeF((float)1.3, (float)1.3));
         }
 
-        private void ReportForm_Shown(object sender, EventArgs e)
+        private void ReportFormShown(object sender, EventArgs e)
         {
-            if (first)
+            if (_first)
             {
                 //formatting the datagrids width
-                DataGridView[] allGrids = new DataGridView[] { fullHeader, dataGridView1, 
-                dataGridView2, dataGridView3, subHeader3 };
+                var allGrids = new DataGridView[] { fullHeader, dataGridView1, 
+                dataGridView2, dataGridView3, subHeader1, subHeader2, subHeader3 };
 
-                DataGridView[] lowerGrids = new DataGridView[] { fullHeader, dataGridView2, dataGridView3, subHeader3 };
+                var lowerGrids = new DataGridView[] { fullHeader, dataGridView2, dataGridView3, subHeader2, subHeader3 };
 
-                int firstColumnWidth = dataGridView1.Columns[0].Width;
-                int secondColumnWidth = _COLUMNWIDTH_;
+                var firstColumnWidth = dataGridView1.Columns[0].Width;
+                const int secondColumnWidth = Columnwidth;
 
                 foreach (var grid in allGrids.Except(lowerGrids))
                     grid.Columns[0].Width = firstColumnWidth + secondColumnWidth;
@@ -229,9 +222,9 @@ namespace IndiaGovernsReportTool
 
 
                 // divide width remaining into equally in 4 parts
-                int remainingColumnsWidth = (dataGridView1.Width - firstColumnWidth - secondColumnWidth) / 4;
+                var remainingColumnsWidth = (dataGridView1.Width - firstColumnWidth - secondColumnWidth) / 4;
 
-                for (int i = 2; i < 6; i++)
+                for (var i = 2; i < 6; i++)
                 {
                     foreach (var grid in allGrids.Except(lowerGrids))                    
                         grid.Columns[i - 1].Width = remainingColumnsWidth;                    
@@ -244,7 +237,7 @@ namespace IndiaGovernsReportTool
                 foreach (var grid in allGrids)
                 {
                     //for numbers
-                    for (int i = 1; i < grid.Columns.Count; i++)
+                    for (var i = 1; i < grid.Columns.Count; i++)
                         grid.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
                     grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
@@ -264,19 +257,19 @@ namespace IndiaGovernsReportTool
                         .Select(p => p.Height).Sum() - 10; //for buffer
             }
 
-            BackgroundWorker worker = new BackgroundWorker();
+            var worker = new BackgroundWorker();
             worker.DoWork +=
-                new DoWorkEventHandler(bw_DoWork);
+                new DoWorkEventHandler(BwDoWork);
             worker.RunWorkerCompleted +=
-                new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted); 
+                new RunWorkerCompletedEventHandler(BwRunWorkerCompleted); 
             //for second scrshot
-            if (first) 
+            if (_first) 
             {
                 this.ScrollControlIntoView(pictureBox1);
                 //this is used later to determine where the initial scroll started - use to position the second screen capture exactly.
-                initScroll = this.VerticalScroll.Value;
+                _initScroll = this.VerticalScroll.Value;
             }
-            else if (second)
+            else if (_second)
             {
                 this.ScrollControlIntoView(dataGridView2);
             }
@@ -290,29 +283,29 @@ namespace IndiaGovernsReportTool
             worker.RunWorkerAsync();
         }
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
+        private void BwDoWork(object sender, DoWorkEventArgs e)
         {
             //to allow the report to load fully
             Thread.Sleep(1500);
-            Rectangle form = this.Bounds;
+            var form = this.Bounds;
 
-            if (first)
+            if (_first)
             {
                 //print to a bmp and save file
-                Rectangle panel = flowLayoutPanel1.Bounds;
-                bitmap = new Bitmap(panel.Width, panel.Height);
-                graphic = Graphics.FromImage(bitmap);
-                graphic.CopyFromScreen(form.Location, Point.Empty, form.Size);
+                var panel = flowLayoutPanel1.Bounds;
+                _bitmap = new Bitmap(panel.Width, panel.Height);
+                _graphic = Graphics.FromImage(_bitmap);
+                _graphic.CopyFromScreen(form.Location, Point.Empty, form.Size);
             }
             else
             {
-                graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value - initScroll), form.Size);
+                _graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value - _initScroll), form.Size);
                 
                 //last only
-                if (!second)
+                if (!_second)
                 {
-                    string pathPdf = "D:\\IndiaGovernsReports\\" + this.reportName + ".pdf";
-                    saveAsPdf(bitmap, pathPdf);
+                    var pathPdf = "D:\\IndiaGovernsReports\\" + this._reportName + ".pdf";
+                    saveAsPdf(_bitmap, pathPdf);
                 }
             }
         }
@@ -324,29 +317,29 @@ namespace IndiaGovernsReportTool
         /// <param name="pathPdf"></param>
         private void saveAsPdf(Bitmap bitmap, string pathPdf)
         {
-            PdfDocument doc = new PdfDocument();
+            var doc = new PdfDocument();
             doc.Pages.Add(new PdfPage());
-            XGraphics xgr = XGraphics.FromPdfPage(doc.Pages[0]);
-            XImage img = XImage.FromGdiPlusImage(bitmap);
+            var xgr = XGraphics.FromPdfPage(doc.Pages[0]);
+            var img = XImage.FromGdiPlusImage(bitmap);
             xgr.DrawImage(img, 0, 0, doc.Pages[0].Width, doc.Pages[0].Height);
             doc.Save(pathPdf);
             doc.Close();
         }
 
 
-        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void BwRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             this.ScrollControlIntoView(lblEndBlank);
-            if (first)
+            if (_first)
             {
-                first = false;
-                second = true;
-                ReportForm_Shown(null, null);
+                _first = false;
+                _second = true;
+                ReportFormShown(null, null);
             }
-            else if (second)
+            else if (_second)
             {
-                second = false;
-                ReportForm_Shown(null, null);
+                _second = false;
+                ReportFormShown(null, null);
             }
             else
             {
@@ -398,7 +391,7 @@ namespace IndiaGovernsReportTool
         }
 
 
-        private void subHeaderAvg_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        private void SubHeaderAvgCellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.Value.ToString().Contains("Avg"))
             {

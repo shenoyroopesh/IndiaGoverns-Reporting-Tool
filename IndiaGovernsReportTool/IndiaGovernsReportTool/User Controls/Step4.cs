@@ -14,22 +14,22 @@ namespace IndiaGovernsReportTool
         public Step4(String[] chosenColumns)
         {
             InitializeComponent();
-            comboBox1.DataSource = (String[])chosenColumns.Clone();
-            comboBox2.DataSource = (String[])chosenColumns.Clone();
-            comboBox3.DataSource = (String[])chosenColumns.Clone();
+            comboBox1.DataSource = chosenColumns.Clone();
+            comboBox2.DataSource = chosenColumns.Clone();
+            comboBox3.DataSource = chosenColumns.Clone();
         }
 
-        public String rank1Column
+        public String Rank1Column
         {
             get { return comboBox1.SelectedValue.ToString(); }
         }
 
-        public String rank2Column
+        public String Rank2Column
         {
             get { return comboBox2.SelectedValue.ToString(); }
         }
 
-        public String rank3Column
+        public String Rank3Column
         {
             get { return comboBox3.SelectedValue.ToString(); }
         }

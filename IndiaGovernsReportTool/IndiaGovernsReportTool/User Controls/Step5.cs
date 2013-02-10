@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace IndiaGovernsReportTool
@@ -14,7 +10,7 @@ namespace IndiaGovernsReportTool
         public String[] CommentColumns 
         {
             get {
-                return Utility.getListSelectedValues(listView1);
+                return Utility.GetListSelectedValues(listView1);
             }
         }
 
@@ -26,11 +22,11 @@ namespace IndiaGovernsReportTool
             }
         }
 
-        public Step5(String[] possibleColumns)
+        public Step5(IEnumerable<string> possibleColumns)
         {
             InitializeComponent();
             possibleColumns
-                .ToList<String>()
+                .ToList()
                 .ForEach(p => this.listView1.Items.Add(p));
 
             listView1.Items.Cast<ListViewItem>().ToList().ForEach(p => p.Selected = true);

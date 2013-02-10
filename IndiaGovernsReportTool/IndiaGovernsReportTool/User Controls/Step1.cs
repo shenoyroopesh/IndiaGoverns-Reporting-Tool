@@ -21,7 +21,7 @@ namespace IndiaGovernsReportTool
         /// this contains the input data. The first datatable will contain aggregate data and the second datatable will contain 
         /// norms data
         /// </summary>
-        public DataSet data;
+        public DataSet Data;
 
         /// <summary>
         /// Year for which this report is to be run
@@ -47,13 +47,13 @@ namespace IndiaGovernsReportTool
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnBrowse_Click(object sender, EventArgs e)
+        private void BtnBrowseClick(object sender, EventArgs e)
         {
             this.openFileDialog1.FileName = "*.xlsx";
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 lblFileName.Text = this.openFileDialog1.FileName;
-                data = Utility.ExcelToDataSet(this.openFileDialog1.FileName, true);
+                Data = Utility.ExcelToDataSet(this.openFileDialog1.FileName, true);
             }
         }
     }

@@ -40,7 +40,7 @@ namespace IndiaGovernsReportTool
 
         bool _singleReport;
 
-        public string Datayear = "2010-11";
+        public string Datayear = "2011-12";
 
         readonly ArrayList _reports = new ArrayList();
         int _reportCounter = 0;
@@ -88,9 +88,9 @@ namespace IndiaGovernsReportTool
             {
                 case "IndiaGovernsReportTool.Step1":
                     _step1 = (Step1)control;
-                    if (_step1.data != null)
+                    if (_step1.Data != null)
                     {
-                        _inputData = _step1.data;
+                        _inputData = _step1.Data;
                         Datayear = _step1.DataYear;
 
                         _step2 = new Step2(_inputData.Tables[0].Columns.Cast<DataColumn>()
@@ -102,10 +102,10 @@ namespace IndiaGovernsReportTool
 
                 case "IndiaGovernsReportTool.Step2":
                     _step2 = (Step2)control;
-                    _group1Name = _step2.group1Name;
-                    _group2Name = _step2.group2Name;
-                    _group1Columns = _step2.group1Columns;
-                    _group2Columns = _step2.group2Columns;
+                    _group1Name = _step2.Group1Name;
+                    _group2Name = _step2.Group2Name;
+                    _group1Columns = _step2.Group1Columns;
+                    _group2Columns = _step2.Group2Columns;
                     //only the group columns can be used in charts
                     _step3 = new Step3(_group1Columns, _group1Columns.Concat(_group2Columns).ToArray());
                     LoadControl(_step3);
@@ -123,9 +123,9 @@ namespace IndiaGovernsReportTool
 
                 case "IndiaGovernsReportTool.Step4":
                     _step4 = (Step4)control;
-                    _rank1Column = _step4.rank1Column;
-                    _rank2Column = _step4.rank2Column;
-                    _rank3Column = _step4.rank3Column;
+                    _rank1Column = _step4.Rank1Column;
+                    _rank2Column = _step4.Rank2Column;
+                    _rank3Column = _step4.Rank3Column;
                     
                     _step5 = new Step5(_group1Columns.Concat(_group2Columns).ToArray());
                     LoadControl(_step5);
