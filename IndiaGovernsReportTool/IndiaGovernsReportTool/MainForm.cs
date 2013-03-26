@@ -232,23 +232,23 @@ namespace IndiaGovernsReportTool
                     var mla1 = mla;
                     var otherConstituencies = constituencies.Where(p => p["MLAConstituency"] != mla1["MLAConstituency"]).Take(3);
 
-                    //const string intro = "Education is a fundamental right for all children from the ages of " +
-                    //                     "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
-                    //                     "and citizens track the status of education indicators in their MLA " +
-                    //                     "constituency. The report helps compare the constituency status with " +
-                    //                     "respect to state average and neighbouring constituencies.\n\n" +
-                    //                     "Can the MLA use this government data to demand more resources " +
-                    //                     "for the constituency? Can citizens ask the MLA what specifically can " +
-                    //                     "be done to improve education status in the constituency?";
+                    const string intro = "Education is a fundamental right for all children from the ages of " +
+                                         "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
+                                         "and citizens track the status of education indicators in their MLA " +
+                                         "constituency. The report helps compare the constituency status with " +
+                                         "respect to state average and neighbouring constituencies.\n\n" +
+                                         "Can the MLA use this government data to demand more resources " +
+                                         "for the constituency? Can citizens ask the MLA what specifically can " +
+                                         "be done to improve education status in the constituency?";
 
                     #region commented out for education report
-                    var intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
-                                    " indicators? How does it compare with some other constituencies " +
-                                    "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
-                                    "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
-                                    "What role can the MLA play in highlighting these issues with the " +
-                                    "government? Can the MLA make sure there is tangible improvement " +
-                                    "in MNREGA implementation in the constituency?";
+                    //var intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
+                    //                " indicators? How does it compare with some other constituencies " +
+                    //                "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
+                    //                "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
+                    //                "What role can the MLA play in highlighting these issues with the " +
+                    //                "government? Can the MLA make sure there is tangible improvement " +
+                    //                "in MNREGA implementation in the constituency?";
                     #endregion
 
 
@@ -326,7 +326,7 @@ namespace IndiaGovernsReportTool
                         "Rank " + rank1 + " in the " + _rank1Column.Replace(Datayear, "") +
                         //hardcoding this replace below, no other way to do this 
                         "\nRank " + rank2 + " in the " + _rank2Column.Replace(Datayear, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
-                        "\nRank " + rank3 + " in the " + _rank3Column.Replace("Govt.", "");
+                        "\nRank " + rank3 + " in the " + _rank3Column.Replace(Datayear, "");
 
                     _reports.Add(new Report
                     {

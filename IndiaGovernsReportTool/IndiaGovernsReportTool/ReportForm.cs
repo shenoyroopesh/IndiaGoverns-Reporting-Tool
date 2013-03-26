@@ -25,7 +25,7 @@ namespace IndiaGovernsReportTool
         public string DataYear;
 
 
-        const string SuperscriptDigits = 
+        const string SuperscriptDigits =
                 "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
         public string year;
@@ -45,7 +45,7 @@ namespace IndiaGovernsReportTool
             var dtSub3 = new DataTable();
 
             DataYear = report.DataYear;
-            lblIndicator.Text = "MNREGA Indicators: " + this.DataYear;
+            lblIndicator.Text = "Education Indicators: " + this.DataYear;
 
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
@@ -53,42 +53,42 @@ namespace IndiaGovernsReportTool
                 dtFull.Columns.Add(col.ColumnName);
 
                 //second column needs to be state avg
-                if(!dtFull.Columns.Contains("StateAvg")) dtFull.Columns.Add("StateAvg");
+                if (!dtFull.Columns.Contains("StateAvg")) dtFull.Columns.Add("StateAvg");
             }
 
             dtFull.Rows.Add();
-            dtFull.Rows[0]["StateAvg"] = ""; // "State Avg. per Constituency";
+            dtFull.Rows[0]["StateAvg"] = "State Avg. per Constituency";
 
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
                 var columnNameWords = col.ColumnName.Split(' ');
                 //insert spaces so that headers wrap, if necessary
-                for (int i = 0; i < columnNameWords.Length; i++ )
+                for (int i = 0; i < columnNameWords.Length; i++)
                 {
                     String word = columnNameWords[i];
                     if (word.Length > 9)
                     {
-                        columnNameWords[i] = word.Insert(word.Length/2, " ");
+                        columnNameWords[i] = word.Insert(word.Length / 2, " ");
                     }
                 }
                 dtFull.Rows[0][col.ColumnName] = String.Join(" ", columnNameWords);
             }
             foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
             foreach (var col in report.Group2Data.Columns.Cast<DataColumn>()) dtSub3.Columns.Add(col.ColumnName);
-            dtSub1.Rows.Add("General", "", "", "", "");
-            dtSub2.Rows.Add(report.Group1Name, "State Avg. Per Rural Constituency", "", "", "");
-            dtSub3.Rows.Add(report.Group2Name, "State Avg. Per Rural Constituency", "", "", "");
+            //dtSub1.Rows.Add("General", "", "", "", "");
+            //dtSub2.Rows.Add(report.Group1Name, "State Avg. Per Rural Constituency", "", "", "");
+            //dtSub3.Rows.Add(report.Group2Name, "State Avg. Per Rural Constituency", "", "", "");
 
             //subheaders - only for MNREGA
-            subHeader1.DataSource = dtSub1;
-            subHeader2.DataSource = dtSub2;
+            //subHeader1.DataSource = dtSub1;
+            //subHeader2.DataSource = dtSub2;
 
             subHeader3.Visible = false; //temp
             dataGridView3.Visible = false; //temp
             _reportName = report.ReportName;
             BindToChart(chart1, report.Group1Data, report.Chart1Column1, report.Chart1Column2); //, true);
             //using Group1Data for now since no data selected for group2
-            BindToChart(chart2, report.Group2Data, report.Chart2Column1, report.Chart2Column2); //, true);
+            BindToChart(chart2, report.Group1Data, report.Chart2Column1, report.Chart2Column2, govt: true);
 
             //start temp code                    
             var dataColumn = "";
@@ -132,8 +132,8 @@ namespace IndiaGovernsReportTool
 
             chart.Series[0].Points.DataBindXY(xvalues, yValuesArray);
             //to show the value on top of the chart
-            chart.Series[0].Label = "#VALY"; 
-           
+            chart.Series[0].Label = "#VALY";
+
             //temp
             chart.Series[0].Name = govt ? "Govt." : this.DataYear;
 
@@ -204,17 +204,18 @@ namespace IndiaGovernsReportTool
             {
                 //formatting the datagrids width
                 var allGrids = new DataGridView[] { fullHeader, dataGridView1, 
-                dataGridView2, dataGridView3, subHeader1, subHeader2, subHeader3 };
+                dataGridView2, dataGridView3, subHeader3 };
 
-                var lowerGrids = new DataGridView[] { fullHeader, dataGridView2, dataGridView3, subHeader2, subHeader3 };
+                var lowerGrids = new DataGridView[] { fullHeader, dataGridView2, dataGridView3, subHeader3 };
 
                 var firstColumnWidth = dataGridView1.Columns[0].Width;
                 const int secondColumnWidth = Columnwidth;
 
                 foreach (var grid in allGrids.Except(lowerGrids))
-                    grid.Columns[0].Width = firstColumnWidth + secondColumnWidth;
+                    if (grid.Columns.Count > 0)
+                        grid.Columns[0].Width = firstColumnWidth + secondColumnWidth;
 
-                foreach (var grid in lowerGrids)
+                foreach (var grid in lowerGrids.Where(grid => grid.Columns.Count > 1))
                 {
                     grid.Columns[0].Width = firstColumnWidth;
                     grid.Columns[1].Width = secondColumnWidth;
@@ -226,10 +227,10 @@ namespace IndiaGovernsReportTool
 
                 for (var i = 2; i < 6; i++)
                 {
-                    foreach (var grid in allGrids.Except(lowerGrids))                    
-                        grid.Columns[i - 1].Width = remainingColumnsWidth;                    
+                    foreach (var grid in allGrids.Except(lowerGrids).Where(grid => grid.Columns.Count > i - 1))
+                        grid.Columns[i - 1].Width = remainingColumnsWidth;
 
-                    foreach (var grid in lowerGrids)
+                    foreach (var grid in lowerGrids.Where(grid => grid.Columns.Count > i - 1))
                         grid.Columns[i].Width = remainingColumnsWidth;
                 }
 
@@ -261,9 +262,9 @@ namespace IndiaGovernsReportTool
             worker.DoWork +=
                 new DoWorkEventHandler(BwDoWork);
             worker.RunWorkerCompleted +=
-                new RunWorkerCompletedEventHandler(BwRunWorkerCompleted); 
+                new RunWorkerCompletedEventHandler(BwRunWorkerCompleted);
             //for second scrshot
-            if (_first) 
+            if (_first)
             {
                 this.ScrollControlIntoView(pictureBox1);
                 //this is used later to determine where the initial scroll started - use to position the second screen capture exactly.
@@ -300,7 +301,7 @@ namespace IndiaGovernsReportTool
             else
             {
                 _graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value - _initScroll), form.Size);
-                
+
                 //last only
                 if (!_second)
                 {
@@ -354,10 +355,10 @@ namespace IndiaGovernsReportTool
         /// <param name="e"></param>
         private void BorderPaintBlue(object sender, PaintEventArgs e)
         {
-            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle, 
-                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
-                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
-                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
+            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle,
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid,
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid,
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid,
                                     Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid);
         }
 
