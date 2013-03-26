@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
-using System.Threading;
 using System.Collections;
 
 namespace IndiaGovernsReportTool
@@ -20,35 +15,35 @@ namespace IndiaGovernsReportTool
         /// <summary>
         /// Main data that is used to generate the reports
         /// </summary>
-        DataSet inputData;
+        DataSet _inputData;
 
-        String group1Name;
+        String _group1Name;
         
-        String group2Name;
+        String _group2Name;
 
-        String[] group1Columns;
+        String[] _group1Columns;
 
-        String[] group2Columns;
+        String[] _group2Columns;
 
-        String chart1Column1;
+        String _chart1Column1;
 
-        String chart1Column2;
+        String _chart1Column2;
 
-        String chart2Column1;
-        String chart2Column2;
+        String _chart2Column1;
+        String _chart2Column2;
 
-        String rank1Column;
-        String rank2Column;
-        String rank3Column;
+        String _rank1Column;
+        String _rank2Column;
+        String _rank3Column;
 
-        String[] commentColumns;
+        String[] _commentColumns;
 
-        bool singleReport;
+        bool _singleReport;
 
-        public string DATAYEAR = "2010-11";
+        public string Datayear = "2011-12";
 
-        ArrayList reports = new ArrayList();
-        int reportCounter = 0;
+        readonly ArrayList _reports = new ArrayList();
+        int _reportCounter = 0;
 
         const string SuperscriptDigits =
             "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
@@ -59,98 +54,98 @@ namespace IndiaGovernsReportTool
         public MainForm()
         {
             InitializeComponent();
-            loadControl(new Step1());
+            LoadControl(new Step1());
         }
 
         /// <summary>
         /// Loads the particular usercontrol into the form panel
         /// </summary>
         /// <param name="uc"></param>
-        private void loadControl(UserControl uc)
+        private void LoadControl(Control uc)
         {
             panel1.Controls.Clear();
             panel1.Controls.Add(uc);
         }
 
-        Step1 step1;
-        Step2 step2;
-        Step3 step3;
-        Step4 step4;
-        Step5 step5;
-        Step6 step6;
+        Step1 _step1;
+        Step2 _step2;
+        Step3 _step3;
+        Step4 _step4;
+        Step5 _step5;
+        Step6 _step6;
 
         /// <summary>
         /// Controls the flow of the application, depending on the current step
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnNext_Click(object sender, EventArgs e)
+        private void BtnNextClick(object sender, EventArgs e)
         {
 
-            UserControl control = (UserControl)panel1.Controls[0];
+            var control = (UserControl)panel1.Controls[0];
             //current state is determined by what control is present in the panel
             switch (control.GetType().ToString())
             {
                 case "IndiaGovernsReportTool.Step1":
-                    step1 = (Step1)control;
-                    if (step1.data != null)
+                    _step1 = (Step1)control;
+                    if (_step1.Data != null)
                     {
-                        inputData = step1.data;
-                        DATAYEAR = step1.DataYear;
+                        _inputData = _step1.Data;
+                        Datayear = _step1.DataYear;
 
-                        step2 = new Step2(inputData.Tables[0].Columns.Cast<DataColumn>()
+                        _step2 = new Step2(_inputData.Tables[0].Columns.Cast<DataColumn>()
                                                         .Select(p=>p.ColumnName)
                                                         .ToArray<String>());
-                        loadControl(step2);
+                        LoadControl(_step2);
                     }
                     break;
 
                 case "IndiaGovernsReportTool.Step2":
-                    step2 = (Step2)control;
-                    group1Name = step2.group1Name;
-                    group2Name = step2.group2Name;
-                    group1Columns = step2.group1Columns;
-                    group2Columns = step2.group2Columns;
+                    _step2 = (Step2)control;
+                    _group1Name = _step2.Group1Name;
+                    _group2Name = _step2.Group2Name;
+                    _group1Columns = _step2.Group1Columns;
+                    _group2Columns = _step2.Group2Columns;
                     //only the group columns can be used in charts
-                    step3 = new Step3(group1Columns, group1Columns.Concat(group2Columns).ToArray());
-                    loadControl(step3);
+                    _step3 = new Step3(_group1Columns, _group1Columns.Concat(_group2Columns).ToArray());
+                    LoadControl(_step3);
                     break;
 
                 case "IndiaGovernsReportTool.Step3":
-                    step3 = (Step3)control;
-                    chart1Column1 = step3.Chart1Column1;
-                    chart1Column2 = step3.Chart1Column2;
-                    chart2Column1 = step3.Chart2Column1;
-                    chart2Column2 = step3.Chart2Column2;
-                    step4 = new Step4(group1Columns.Concat(group2Columns).ToArray());
-                    loadControl(step4);
+                    _step3 = (Step3)control;
+                    _chart1Column1 = _step3.Chart1Column1;
+                    _chart1Column2 = _step3.Chart1Column2;
+                    _chart2Column1 = _step3.Chart2Column1;
+                    _chart2Column2 = _step3.Chart2Column2;
+                    _step4 = new Step4(_group1Columns.Concat(_group2Columns).ToArray());
+                    LoadControl(_step4);
                     break;
 
                 case "IndiaGovernsReportTool.Step4":
-                    step4 = (Step4)control;
-                    rank1Column = step4.rank1Column;
-                    rank2Column = step4.rank2Column;
-                    rank3Column = step4.rank3Column;
+                    _step4 = (Step4)control;
+                    _rank1Column = _step4.Rank1Column;
+                    _rank2Column = _step4.Rank2Column;
+                    _rank3Column = _step4.Rank3Column;
                     
-                    step5 = new Step5(group1Columns.Concat(group2Columns).ToArray());
-                    loadControl(step5);
+                    _step5 = new Step5(_group1Columns.Concat(_group2Columns).ToArray());
+                    LoadControl(_step5);
                     break;
 
                 case "IndiaGovernsReportTool.Step5":
-                    step5 = (Step5)control;
-                    commentColumns = step5.CommentColumns;
-                    singleReport = step5.SingleReport;
+                    _step5 = (Step5)control;
+                    _commentColumns = _step5.CommentColumns;
+                    _singleReport = _step5.SingleReport;
 
-                    generateReports();
-                    step6 = new Step6();
-                    loadControl(step6);
+                    GenerateReports();
+                    _step6 = new Step6();
+                    LoadControl(_step6);
                     break;
             }
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
+        private void BtnBackClick(object sender, EventArgs e)
         {
-            UserControl control = (UserControl)panel1.Controls[0];
+            var control = (UserControl)panel1.Controls[0];
             //current state is determined by what control is present in the panel
             switch (control.GetType().ToString())
             {
@@ -158,46 +153,44 @@ namespace IndiaGovernsReportTool
                     break;
 
                 case "IndiaGovernsReportTool.Step2":
-                    loadControl(step1);
+                    LoadControl(_step1);
                     break;
 
                 case "IndiaGovernsReportTool.Step3":
-                    loadControl(step2);
+                    LoadControl(_step2);
                     break;
 
                 case "IndiaGovernsReportTool.Step4":
-                    loadControl(step3);
+                    LoadControl(_step3);
                     break;
 
                 case "IndiaGovernsReportTool.Step5":
-                    loadControl(step4);
+                    LoadControl(_step4);
                     break;
 
                 case "IndiaGovernsReportTool.Step6":
-                    loadControl(step5);
+                    LoadControl(_step5);
                     break;
             }
         }
 
-        private void generateReports()
+        private void GenerateReports()
         {
             //calculate all the averages add avg columns
 
-            Dictionary<String, Int32> avgCols = new Dictionary<string, int>();
+            var avgCols = new Dictionary<string, int>();
         
-            foreach (var col in inputData.Tables[0].Columns.Cast<DataColumn>())
+            foreach (var col in _inputData.Tables[0].Columns.Cast<DataColumn>())
             {
                 //if avg column already exists, don't calculate again
-                int avgCount = inputData.Tables[0].Columns.Cast<DataColumn>()
-                                        .Where(p => p.ColumnName == "Avg of " + col.ColumnName)
-                                        .Count();
+                var avgCount = _inputData.Tables[0].Columns.Cast<DataColumn>().Count(p => p.ColumnName == "Avg of " + col.ColumnName);
 
                 if (avgCount > 0) continue;
 
-                int colAvg = 0;
+                var colAvg = 0;
                 try
                 {
-                    colAvg = Convert.ToInt32(inputData.Tables[0].Rows.Cast<DataRow>()
+                    colAvg = Convert.ToInt32(_inputData.Tables[0].Rows.Cast<DataRow>()
                                                 .Select(p => Convert.ToInt32(p[col.ColumnName]))
                                                 .Average());
                 }
@@ -210,13 +203,13 @@ namespace IndiaGovernsReportTool
             }
 
             foreach (var col in avgCols) 
-                inputData.Tables[0].Columns.Add(col.Key.ToString(), typeof(Int32), col.Value.ToString());
+                _inputData.Tables[0].Columns.Add(col.Key.ToString(), typeof(Int32), col.Value.ToString());
         
         
             //logic is - first break into mp constituencies, then break into mla constituencies
             //get distinct mpConstituencies
         
-            var mpConstituencies = inputData.Tables[0].Rows.Cast<DataRow>()
+            var mpConstituencies = _inputData.Tables[0].Rows.Cast<DataRow>()
                                         .Select(p => p["MpConstituency"].ToString())
                                         .Distinct<String>();
 
@@ -227,85 +220,83 @@ namespace IndiaGovernsReportTool
                 if (mpc == "State Avg")
                     continue;
 
-                var mlaConstituencies = inputData.Tables[0].Rows.Cast<DataRow>()
-                                            .Where(p => p["MPConstituency"].ToString() == mpc.ToString());
+                string mpc1 = mpc;
+                var mlaConstituencies = _inputData.Tables[0].Rows.Cast<DataRow>()
+                                            .Where(p => p["MPConstituency"].ToString() == mpc1.ToString());
 
                 //generate a separate report for each mla constinuency
-                foreach(var mla in mlaConstituencies)
+                var constituencies = mlaConstituencies as List<DataRow> ?? mlaConstituencies.ToList();
+                foreach(var mla in constituencies)
                 {
                     //use only 3 other constituencies for the sake of saving space
-                    var otherConstituencies = mlaConstituencies.Where(p => p["MLAConstituency"] != mla["MLAConstituency"]).Take(3);
+                    var mla1 = mla;
+                    var otherConstituencies = constituencies.Where(p => p["MLAConstituency"] != mla1["MLAConstituency"]).Take(3);
 
-                    string intro = "Education is a fundamental right for all children from the ages of " +
-                                    "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
-                                    "and citizens track the status of education indicators in their MLA " +
-                                    "constituency. The report helps compare the constituency status with " +
-                                    "respect to state average and neighbouring constituencies.\n\n" +
-                                    "Can the MLA use this government data to demand more resources " +
-                                    "for the constituency? Can citizens ask the MLA what specifically can " +
-                                    "be done to improve education status in the constituency?";
-
+                    //const string intro = "Education is a fundamental right for all children from the ages of " +
+                    //                     "6-14 years (up to Class 8.) The indicators in this report help MLAs " +
+                    //                     "and citizens track the status of education indicators in their MLA " +
+                    //                     "constituency. The report helps compare the constituency status with " +
+                    //                     "respect to state average and neighbouring constituencies.\n\n" +
+                    //                     "Can the MLA use this government data to demand more resources " +
+                    //                     "for the constituency? Can citizens ask the MLA what specifically can " +
+                    //                     "be done to improve education status in the constituency?";
 
                     #region commented out for education report
-                    //String intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
-                    //                " indicators? How does it compare with some other constituencies " +
-                    //                "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
-                    //                "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
-                    //                "What role can the MLA play in highlighting these issues with the " +
-                    //                "government? Can the MLA make sure there is tangible improvement " +
-                    //                "in MNREGA implementation in the constituency?";
+                    var intro = "How is " + mla["MLAConstituency"] + " MLA Constituency performing on important MNREGA" +
+                                    " indicators? How does it compare with some other constituencies " +
+                                    "within the " + mla["MPConstituency"] + " MP constituency? Do these numbers collated by " +
+                                    "government reflect the actual situation of " + mla["MLAConstituency"] + " constituency? \n\n" +
+                                    "What role can the MLA play in highlighting these issues with the " +
+                                    "government? Can the MLA make sure there is tangible improvement " +
+                                    "in MNREGA implementation in the constituency?";
                     #endregion
 
 
                     //use % column only if required
-                    String[] generalDataRows = (inputData.Tables[0].Columns.Contains("% Population Data available for")) ?
+                    var generalDataRows = (_inputData.Tables[0].Columns.Contains("% Population Data available for")) ?
                             new String[] { "Total constituency Population", "% Population Data available for" } : 
                             new String[] { "Total constituency Population" };
 
-                    DataTable generalData = fillTable(mla, otherConstituencies, generalDataRows, false, false);
+                    var dataRows = otherConstituencies as DataRow[] ?? otherConstituencies.ToArray();
+                    var generalData = FillTable(mla, dataRows, generalDataRows, false, false);
 
 
                     //Table2: First Group
-                    DataTable group1Data = fillTable(mla, otherConstituencies, group1Columns, false, true);
+                    var group1Data = FillTable(mla, dataRows, _group1Columns, false, true);
 
                     //Table3: Second Group
-                    DataTable group2Data = fillTable(mla, otherConstituencies, group2Columns, false, true);
+                    var group2Data = FillTable(mla, dataRows, _group2Columns, false, true);
 
-                    String comment = String.Empty;
+                    var comment = String.Empty;
                     //comment logic - figure out which attribute to comment on.
 
-                    String mlaToBecompared = "";
+                    var mlaToBecompared = "";
                     float maxDifference = 0;
-                    String columnToBeCompared = "";
+                    var columnToBeCompared = "";
 
 
                     try
                     {
                         comment = mla["Comment"].ToString();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         //do nothing just continue
                     }
                     
-                    if(comment.Equals(String.Empty))
+                    if(String.IsNullOrEmpty(comment))
                     {
-                        foreach (var column in commentColumns)
+                        foreach (var column in _commentColumns)
                         {
                             try
                             {
-                                var maxValue = otherConstituencies.ToList().Select(p => float.Parse(p[column].ToString())).Max();
+                                var maxValue = dataRows.ToList().Select(p => float.Parse(p[column].ToString())).Max();
                                 var difference = (maxValue - float.Parse(mla[column].ToString())) * 100 / maxValue; //percentage deviation of current mla from max mla
 
-                                if (difference > maxDifference)
-                                {
-                                    maxDifference = difference;
-                                    mlaToBecompared = otherConstituencies.ToList()
-                                                            .Where(p => float.Parse(p[column].ToString()) == maxValue)
-                                                            .First()["MLAConstituency"].ToString();
-                                    columnToBeCompared = column;
-                                }
-
+                                if (!(difference > maxDifference)) continue;
+                                maxDifference = difference;
+                                mlaToBecompared = dataRows.ToList().First(p => float.Parse(p[column].ToString()) == maxValue)["MLAConstituency"].ToString();
+                                columnToBeCompared = column;
                             }
                             catch (Exception e)
                             {
@@ -320,80 +311,80 @@ namespace IndiaGovernsReportTool
                     }
 
                     //TODO: note - depending on desc or ascending - need to make this generic
-                    int rank1 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank1Column]) > 
-                        Convert.ToDouble(mla[rank1Column])).Count() + 1;
+                    var rank1 = constituencies.Count(p => Convert.ToDouble(p[_rank1Column]) > 
+                                                             Convert.ToDouble(mla[_rank1Column])) + 1;
 
-                    int rank2 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank2Column]) >
-                        Convert.ToDouble(mla[rank2Column])).Count() + 1;
+                    var rank2 = constituencies.Count(p => Convert.ToDouble(p[_rank2Column]) >
+                                                             Convert.ToDouble(mla[_rank2Column])) + 1;
 
-                    int rank3 = mlaConstituencies.Where(p => Convert.ToDouble(p[rank3Column]) >
-                        Convert.ToDouble(mla[rank3Column])).Count() + 1;
+                    var rank3 = constituencies.Count(p => Convert.ToDouble(p[_rank3Column]) >
+                                                             Convert.ToDouble(mla[_rank3Column])) + 1;
 
-                    String rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
-                        "among " + mlaConstituencies.Count().ToString() + " MLA Constituencies in the " +
+                    var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
+                        "among " + constituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
-                        "Rank " + rank1 + " in the " + rank1Column.Replace(DATAYEAR, "") +
+                        "Rank " + rank1 + " in the " + _rank1Column.Replace(Datayear, "") +
                         //hardcoding this replace below, no other way to do this 
-                        "\nRank " + rank2 + " in the " + rank2Column.Replace(DATAYEAR, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
-                        "\nRank " + rank3 + " in the " + rank3Column.Replace("Govt.", "");
+                        "\nRank " + rank2 + " in the " + _rank2Column.Replace(Datayear, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
+                        "\nRank " + rank3 + " in the " + _rank3Column.Replace("Govt.", "");
 
-                    reports.Add(new Report
+                    _reports.Add(new Report
                     {
                         ReportName = mla["MLAConstituency"].ToString(),
-                        DataYear = this.DATAYEAR,
+                        DataYear = this.Datayear,
                         GeneralData = generalData,
                         Group1Data = group1Data,
                         Group2Data = group2Data,
-                        Group1Name = group1Name,
-                        Group2Name = group2Name,
+                        Group1Name = _group1Name,
+                        Group2Name = _group2Name,
                         Intro = intro,
                         Comment = comment,
-                        Chart1Column1 = chart1Column1,
-                        Chart1Column2 = chart1Column2,
-                        Chart2Column1 = chart2Column1,
-                        Chart2Column2 = chart2Column2,
+                        Chart1Column1 = _chart1Column1,
+                        Chart1Column2 = _chart1Column2,
+                        Chart2Column1 = _chart2Column1,
+                        Chart2Column2 = _chart2Column2,
                         Rank = rank
                     });
 
-                    if(singleReport)
+                    if(_singleReport)
                         break;
                 }
 
-                if(singleReport)
+                if(_singleReport)
                     break;
             }
-            publishNextReport();
+            PublishNextReport();
         }
 
-        private void publishNextReport()
+        private void PublishNextReport()
         {
             //exit condition
-            if (reportCounter == reports.Count) return;
+            if (_reportCounter == _reports.Count) return;
             
-            Report report = (Report)reports[reportCounter];
-            reportCounter += 1;
-            ReportForm reportform = new ReportForm(report);
+            var report = (Report)_reports[_reportCounter];
+            _reportCounter += 1;
+            var reportform = new ReportForm(report);
             //for next report
-            reportform.FormClosed += new FormClosedEventHandler(reportform_FormClosed);
+            reportform.FormClosed += ReportformFormClosed;
             reportform.Show();
         }
 
-        void reportform_FormClosed(object sender, FormClosedEventArgs e)
+        void ReportformFormClosed(object sender, FormClosedEventArgs e)
         {
-            ((ReportForm)sender).FormClosed -= new FormClosedEventHandler(reportform_FormClosed);
-            publishNextReport();
+            ((ReportForm)sender).FormClosed -= ReportformFormClosed;
+            PublishNextReport();
         }
 
-        private String convertToPercentage(Decimal number)
+        private String ConvertToPercentage(Decimal number)
         {
             return Convert.ToInt32(number * 100).ToString() + "%";
         }
 
-        private DataTable fillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies, 
-            String[] generalDataRows, bool norms, bool avg)
+        private DataTable FillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies, 
+            IEnumerable<string> generalDataRows, bool norms, bool avg)
         {
-            DataTable generalData = new DataTable();
-            generalData.Columns.Add(String.Concat(DATAYEAR, " Data"));
+            var generalData = new DataTable();
+            generalData.Columns.Add(String.Concat(Datayear, " Data"));
             if (norms) generalData.Columns.Add("Norms");
             if (avg) generalData.Columns.Add("State Avg");
             generalData.Columns.Add(mla["MLAConstituency"].ToString());
@@ -405,8 +396,8 @@ namespace IndiaGovernsReportTool
 
             foreach (var r in generalDataRows)
             {
-                DataRow row = generalData.NewRow();
-                row[DATAYEAR + " Data"] = r;
+                var row = generalData.NewRow();
+                row[Datayear + " Data"] = r;
                 if (norms)
                 {
                     try
@@ -422,7 +413,7 @@ namespace IndiaGovernsReportTool
                 if (avg)
                 {
                     //row["State Avg"] = inputData.Tables[0].Rows[0]["Avg of "+ r].ToString();
-                    row["State Avg"] = (inputData.Tables[0].Rows.Cast<DataRow>().First())[r].ToString(); //assuming last row is avg
+                    row["State Avg"] = (_inputData.Tables[0].Rows.Cast<DataRow>().First())[r].ToString(); //assuming last row is avg
                 }
 
                 row[mla["MLAConstituency"].ToString()] = mla[r].ToString();

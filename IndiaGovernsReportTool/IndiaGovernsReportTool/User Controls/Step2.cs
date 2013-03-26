@@ -1,12 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Collections;
 
 namespace IndiaGovernsReportTool
 {
@@ -15,28 +9,28 @@ namespace IndiaGovernsReportTool
         /// <summary>
         /// Selected values in the first listview
         /// </summary>
-        public String[] group1Columns
+        public String[] Group1Columns
         {
             get {
-                return Utility.getListSelectedValues(listView1);
+                return Utility.GetListSelectedValues(listView1);
             }
         }
 
         /// <summary>
         /// Selected values in the second listview
         /// </summary>
-        public String[] group2Columns
+        public String[] Group2Columns
         {
             get
             {
-                return Utility.getListSelectedValues(listView2);
+                return Utility.GetListSelectedValues(listView2);
             }
         }
 
         /// <summary>
         /// First Group name
         /// </summary>
-        public String group1Name
+        public String Group1Name
         {
             get { return txtGroup1Name.Text; }
         }
@@ -44,7 +38,7 @@ namespace IndiaGovernsReportTool
         /// <summary>
         /// Second Group Name
         /// </summary>
-        public String group2Name
+        public String Group2Name
         {
             get { return txtGroup2Name.Text; }
         }
@@ -55,10 +49,10 @@ namespace IndiaGovernsReportTool
         /// Constructor for the class
         /// </summary>
         /// <param name="columnNames">List of column names to be displayed for selection for both the groups</param>
-        public Step2(String[] columnNames)
+        public Step2(IEnumerable<string> columnNames)
         {
             InitializeComponent();
-            foreach (String columnName in columnNames)
+            foreach (var columnName in columnNames)
             {
                 listView1.Items.Add(columnName);
                 listView2.Items.Add(columnName);

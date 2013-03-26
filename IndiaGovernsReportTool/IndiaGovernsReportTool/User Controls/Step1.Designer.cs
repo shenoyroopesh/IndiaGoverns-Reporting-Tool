@@ -54,7 +54,7 @@
             this.btnBrowse.TabIndex = 4;
             this.btnBrowse.Text = "Browse";
             this.btnBrowse.UseVisualStyleBackColor = true;
-            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            this.btnBrowse.Click += new System.EventHandler(this.BtnBrowseClick);
             // 
             // openFileDialog1
             // 
@@ -84,7 +84,7 @@
             this.txtDataYear.Name = "txtDataYear";
             this.txtDataYear.Size = new System.Drawing.Size(164, 20);
             this.txtDataYear.TabIndex = 9;
-            this.txtDataYear.Text = "2010-11";
+            this.txtDataYear.Text = "2011-12";
             // 
             // Step1
             // 

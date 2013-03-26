@@ -28,14 +28,14 @@ namespace IndiaGovernsReportTool
 
         public String Chart2Column2
         {
-            get { return chart2Column2.SelectedValue.ToString(); }
+            get { return null; }  //chart2Column2.SelectedValue.ToString(); }
         }
 
         public Step3(String[] columns1, String[] columns2)
         {
             InitializeComponent();
-            String[] columns1Copy = new String[columns1.Length];
-            String[] columns2Copy = new String[columns2.Length];
+            var columns1Copy = new String[columns1.Length];
+            var columns2Copy = new String[columns2.Length];
             
             columns1.CopyTo(columns1Copy, 0);
             columns2.CopyTo(columns2Copy, 0);
