@@ -305,7 +305,7 @@ namespace IndiaGovernsReportTool
                         }
 
                         //Generate the comment
-                        comment = "The above data shows that " + columnToBeCompared + " in " + mla["MLAConstituency"].ToString() + " constituency " +
+                        comment = "The above data shows that " + columnToBeCompared.Replace(Datayear, "") + " in " + mla["MLAConstituency"].ToString() + " constituency " +
                             "is lower than in " + mlaToBecompared + ". \n\nIs this data correct? " +
                             "Can this be brought to the government's notice?";
                     }
