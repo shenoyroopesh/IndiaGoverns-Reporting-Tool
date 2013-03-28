@@ -15,7 +15,7 @@ namespace IndiaGovernsReportTool
     /// <summary>
     /// Step1, allows excel file to be uploaded so that the data can be processed for reporting
     /// </summary>
-    public partial class Step1 : UserControl
+    public partial class Step1 : UserControl, ISaveSettings
     {   
         /// <summary>
         /// this contains the input data. The first datatable will contain aggregate data and the second datatable will contain 
@@ -55,6 +55,20 @@ namespace IndiaGovernsReportTool
                 lblFileName.Text = this.openFileDialog1.FileName;
                 Data = Utility.ExcelToDataSet(this.openFileDialog1.FileName, true);
             }
+        }
+
+        public void SaveSettings(Settings settings)
+        {
+            settings.AllPossibleColumns = Data.Tables[0].Columns.Cast<DataColumn>()
+                .Select(p => p.ColumnName)
+                .ToArray<String>();
+
+            settings.DataYear = DataYear;
+        }
+
+        public void LoadSettings(Settings settings)
+        {
+            //do nothing here
         }
     }
 }
