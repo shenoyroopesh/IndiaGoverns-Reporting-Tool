@@ -109,6 +109,7 @@ namespace IndiaGovernsReportTool
                     break;
 
                 case "IndiaGovernsReportTool.Step5":
+                    _step5.SaveSettings(_settings);
                     GenerateReports();
                     LoadControl(_step5, _step6);
                     break;
@@ -277,7 +278,7 @@ namespace IndiaGovernsReportTool
                         }
 
                         //Generate the comment
-                        comment = "The above data shows that " + columnToBeCompared.Replace(_settings.DataYear, "") + " in " + mla["MLAConstituency"].ToString() + " constituency " +
+                        comment = "The above data shows that " + columnToBeCompared.Replace(_settings.DataYear, "").Replace("Govt", "") + " in " + mla["MLAConstituency"].ToString() + " constituency " +
                             "is lower than in " + mlaToBecompared + ". \n\nIs this data correct? " +
                             "Can this be brought to the government's notice?";
                     }

@@ -161,7 +161,7 @@ namespace IndiaGovernsReportTool
                 chart.Series[1]["PointWidth"] = "0.5";
                 chart.Series[1].Points[0].Color = Color.FromArgb(135, 45, 50);
                 chart.Series[1].Points[1].Color = Color.FromArgb(230, 175, 180);
-                chart.Series[1].Name = govt ? "Private" : "2010-11";
+                chart.Series[1].Name = govt ? "Private" : "2008-09";
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
             }
