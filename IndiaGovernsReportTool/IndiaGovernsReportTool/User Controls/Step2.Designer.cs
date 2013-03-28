@@ -1,6 +1,6 @@
 ﻿namespace IndiaGovernsReportTool
 {
-    partial class Step2
+    partial class Step2 : ISaveSettings
     {
         /// <summary> 
         /// Required designer variable.

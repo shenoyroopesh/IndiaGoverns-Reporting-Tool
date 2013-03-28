@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Windows.Forms;
 using System.Collections;
 
@@ -17,62 +19,61 @@ namespace IndiaGovernsReportTool
         /// </summary>
         DataSet _inputData;
 
-        String _group1Name;
-        
-        String _group2Name;
-
-        String[] _group1Columns;
-
-        String[] _group2Columns;
-
-        String _chart1Column1;
-
-        String _chart1Column2;
-
-        String _chart2Column1;
-        String _chart2Column2;
-
-        String _rank1Column;
-        String _rank2Column;
-        String _rank3Column;
-
-        String[] _commentColumns;
-
-        bool _singleReport;
-
-        public string Datayear = "2011-12";
-
         readonly ArrayList _reports = new ArrayList();
         int _reportCounter = 0;
 
         const string SuperscriptDigits =
             "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
+        private Settings _settings;
+
+        private readonly DataContractJsonSerializer _serializer;
+
+        private const string SettingsPath = "/settings.txt";
+
         /// <summary>
         /// Constructor for ReportGenerator
         /// </summary>
         public MainForm()
         {
+            _serializer = new DataContractJsonSerializer(typeof (Settings));
+            ReadSettings();
             InitializeComponent();
-            LoadControl(new Step1());
+            LoadControl(null, new Step1());
         }
 
         /// <summary>
         /// Loads the particular usercontrol into the form panel
         /// </summary>
+        /// <param name="prevuc"> </param>
         /// <param name="uc"></param>
-        private void LoadControl(Control uc)
+        private void LoadControl(Control prevuc, Control uc)
         {
             panel1.Controls.Clear();
             panel1.Controls.Add(uc);
+
+            if (prevuc != null)
+            {
+
+                if (prevuc as ISaveSettings == null) return;
+
+                ((ISaveSettings) prevuc).SaveSettings(_settings);
+
+                //save whatever is the current settings to the file
+                WriteSettings();
+            }
+
+            if(uc as ISaveSettings != null)
+                ((ISaveSettings)uc).LoadSettings(_settings);
+
         }
 
-        Step1 _step1;
-        Step2 _step2;
-        Step3 _step3;
-        Step4 _step4;
-        Step5 _step5;
-        Step6 _step6;
+        Step1 _step1 = new Step1();
+        Step2 _step2 = new Step2();
+        Step3 _step3 = new Step3();
+        Step4 _step4 = new Step4();
+        Step5 _step5 = new Step5();
+        Step6 _step6 = new Step6();
 
         /// <summary>
         /// Controls the flow of the application, depending on the current step
@@ -91,54 +92,25 @@ namespace IndiaGovernsReportTool
                     if (_step1.Data != null)
                     {
                         _inputData = _step1.Data;
-                        Datayear = _step1.DataYear;
-
-                        _step2 = new Step2(_inputData.Tables[0].Columns.Cast<DataColumn>()
-                                                        .Select(p=>p.ColumnName)
-                                                        .ToArray<String>());
-                        LoadControl(_step2);
+                        LoadControl(_step1, _step2);
                     }
                     break;
 
                 case "IndiaGovernsReportTool.Step2":
-                    _step2 = (Step2)control;
-                    _group1Name = _step2.Group1Name;
-                    _group2Name = _step2.Group2Name;
-                    _group1Columns = _step2.Group1Columns;
-                    _group2Columns = _step2.Group2Columns;
-                    //only the group columns can be used in charts
-                    _step3 = new Step3(_group1Columns, _group1Columns.Concat(_group2Columns).ToArray());
-                    LoadControl(_step3);
+                    LoadControl(_step2, _step3);
                     break;
 
                 case "IndiaGovernsReportTool.Step3":
-                    _step3 = (Step3)control;
-                    _chart1Column1 = _step3.Chart1Column1;
-                    _chart1Column2 = _step3.Chart1Column2;
-                    _chart2Column1 = _step3.Chart2Column1;
-                    _chart2Column2 = _step3.Chart2Column2;
-                    _step4 = new Step4(_group1Columns.Concat(_group2Columns).ToArray());
-                    LoadControl(_step4);
+                    LoadControl(_step3,_step4);
                     break;
 
                 case "IndiaGovernsReportTool.Step4":
-                    _step4 = (Step4)control;
-                    _rank1Column = _step4.Rank1Column;
-                    _rank2Column = _step4.Rank2Column;
-                    _rank3Column = _step4.Rank3Column;
-                    
-                    _step5 = new Step5(_group1Columns.Concat(_group2Columns).ToArray());
-                    LoadControl(_step5);
+                    LoadControl(_step4, _step5);
                     break;
 
                 case "IndiaGovernsReportTool.Step5":
-                    _step5 = (Step5)control;
-                    _commentColumns = _step5.CommentColumns;
-                    _singleReport = _step5.SingleReport;
-
                     GenerateReports();
-                    _step6 = new Step6();
-                    LoadControl(_step6);
+                    LoadControl(_step5, _step6);
                     break;
             }
         }
@@ -153,23 +125,23 @@ namespace IndiaGovernsReportTool
                     break;
 
                 case "IndiaGovernsReportTool.Step2":
-                    LoadControl(_step1);
+                    LoadControl(_step2, _step1);
                     break;
 
                 case "IndiaGovernsReportTool.Step3":
-                    LoadControl(_step2);
+                    LoadControl(_step3, _step2);
                     break;
 
                 case "IndiaGovernsReportTool.Step4":
-                    LoadControl(_step3);
+                    LoadControl(_step4, _step3);
                     break;
 
                 case "IndiaGovernsReportTool.Step5":
-                    LoadControl(_step4);
+                    LoadControl(_step5, _step4);
                     break;
 
                 case "IndiaGovernsReportTool.Step6":
-                    LoadControl(_step5);
+                    LoadControl(_step6, _step5);
                     break;
             }
         }
@@ -179,7 +151,7 @@ namespace IndiaGovernsReportTool
             //calculate all the averages add avg columns
 
             var avgCols = new Dictionary<string, int>();
-        
+
             foreach (var col in _inputData.Tables[0].Columns.Cast<DataColumn>())
             {
                 //if avg column already exists, don't calculate again
@@ -194,21 +166,21 @@ namespace IndiaGovernsReportTool
                                                 .Select(p => Convert.ToInt32(p[col.ColumnName]))
                                                 .Average());
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     continue;
                 }
 
-                avgCols.Add("Avg of " + col.ColumnName, colAvg);        
+                avgCols.Add("Avg of " + col.ColumnName, colAvg);
             }
 
-            foreach (var col in avgCols) 
+            foreach (var col in avgCols)
                 _inputData.Tables[0].Columns.Add(col.Key.ToString(), typeof(Int32), col.Value.ToString());
-        
-        
+
+
             //logic is - first break into mp constituencies, then break into mla constituencies
             //get distinct mpConstituencies
-        
+
             var mpConstituencies = _inputData.Tables[0].Rows.Cast<DataRow>()
                                         .Select(p => p["MpConstituency"].ToString())
                                         .Distinct<String>();
@@ -226,7 +198,7 @@ namespace IndiaGovernsReportTool
 
                 //generate a separate report for each mla constinuency
                 var constituencies = mlaConstituencies as List<DataRow> ?? mlaConstituencies.ToList();
-                foreach(var mla in constituencies)
+                foreach (var mla in constituencies)
                 {
                     //use only 3 other constituencies for the sake of saving space
                     var mla1 = mla;
@@ -254,7 +226,7 @@ namespace IndiaGovernsReportTool
 
                     //use % column only if required
                     var generalDataRows = (_inputData.Tables[0].Columns.Contains("% Population Data available for")) ?
-                            new String[] { "Total constituency Population", "% Population Data available for" } : 
+                            new String[] { "Total constituency Population", "% Population Data available for" } :
                             new String[] { "Total constituency Population" };
 
                     var dataRows = otherConstituencies as DataRow[] ?? otherConstituencies.ToArray();
@@ -262,10 +234,10 @@ namespace IndiaGovernsReportTool
 
 
                     //Table2: First Group
-                    var group1Data = FillTable(mla, dataRows, _group1Columns, false, true);
+                    var group1Data = FillTable(mla, dataRows, _settings.Group1Columns, false, true);
 
                     //Table3: Second Group
-                    var group2Data = FillTable(mla, dataRows, _group2Columns, false, true);
+                    var group2Data = FillTable(mla, dataRows, _settings.Group2Columns, false, true);
 
                     var comment = String.Empty;
                     //comment logic - figure out which attribute to comment on.
@@ -283,10 +255,10 @@ namespace IndiaGovernsReportTool
                     {
                         //do nothing just continue
                     }
-                    
-                    if(String.IsNullOrEmpty(comment))
+
+                    if (String.IsNullOrEmpty(comment))
                     {
-                        foreach (var column in _commentColumns)
+                        foreach (var column in _settings.CommentColumns)
                         {
                             try
                             {
@@ -311,46 +283,46 @@ namespace IndiaGovernsReportTool
                     }
 
                     //TODO: note - depending on desc or ascending - need to make this generic
-                    var rank1 = constituencies.Count(p => Convert.ToDouble(p[_rank1Column]) > 
-                                                             Convert.ToDouble(mla[_rank1Column])) + 1;
+                    var rank1 = constituencies.Count(p => Convert.ToDouble(p[_settings.Rank1Column]) >
+                                                             Convert.ToDouble(mla[_settings.Rank1Column])) + 1;
 
-                    var rank2 = constituencies.Count(p => Convert.ToDouble(p[_rank2Column]) >
-                                                             Convert.ToDouble(mla[_rank2Column])) + 1;
+                    var rank2 = constituencies.Count(p => Convert.ToDouble(p[_settings.Rank2Column]) >
+                                                             Convert.ToDouble(mla[_settings.Rank2Column])) + 1;
 
-                    var rank3 = constituencies.Count(p => Convert.ToDouble(p[_rank3Column]) >
-                                                             Convert.ToDouble(mla[_rank3Column])) + 1;
+                    var rank3 = constituencies.Count(p => Convert.ToDouble(p[_settings.Rank3Column]) >
+                                                             Convert.ToDouble(mla[_settings.Rank3Column])) + 1;
 
                     var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + constituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
-                        "Rank " + rank1 + " in the " + _rank1Column.Replace(Datayear, "") +
+                        "Rank " + rank1 + " in the " + _settings.Rank1Column.Replace(_settings.DataYear, "") +
                         //hardcoding this replace below, no other way to do this 
-                        "\nRank " + rank2 + " in the " + _rank2Column.Replace(Datayear, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
-                        "\nRank " + rank3 + " in the " + _rank3Column.Replace("Govt.", "");
+                        "\nRank " + rank2 + " in the " + _settings.Rank2Column.Replace(_settings.DataYear, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
+                        "\nRank " + rank3 + " in the " + _settings.Rank3Column.Replace("Govt.", "");
 
                     _reports.Add(new Report
                     {
                         ReportName = mla["MLAConstituency"].ToString(),
-                        DataYear = this.Datayear,
+                        DataYear = _settings.DataYear,
                         GeneralData = generalData,
                         Group1Data = group1Data,
                         Group2Data = group2Data,
-                        Group1Name = _group1Name,
-                        Group2Name = _group2Name,
+                        Group1Name = _settings.Group1Name,
+                        Group2Name = _settings.Group2Name,
                         Intro = intro,
                         Comment = comment,
-                        Chart1Column1 = _chart1Column1,
-                        Chart1Column2 = _chart1Column2,
-                        Chart2Column1 = _chart2Column1,
-                        Chart2Column2 = _chart2Column2,
+                        Chart1Column1 = _settings.Chart1Column1,
+                        Chart1Column2 = _settings.Chart1Column2,
+                        Chart2Column1 = _settings.Chart2Column1,
+                        Chart2Column2 = _settings.Chart2Column2,
                         Rank = rank
                     });
 
-                    if(_singleReport)
+                    if (_settings.SingleReport)
                         break;
                 }
 
-                if(_singleReport)
+                if (_settings.SingleReport)
                     break;
             }
             PublishNextReport();
@@ -360,7 +332,7 @@ namespace IndiaGovernsReportTool
         {
             //exit condition
             if (_reportCounter == _reports.Count) return;
-            
+
             var report = (Report)_reports[_reportCounter];
             _reportCounter += 1;
             var reportform = new ReportForm(report);
@@ -380,11 +352,11 @@ namespace IndiaGovernsReportTool
             return Convert.ToInt32(number * 100).ToString() + "%";
         }
 
-        private DataTable FillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies, 
+        private DataTable FillTable(DataRow mla, IEnumerable<DataRow> otherConstituencies,
             IEnumerable<string> generalDataRows, bool norms, bool avg)
         {
             var generalData = new DataTable();
-            generalData.Columns.Add(String.Concat(Datayear, " Data"));
+            generalData.Columns.Add(String.Concat(_settings.DataYear, " Data"));
             if (norms) generalData.Columns.Add("Norms");
             if (avg) generalData.Columns.Add("State Avg");
             generalData.Columns.Add(mla["MLAConstituency"].ToString());
@@ -397,7 +369,7 @@ namespace IndiaGovernsReportTool
             foreach (var r in generalDataRows)
             {
                 var row = generalData.NewRow();
-                row[Datayear + " Data"] = r;
+                row[_settings.DataYear+ " Data"] = r;
                 if (norms)
                 {
                     try
@@ -407,7 +379,7 @@ namespace IndiaGovernsReportTool
                     catch
                     {
                         row["Norms"] = "-";
-                    }                                    
+                    }
                 }
 
                 if (avg)
@@ -427,5 +399,27 @@ namespace IndiaGovernsReportTool
             }
             return generalData;
         }
+
+        private void ReadSettings()
+        {
+            if (File.Exists(SettingsPath))
+            {
+                var stream = new FileStream(SettingsPath, FileMode.Open);
+                _settings = (Settings) _serializer.ReadObject(stream);
+                stream.Close();
+            }
+            else
+            {
+                _settings = new Settings();
+            }
+        }
+
+        private void WriteSettings()
+        {
+            var stream = new FileStream(SettingsPath, FileMode.Create);
+            _serializer.WriteObject(stream, _settings);
+            stream.Close();
+        }
+
     }
 }

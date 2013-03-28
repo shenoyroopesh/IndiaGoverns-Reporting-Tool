@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using IndiaGovernsReportTool.Helpers;
+using IndiaGovernsReportTool.Properties;
 
 namespace IndiaGovernsReportTool
 {
-    public partial class Step2 : UserControl
+    public partial class Step2 : UserControl, ISaveSettings
     {
+        private const string Step2Columns1 = "Step2Columns1";
+        private const string Step2Columns2 = "Step2Columns2";
+        private const string Step2Group1 = "Step2Group1";
+        private const string Step2Group2 = "Step2Group2";
+
         /// <summary>
         /// Selected values in the first listview
         /// </summary>
@@ -43,20 +51,32 @@ namespace IndiaGovernsReportTool
             get { return txtGroup2Name.Text; }
         }
 
-        
-
         /// <summary>
         /// Constructor for the class
         /// </summary>
-        /// <param name="columnNames">List of column names to be displayed for selection for both the groups</param>
-        public Step2(IEnumerable<string> columnNames)
+        /// <param name="settings"> </param>
+        public Step2()
         {
             InitializeComponent();
-            foreach (var columnName in columnNames)
+        }
+
+        public void LoadSettings(Settings settings)
+        {
+            foreach (var columnName in settings.AllPossibleColumns)
             {
                 listView1.Items.Add(columnName);
                 listView2.Items.Add(columnName);
             }
+            listView1.CheckItemsWithText(settings.Group1Columns);
+            listView2.CheckItemsWithText(settings.Group2Columns);
+        }
+
+        public void SaveSettings(Settings settings)
+        {
+            settings.Group1Columns = Group1Columns;
+            settings.Group2Columns = Group2Columns;
+            settings.Group1Name = Group1Name;
+            settings.Group2Name = Group2Name;
         }
     }
 }
