@@ -61,6 +61,9 @@ namespace IndiaGovernsReportTool
 
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
+                if (col.ColumnName.Contains("Data"))
+                    continue;
+
                 var columnNameWords = col.ColumnName.Split(' ');
                 //insert spaces so that headers wrap, if necessary
                 for (int i = 0; i < columnNameWords.Length; i++)
@@ -72,6 +75,7 @@ namespace IndiaGovernsReportTool
                     }
                 }
                 dtFull.Rows[0][col.ColumnName] = String.Join(" ", columnNameWords);
+
             }
             foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
             foreach (var col in report.Group2Data.Columns.Cast<DataColumn>()) dtSub3.Columns.Add(col.ColumnName);
