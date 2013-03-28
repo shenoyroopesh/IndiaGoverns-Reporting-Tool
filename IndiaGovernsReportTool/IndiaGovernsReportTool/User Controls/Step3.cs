@@ -29,7 +29,7 @@ namespace IndiaGovernsReportTool
 
         public String Chart2Column2
         {
-            get { return chart2Column2.SelectedValue.ToString(); }
+            get { return chart2Column2.GetSelection(); }
         }
 
         public Step3() 
