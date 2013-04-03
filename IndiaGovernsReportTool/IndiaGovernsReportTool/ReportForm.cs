@@ -50,7 +50,9 @@ namespace IndiaGovernsReportTool
             foreach (var col in report.GeneralData.Columns.Cast<DataColumn>())
             {
                 dtSub1.Columns.Add(col.ColumnName);
-                dtFull.Columns.Add(col.ColumnName);
+
+                if(!col.ColumnName.Contains("Data"))
+                    dtFull.Columns.Add(col.ColumnName);
 
                 //second column needs to be state avg
                 if(!dtFull.Columns.Contains("StateAvg")) dtFull.Columns.Add("StateAvg");
@@ -71,7 +73,9 @@ namespace IndiaGovernsReportTool
                         columnNameWords[i] = word.Insert(word.Length/2, " ");
                     }
                 }
-                dtFull.Rows[0][col.ColumnName] = String.Join(" ", columnNameWords);
+
+                if(!col.ColumnName.Contains("Data"))
+                    dtFull.Rows[0][col.ColumnName] = String.Join(" ", columnNameWords);
             }
             foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
             foreach (var col in report.Group2Data.Columns.Cast<DataColumn>()) dtSub3.Columns.Add(col.ColumnName);
@@ -206,7 +210,7 @@ namespace IndiaGovernsReportTool
                 var allGrids = new DataGridView[] { fullHeader, dataGridView1, 
                 dataGridView2, dataGridView3, subHeader1, subHeader2, subHeader3 };
 
-                var lowerGrids = new DataGridView[] { fullHeader, dataGridView2, dataGridView3, subHeader2, subHeader3 };
+                var lowerGrids = new DataGridView[] {  dataGridView2, dataGridView3, subHeader2, subHeader3 };
 
                 var firstColumnWidth = dataGridView1.Columns[0].Width;
                 const int secondColumnWidth = Columnwidth;
@@ -377,7 +381,7 @@ namespace IndiaGovernsReportTool
                         Color.White, 1, ButtonBorderStyle.Solid,
                         Color.FromArgb(31, 73, 125), 3, ButtonBorderStyle.Solid,
                         Color.White, 1, ButtonBorderStyle.Solid,
-                        Color.FromArgb(31, 73, 125), 3, ButtonBorderStyle.Solid);
+                        Color.White, 0, ButtonBorderStyle.Solid);
         }
 
 
