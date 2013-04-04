@@ -248,6 +248,7 @@
             this.subHeader1.AllowUserToDeleteRows = false;
             this.subHeader1.AllowUserToResizeColumns = false;
             this.subHeader1.AllowUserToResizeRows = false;
+            this.subHeader1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.subHeader1.BackgroundColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.subHeader1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.subHeader1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
@@ -290,11 +291,12 @@
             dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.WindowText;
             this.subHeader1.RowsDefaultCellStyle = dataGridViewCellStyle7;
-            this.subHeader1.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.subHeader1.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomLeft;
             this.subHeader1.RowTemplate.Height = 35;
             this.subHeader1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.subHeader1.Size = new System.Drawing.Size(498, 14);
             this.subHeader1.TabIndex = 30;
+            this.subHeader1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.OnDataGridViewBindingComplete);
             this.subHeader1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderPaintDataGrid);
             // 
             // dataGridView1
@@ -349,7 +351,7 @@
             this.dataGridView1.RowTemplate.Height = 35;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGridView1.ShowEditingIcon = false;
-            this.dataGridView1.Size = new System.Drawing.Size(498, 30);
+            this.dataGridView1.Size = new System.Drawing.Size(498, 23);
             this.dataGridView1.TabIndex = 3;
             this.dataGridView1.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.OnDataGridViewBindingComplete);
             this.dataGridView1.Paint += new System.Windows.Forms.PaintEventHandler(this.BorderPaintDataGrid);
@@ -384,7 +386,7 @@
             this.subHeader2.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader2.Enabled = false;
             this.subHeader2.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader2.Location = new System.Drawing.Point(3, 231);
+            this.subHeader2.Location = new System.Drawing.Point(3, 224);
             this.subHeader2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader2.Name = "subHeader2";
             this.subHeader2.ReadOnly = true;
@@ -441,7 +443,7 @@
             this.dataGridView2.DefaultCellStyle = dataGridViewCellStyle16;
             this.dataGridView2.Enabled = false;
             this.dataGridView2.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView2.Location = new System.Drawing.Point(3, 245);
+            this.dataGridView2.Location = new System.Drawing.Point(3, 238);
             this.dataGridView2.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.ReadOnly = true;
@@ -494,7 +496,7 @@
             this.subHeader3.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.subHeader3.Enabled = false;
             this.subHeader3.GridColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.subHeader3.Location = new System.Drawing.Point(3, 287);
+            this.subHeader3.Location = new System.Drawing.Point(3, 280);
             this.subHeader3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.subHeader3.Name = "subHeader3";
             this.subHeader3.ReadOnly = true;
@@ -549,7 +551,7 @@
             this.dataGridView3.Enabled = false;
             this.dataGridView3.EnableHeadersVisualStyles = false;
             this.dataGridView3.GridColor = System.Drawing.Color.Navy;
-            this.dataGridView3.Location = new System.Drawing.Point(3, 317);
+            this.dataGridView3.Location = new System.Drawing.Point(3, 310);
             this.dataGridView3.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             this.dataGridView3.MultiSelect = false;
             this.dataGridView3.Name = "dataGridView3";
@@ -575,7 +577,7 @@
             // lblSuffix
             // 
             this.lblSuffix.Font = new System.Drawing.Font("Cambria", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSuffix.Location = new System.Drawing.Point(3, 354);
+            this.lblSuffix.Location = new System.Drawing.Point(3, 347);
             this.lblSuffix.Name = "lblSuffix";
             this.lblSuffix.Padding = new System.Windows.Forms.Padding(5);
             this.lblSuffix.Size = new System.Drawing.Size(498, 24);
@@ -585,7 +587,7 @@
             // lblComment
             // 
             this.lblComment.Font = new System.Drawing.Font("Cambria", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComment.Location = new System.Drawing.Point(3, 378);
+            this.lblComment.Location = new System.Drawing.Point(3, 371);
             this.lblComment.Name = "lblComment";
             this.lblComment.Padding = new System.Windows.Forms.Padding(5);
             this.lblComment.Size = new System.Drawing.Size(498, 37);

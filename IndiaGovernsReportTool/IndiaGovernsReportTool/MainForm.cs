@@ -295,7 +295,7 @@ namespace IndiaGovernsReportTool
                     var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + constituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
-                        "Rank " + rank1 + " in the " + _settings.Rank1Column.Replace(_settings.DataYear, "") +
+                        "Rank " + rank1 + " in the " + _settings.Rank1Column.Replace(_settings.DataYear, SuperscriptDigits[1].ToString()) +
                         //hardcoding this replace below, no other way to do this 
                         "\nRank " + rank2 + " in the " + _settings.Rank2Column.Replace(_settings.DataYear, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
                         "\nRank " + rank3 + " in the " + _settings.Rank3Column.Replace("Govt.", "");

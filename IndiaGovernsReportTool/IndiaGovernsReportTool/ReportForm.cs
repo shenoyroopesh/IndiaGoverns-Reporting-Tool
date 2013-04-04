@@ -21,11 +21,11 @@ namespace IndiaGovernsReportTool
         Bitmap _bitmap;
         Graphics _graphic;
         int _initScroll = 0;
-        private const int Columnwidth = 100;
+        private const int Columnwidth = 80;
         public string DataYear;
 
 
-        const string SuperscriptDigits = 
+        const string SuperscriptDigits =
                 "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
         public string year;
@@ -51,11 +51,11 @@ namespace IndiaGovernsReportTool
             {
                 dtSub1.Columns.Add(col.ColumnName);
 
-                if(!col.ColumnName.Contains("Data"))
+                if (!col.ColumnName.Contains("Data"))
                     dtFull.Columns.Add(col.ColumnName);
 
                 //second column needs to be state avg
-                if(!dtFull.Columns.Contains("StateAvg")) dtFull.Columns.Add("StateAvg");
+                if (!dtFull.Columns.Contains("StateAvg")) dtFull.Columns.Add("StateAvg");
             }
 
             dtFull.Rows.Add();
@@ -65,16 +65,16 @@ namespace IndiaGovernsReportTool
             {
                 var columnNameWords = col.ColumnName.Split(' ');
                 //insert spaces so that headers wrap, if necessary
-                for (int i = 0; i < columnNameWords.Length; i++ )
+                for (int i = 0; i < columnNameWords.Length; i++)
                 {
                     String word = columnNameWords[i];
                     if (word.Length > 9)
                     {
-                        columnNameWords[i] = word.Insert(word.Length/2, " ");
+                        columnNameWords[i] = word.Insert(word.Length / 2, " ");
                     }
                 }
 
-                if(!col.ColumnName.Contains("Data"))
+                if (!col.ColumnName.Contains("Data"))
                     dtFull.Rows[0][col.ColumnName] = String.Join(" ", columnNameWords);
             }
             foreach (var col in report.Group1Data.Columns.Cast<DataColumn>()) dtSub2.Columns.Add(col.ColumnName);
@@ -136,8 +136,8 @@ namespace IndiaGovernsReportTool
 
             chart.Series[0].Points.DataBindXY(xvalues, yValuesArray);
             //to show the value on top of the chart
-            chart.Series[0].Label = "#VALY"; 
-           
+            chart.Series[0].Label = "#VALY";
+
             //temp
             chart.Series[0].Name = govt ? "Govt." : this.DataYear;
 
@@ -210,7 +210,7 @@ namespace IndiaGovernsReportTool
                 var allGrids = new DataGridView[] { fullHeader, dataGridView1, 
                 dataGridView2, dataGridView3, subHeader1, subHeader2, subHeader3 };
 
-                var lowerGrids = new DataGridView[] {  dataGridView2, dataGridView3, subHeader2, subHeader3 };
+                var lowerGrids = new DataGridView[] { dataGridView2, dataGridView3, subHeader2, subHeader3 };
 
                 var firstColumnWidth = dataGridView1.Columns[0].Width;
                 const int secondColumnWidth = Columnwidth;
@@ -230,8 +230,8 @@ namespace IndiaGovernsReportTool
 
                 for (var i = 2; i < 6; i++)
                 {
-                    foreach (var grid in allGrids.Except(lowerGrids))                    
-                        grid.Columns[i - 1].Width = remainingColumnsWidth;                    
+                    foreach (var grid in allGrids.Except(lowerGrids))
+                        grid.Columns[i - 1].Width = remainingColumnsWidth;
 
                     foreach (var grid in lowerGrids)
                         grid.Columns[i].Width = remainingColumnsWidth;
@@ -265,9 +265,9 @@ namespace IndiaGovernsReportTool
             worker.DoWork +=
                 new DoWorkEventHandler(BwDoWork);
             worker.RunWorkerCompleted +=
-                new RunWorkerCompletedEventHandler(BwRunWorkerCompleted); 
+                new RunWorkerCompletedEventHandler(BwRunWorkerCompleted);
             //for second scrshot
-            if (_first) 
+            if (_first)
             {
                 this.ScrollControlIntoView(pictureBox1);
                 //this is used later to determine where the initial scroll started - use to position the second screen capture exactly.
@@ -304,7 +304,7 @@ namespace IndiaGovernsReportTool
             else
             {
                 _graphic.CopyFromScreen(form.Location, new Point(0, this.VerticalScroll.Value - _initScroll), form.Size);
-                
+
                 //last only
                 if (!_second)
                 {
@@ -358,10 +358,10 @@ namespace IndiaGovernsReportTool
         /// <param name="e"></param>
         private void BorderPaintBlue(object sender, PaintEventArgs e)
         {
-            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle, 
-                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
-                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
-                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid, 
+            ControlPaint.DrawBorder(e.Graphics, ((Control)sender).DisplayRectangle,
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid,
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid,
+                                    Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid,
                                     Color.FromArgb(220, 230, 242), 3, ButtonBorderStyle.Solid);
         }
 
