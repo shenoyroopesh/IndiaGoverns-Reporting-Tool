@@ -308,7 +308,7 @@ namespace IndiaGovernsReportTool
                 //last only
                 if (!_second)
                 {
-                    var pathPdf = "D:\\IndiaGovernsReports\\" + this._reportName + ".pdf";
+                    var pathPdf = "G:\\RoopeshCrap\\IndiaGovernsReports\\" + this._reportName + ".pdf";
                     saveAsPdf(_bitmap, pathPdf);
                 }
             }

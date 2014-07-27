@@ -46,8 +46,23 @@ namespace IndiaGovernsReportTool
                     var sheet = row["TABLE_NAME"].ToString();
                     var cmd = new OleDbCommand("SELECT * FROM [" + sheet + "]", conn) {CommandType = CommandType.Text};
                     var outputTable = new System.Data.DataTable(sheet);
+
                     ds.Tables.Add(outputTable);
                     new OleDbDataAdapter(cmd).Fill(outputTable);
+
+                    //Roopesh: Hack to handle decimals in the sheet
+                    //in each table, if cell is number, then convert to int
+                    foreach (DataRow outputRow in outputTable.Rows)
+                    {
+                        foreach (DataColumn column in outputTable.Columns)
+                        {
+                            decimal value;
+                            if (Decimal.TryParse(outputRow[column.ColumnName].ToString(), out value))
+                            {
+                                outputRow[column.ColumnName] = Convert.ToInt32(value).ToString();
+                            }
+                        }
+                    }
 
                     //this is done to revert the conversion of . to # by oldedb
                     foreach (var column in outputTable.Columns.Cast<DataColumn>())

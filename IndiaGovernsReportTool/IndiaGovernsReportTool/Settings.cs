@@ -11,6 +11,7 @@ namespace IndiaGovernsReportTool
     [Serializable]
     public class Settings
     {
+
         public string[] AllPossibleColumns { get; set; }
 
         public String Group1Name { get; set; }

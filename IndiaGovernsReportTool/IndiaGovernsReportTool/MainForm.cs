@@ -109,8 +109,8 @@ namespace IndiaGovernsReportTool
                     break;
 
                 case "IndiaGovernsReportTool.Step5":
+                                        LoadControl(_step5, _step6);
                     GenerateReports();
-                    LoadControl(_step5, _step6);
                     break;
             }
         }

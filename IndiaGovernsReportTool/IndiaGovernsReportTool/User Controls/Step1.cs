@@ -68,7 +68,7 @@ namespace IndiaGovernsReportTool
 
         public void LoadSettings(Settings settings)
         {
-            //do nothing here
+            this.txtDataYear.Text = settings.DataYear;
         }
     }
 }
