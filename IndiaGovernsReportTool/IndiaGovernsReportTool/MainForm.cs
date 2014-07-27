@@ -292,13 +292,21 @@ namespace IndiaGovernsReportTool
                     var rank3 = constituencies.Count(p => Convert.ToDouble(p[_settings.Rank3Column]) >
                                                              Convert.ToDouble(mla[_settings.Rank3Column])) + 1;
 
-                    var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
+             /*       var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
                         "among " + constituencies.Count().ToString() + " MLA Constituencies in the " +
                         mpc.ToString() + " MP Constituency. \n\n" +
                         "Rank " + rank1 + " in the " + _settings.Rank1Column.Replace(_settings.DataYear, SuperscriptDigits[1].ToString()) +
                         //hardcoding this replace below, no other way to do this 
                         "\nRank " + rank2 + " in the " + _settings.Rank2Column.Replace(_settings.DataYear, "").Replace("% Schools with Water Facility Govt.", "% Govt. schools with Water facility") +
-                        "\nRank " + rank3 + " in the " + _settings.Rank3Column.Replace("Govt.", "");
+                        "\nRank " + rank3 + " in the " + _settings.Rank3Column.Replace("Govt.", ""); */
+
+                    var rank = mla["MLAConstituency"].ToString() + " MLA Constituency Rank\n" +
+                        "among " + constituencies.Count().ToString() + " MLA Constituencies in the " +
+                        mpc.ToString() + " MP Constituency. \n\n" +
+                        "Rank " + rank1 + " in the " + _settings.Rank1Column.Replace(_settings.DataYear, SuperscriptDigits[1].ToString()) +
+                        //hardcoding this replace below, no other way to do this 
+                        "\nRank " + rank2 + " in the " + _settings.Rank2Column.Replace(_settings.DataYear, "").Replace("(in Rs.)", "") +
+                        "\nRank " + rank3 + " in the " + _settings.Rank3Column.Replace("(in Rs. Lakh)", "").Replace(_settings.DataYear, "");
 
                     _reports.Add(new Report
                     {

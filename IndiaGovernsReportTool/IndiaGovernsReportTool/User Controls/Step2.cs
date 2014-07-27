@@ -62,6 +62,8 @@ namespace IndiaGovernsReportTool
 
         public void LoadSettings(Settings settings)
         {
+            txtGroup1Name.Text = settings.Group1Name;
+            txtGroup2Name.Text = settings.Group2Name;
             foreach (var columnName in settings.AllPossibleColumns)
             {
                 listView1.Items.Add(columnName);

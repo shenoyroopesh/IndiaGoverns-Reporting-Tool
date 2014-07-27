@@ -141,6 +141,9 @@ namespace IndiaGovernsReportTool
             //temp
             chart.Series[0].Name = govt ? "Govt." : this.DataYear;
 
+            var split =  this.DataYear.Split('-');
+            var previousYear = string.Join("-", split.Select(int.Parse).Select(p => (p - 1).ToString()));
+                 
             chart.Titles.Add(chartColumn1.Replace("Govt.", "").Replace(this.DataYear, "")); //temp only for removing the suffix
             chart.Titles[0].Font = new Font("Cambria", 14, FontStyle.Bold);
 
@@ -165,7 +168,7 @@ namespace IndiaGovernsReportTool
                 chart.Series[1]["PointWidth"] = "0.5";
                 chart.Series[1].Points[0].Color = Color.FromArgb(135, 45, 50);
                 chart.Series[1].Points[1].Color = Color.FromArgb(230, 175, 180);
-                chart.Series[1].Name = govt ? "Private" : "2010-11";
+                chart.Series[1].Name = govt ? "Private" : previousYear;
                 chart.Legends.Add("Legend");
                 chart.Legends[0].Docking = Docking.Top;
             }

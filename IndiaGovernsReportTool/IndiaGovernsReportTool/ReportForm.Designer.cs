@@ -722,7 +722,7 @@
             this.AutoScroll = true;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1036, 780);
+            this.ClientSize = new System.Drawing.Size(1036, 772);
             this.Controls.Add(this.flowLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ReportForm";
